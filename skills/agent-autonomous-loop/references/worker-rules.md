@@ -7,6 +7,8 @@ Use this reference only when a parent agent launched you for an
 
 You are a fresh-context worker. Your job is to move the handoff toward the
 overall goal, update the handoff truthfully, verify what you changed, and stop.
+Follow the round mode from the parent prompt: `implementation` or
+`review-only`.
 
 Do not ask the user questions. Decide and act within the handoff, repository
 instructions, and applicable skills. If a missing answer makes responsible work
@@ -30,10 +32,39 @@ unsafe, record a blocker in the handoff instead of guessing.
 - Move a task from `Todo` to `In Progress` before working on it.
 - When a task is finished, remove it from `In Progress` and append a concise
   `Done` entry with files changed, decisions, and verification.
-- Mark `complete: true` only after no tasks remain, verification passed, and a
-  skeptical review found no material gaps.
+- Implementation workers must not mark `complete: true`. When no tasks remain,
+  set `status: ready_for_review`, `review_passed: false`, and leave
+  `complete: false`.
+- Mark `complete: true` only in `review-only` mode, after no tasks remain,
+  verification passed, and an independent review found no material gaps.
 - Set `status: blocked` only when you cannot safely continue without user input
   or external state.
+
+## Round Modes
+
+In `implementation` mode:
+
+- move the smallest useful task from `Todo` to `In Progress`;
+- make scoped source, doc, or plan changes needed for that task;
+- if you changed any non-handoff file, set `latest_change_round` to the current
+  `rounds_run` value and set `review_passed: false`;
+- when work is exhausted, run the ordinary review pass below and set
+  `status: ready_for_review` rather than complete.
+
+In `review-only` mode:
+
+- do not edit source, docs, tests, project files, or plans except for the
+  handoff state required to record review results;
+- inspect the current diff/status, `Overall Goal`, acceptance criteria, `Todo`,
+  `Done`, and `Verification Evidence`;
+- run or validate the narrowest meaningful checks when safe;
+- record findings under `Review Findings` and add concrete `Todo` items for
+  real gaps;
+- if gaps exist, set `review_passed: false`, `complete: false`, and
+  `status: review_failed`;
+- if no material gaps exist, set `review_passed: true`, `complete: true`,
+  `status: complete`, and `last_review_round` to the current `rounds_run`
+  value.
 
 ## Dirty Worktree Rules
 
@@ -91,7 +122,9 @@ When `Todo` and `In Progress` are empty:
 3. Look for missing requirements, broken verification, over-complexity,
    untracked docs, and dirty worktree conflicts.
 4. Add concrete `Todo` items for real gaps.
-5. Set `complete: true` only when no material gaps remain.
+5. In implementation mode, set `status: ready_for_review` when no material gaps
+   remain. In review-only mode, set `complete: true` only when no material gaps
+   remain.
 
 ## Commits
 

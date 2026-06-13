@@ -40,10 +40,18 @@ grep -q 'maximum `6`' "$control_ref" \
   || fail "maximum round count is missing"
 grep -q '.agent-autonomous-loop/projects' "$control_ref" \
   || fail "handoff path is missing"
+grep -q 'review-only' "$control_ref" \
+  || fail "review-only scheduling is missing"
+grep -q 'last_review_round >= latest_change_round' "$control_ref" \
+  || fail "fresh review gate is missing"
 grep -q 'Do not create commits unless' "$worker_ref" \
   || fail "commit guardrail is missing"
 grep -q 'Preserve pre-existing user changes' "$worker_ref" \
   || fail "dirty worktree guardrail is missing"
+grep -q 'review_passed: true' "$worker_ref" \
+  || fail "review pass state update is missing"
+grep -q 'Implementation workers must not mark `complete: true`' "$worker_ref" \
+  || fail "implementation completion guardrail is missing"
 grep -q 'follow the repository' "$worker_ref" \
   || fail "repository-generic planning guidance is missing"
 

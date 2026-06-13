@@ -42,6 +42,8 @@ user's request still has a safe non-autonomous path.
 - Runtime handoff and KB path: `.agent-autonomous-loop/`.
 - Runtime files are local state and must not be committed.
 - Do not create commits unless the user explicitly asks for commits.
+- Completion requires a fresh review-only worker after the latest source
+  changes; repair changes require another review-only pass.
 - Keep the parent agent as orchestrator. Worker subagents own implementation
   inside their assigned round.
 

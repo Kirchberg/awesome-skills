@@ -12,7 +12,8 @@ skills directory.
   implementation plans for medium and large engineering tasks, including saved
   plans, validation steps, quality gates, and progress tracking.
 - [`agent-autonomous-loop`](skills/agent-autonomous-loop/) runs an explicit,
-  bounded multi-round handoff loop through fresh worker agents. It is opt-in
+  bounded multi-round handoff loop through fresh worker agents, with a
+  review-only completion gate after the latest source changes. It is opt-in
   only and disables implicit invocation in `agents/openai.yaml`.
 - [`github-issue-development-plan`](skills/github-issue-development-plan/)
   converts GitHub issues into implementation plans by collecting issue facts,
@@ -86,7 +87,9 @@ Important files:
 ### `agent-autonomous-loop`
 
 Use only when you explicitly want a bounded autonomous loop with handoff state
-and worker rounds. This is not intended to run automatically on every session.
+and worker rounds. Completion requires a fresh review-only worker after the
+latest source changes. This is not intended to run automatically on every
+session.
 
 Default prompt:
 

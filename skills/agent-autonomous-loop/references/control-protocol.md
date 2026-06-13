@@ -55,6 +55,9 @@ rounds_run: 0
 max_rounds: 4
 git_start: <sha-or-empty>
 commits_allowed: false
+review_passed: false
+latest_change_round: 0
+last_review_round: 0
 ---
 
 # Overall Goal
@@ -83,6 +86,8 @@ commits_allowed: false
 
 ## Verification Evidence
 
+## Review Findings
+
 ## Decisions And Discoveries
 
 ## Blockers
@@ -101,13 +106,33 @@ Never rewrite `Overall Goal` after creation. Append clarifications under
 6. Create or reopen the handoff.
 7. Tell the user the handoff path and planned round count.
 8. For each round:
+   - choose `implementation` or `review-only` mode;
+   - update `rounds_run` to the current round number before launch;
    - launch one fresh worker subagent;
-   - prompt it with the handoff path and worker-rules path only;
+   - prompt it with the handoff path, worker-rules path, and round mode only;
    - wait for completion;
    - read the handoff;
-   - stop if `complete: true`, `status: blocked`, or the round limit is reached.
+   - stop if the review gate passed, `status: blocked`, or the round limit is
+     reached.
 9. After the loop, inspect current `git status --short` and summarize only the
    loop result, changed files, verification, and blockers.
+
+## Round Scheduling And Review Gate
+
+- Use implementation rounds while `Todo` or `In Progress` contains work.
+- Run a fresh `review-only` worker before declaring completion.
+- A review-only worker may inspect diffs, run checks, and update the handoff,
+  but must not make source changes.
+- If review records concrete gaps and round budget remains, launch a repair
+  implementation worker next.
+- After any repair/source change, require another fresh review-only worker
+  before completion.
+- With default `rounds=4`, prefer implementation, implementation/reconciliation,
+  review-only, then repair or final review depending on review findings.
+- Completion requires `complete: true`, `review_passed: true`, and a
+  `last_review_round` that is greater than or equal to `latest_change_round`.
+- If budget ends after repair without a later passing review, report round limit
+  reached rather than complete.
 
 ## Worker Prompt
 
@@ -115,7 +140,8 @@ Use a concise prompt like:
 
 ```markdown
 Read `<path-to-agent-autonomous-loop>/references/worker-rules.md`.
-Then work according to `.agent-autonomous-loop/projects/<slug>/HANDOFF.md`.
+Then work in `<implementation|review-only>` mode according to
+`.agent-autonomous-loop/projects/<slug>/HANDOFF.md`.
 ```
 
 Use the real installed skill path for `<path-to-agent-autonomous-loop>`. Do not
@@ -126,7 +152,8 @@ access repository files.
 
 Stop the loop when:
 
-- the handoff frontmatter has `complete: true`;
+- the handoff frontmatter has `complete: true`, `review_passed: true`, and
+  `last_review_round >= latest_change_round`;
 - the handoff frontmatter has `status: blocked`;
 - the configured round limit has been reached;
 - worker execution fails repeatedly and cannot be resumed safely;
