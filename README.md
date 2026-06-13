@@ -1,2 +1,2 @@
 # awesome-skills
-A reusable collection of Codex skills for AI-native engineering workflows
+A reusable collection skills for AI-native engineering workflows
