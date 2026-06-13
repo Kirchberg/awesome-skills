@@ -1,0 +1,7 @@
+interface:
+  display_name: "GitHub Issue Development Plan"
+  short_description: "Plan implementation from GitHub issues"
+  default_prompt: "Use $github-issue-development-plan to create an implementation plan from this GitHub issue."
+
+policy:
+  allow_implicit_invocation: true

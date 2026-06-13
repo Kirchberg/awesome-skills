@@ -1,0 +1,7 @@
+interface:
+  display_name: "Agent Autonomous Loop"
+  short_description: "Run explicit multi-round agent loops"
+  default_prompt: "Use $agent-autonomous-loop to execute this well-scoped task through an explicit autonomous handoff loop."
+
+policy:
+  allow_implicit_invocation: false
