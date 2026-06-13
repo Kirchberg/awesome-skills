@@ -1,6 +1,6 @@
 # awesome-skills
 
-Reusable skills for AI-native engineering workflows.
+A reusable collection skills for AI-native engineering workflows ✨
 
 This repository is a portable skill library. Each folder under `skills/` is an
 installable agent skill that can be copied into a personal or project-local
