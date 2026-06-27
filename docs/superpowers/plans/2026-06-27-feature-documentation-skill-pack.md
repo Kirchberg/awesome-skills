@@ -847,6 +847,9 @@ the bundle as input.
 - Any project documentation convention already observed (for example an
   existing `docs/ai/` tree or a documented docs store).
 
+Invoke `feature-documentation` once, after evidence collection is finished; do
+not hand off a partial bundle.
+
 ## What The Core Does
 
 `feature-documentation` will:
