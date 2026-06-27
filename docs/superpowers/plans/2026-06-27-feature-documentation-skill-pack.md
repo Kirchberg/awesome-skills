@@ -1058,6 +1058,8 @@ terminology on a project that has its own conventions.
 - Exactly one level-1 heading per document.
 - Headings increment by one level at a time; no skipped levels.
 - Consistent heading style (ATX `#`).
+- Unordered list items use a single bullet style, `-` by default
+  (configurable; see the `.markdownlint.jsonc` MD004 asset).
 - One blank line around headings, lists, and fenced code blocks.
 - Trim trailing whitespace; end files with a single newline.
 
@@ -1082,8 +1084,8 @@ Check for linters before using them:
 
 ```bash
 command -v vale >/dev/null 2>&1 && echo "vale: present" || echo "vale: absent"
-command -v markdownlint >/dev/null 2>&1 \
-  || command -v markdownlint-cli >/dev/null 2>&1 \
+(command -v markdownlint >/dev/null 2>&1 \
+  || command -v markdownlint-cli >/dev/null 2>&1) \
   && echo "markdownlint: present" || echo "markdownlint: absent"
 ```
 
@@ -1104,7 +1106,7 @@ markdownlint --config .markdownlint.jsonc <files>
 
 ## Manual Fallback
 
-When a tool is absent, apply its rules by hand from `style-rules.md`:
+When a tool is absent, apply its rules by hand from `references/style-rules.md`:
 
 - markdownlint -> structure rules (single H1, heading increments, spacing,
   trailing whitespace, final newline).
@@ -1128,7 +1130,6 @@ BasedOnStyles = Vale
 - [ ] **Step 8: Write `assets/vale/styles/config/vocabularies/Project/accept.txt`**
 
 ````text
-# Preferred terms, one per line (regex allowed). Example only.
 docs-as-code
 changelog
 ````
@@ -1136,7 +1137,6 @@ changelog
 - [ ] **Step 9: Write `assets/vale/styles/config/vocabularies/Project/reject.txt`**
 
 ````text
-# Discouraged terms, one per line (regex allowed). Example only.
 docs as code
 change-log
 ````
