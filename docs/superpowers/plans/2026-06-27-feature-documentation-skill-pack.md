@@ -95,14 +95,21 @@ skill_file="$skill_dir/SKILL.md"
 metadata="$skill_dir/agents/openai.yaml"
 docs_check="$skill_dir/scripts/check_docs.sh"
 
-refs="evidence-schema.md domain-routing-rules.md doc-model.md feature-doc-template.md agent-context-update.md completion-checklist.md"
+refs=(
+  evidence-schema.md
+  domain-routing-rules.md
+  doc-model.md
+  feature-doc-template.md
+  agent-context-update.md
+  completion-checklist.md
+)
 
 test -f "$skill_file" || fail "SKILL.md is missing"
 test -f "$metadata" || fail "agents/openai.yaml is missing"
 test -f "$docs_check" || fail "scripts/check_docs.sh is missing"
 test -x "$docs_check" || fail "scripts/check_docs.sh is not executable"
 
-for r in $refs; do
+for r in "${refs[@]}"; do
   test -f "$skill_dir/references/$r" || fail "reference $r is missing"
   grep -q "references/$r" "$skill_file" || fail "routing for $r is missing"
 done
@@ -158,6 +165,8 @@ fi
 
 status=0
 for f in "${md_files[@]}"; do
+  # NOTE: counts all lines matching '^# ' including any inside ``` fences.
+  # Intended for generated output docs, not for skill template files.
   h1_count="$(grep -c '^# ' "$f" || true)"
   if [[ "$h1_count" -ne 1 ]]; then
     echo "check_docs: $f has $h1_count level-1 headings (expected 1)" >&2
