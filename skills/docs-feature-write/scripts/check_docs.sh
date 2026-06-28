@@ -22,12 +22,22 @@ if [[ "${#md_files[@]}" -eq 0 ]]; then
   fail "no markdown files found under '$target'"
 fi
 
-# Count level-1 ATX headings outside fenced code blocks (``` or ~~~), so that
-# commented lines inside shell/config snippets are not miscounted as headings.
+# Count level-1 ATX headings outside fenced code blocks. Track the opening
+# fence marker (``` or ~~~) and only close on a matching marker, so a snippet
+# that shows one fence style inside the other does not end the block early and
+# cause comment lines to be miscounted as headings.
 count_h1() {
   awk '
-    /^[ ]*(```|~~~)/ { in_fence = !in_fence; next }
-    !in_fence && /^# / { n++ }
+    {
+      marker = ""
+      if ($0 ~ /^[ ]*```/) marker = "`"
+      if (marker == "" && $0 ~ /^[ ]*~~~/) marker = "~"
+      if (marker != "") {
+        if (!in_fence) { in_fence = 1; fence = marker; next }
+        if (marker == fence) { in_fence = 0; fence = ""; next }
+      }
+      if (!in_fence && $0 ~ /^# /) n++
+    }
     END { print n + 0 }
   ' "$1"
 }
