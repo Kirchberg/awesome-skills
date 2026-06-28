@@ -106,8 +106,10 @@ The reusable core defines abstractions and leaves concrete adapters out:
 
 Convention-detection first, fallback second. The core:
 
-1. Detects an existing AI-docs convention in the active project (for example an
-   existing `docs/ai/`, or a documented docs store). If found, it uses it.
+1. Detects an existing AI-docs location in the active project (for example an
+   existing `docs/ai/` tree, or a docs store explicitly designated for
+   AI-generated docs). If found, it uses it. It does not route generated docs
+   into a human-curated docs store, even when the project documents one.
 2. Otherwise defaults to a `docs/ai/` tree in the active project:
 
 ```text
