@@ -36,4 +36,4 @@ writing any documentation. Keep it factual: record evidence, not prose.
 - When sources conflict, keep the newest authoritative source and note the
   conflict in `unresolved_questions`.
 - Do not invent artifacts, decisions, or facts not supported by evidence.
-- The bundle is input to `feature-documentation`; it is not itself the docs.
+- The bundle is input to `feature-docs-write`; it is not itself the docs.

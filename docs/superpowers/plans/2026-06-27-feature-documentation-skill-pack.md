@@ -4,7 +4,7 @@
 
 **Goal:** Add a self-contained pack of three composable agent skills that turn tracker/PR evidence into durable, domain-structured documentation under `docs/ai/`.
 
-**Architecture:** Three skills mirror this repo's adapter→core precedent: `tracker-feature-handoff` (read-only evidence adapter) hands off to `feature-documentation` (core: route → write → update agent context), which optionally calls `docs-style-enforcer` (graceful-degradation style utility). Each skill is independently installable; the pack depends on no other repo skill.
+**Architecture:** Three skills mirror this repo's adapter→core precedent: `feature-docs-collect` (read-only evidence adapter) hands off to `feature-docs-write` (core: route → write → update agent context), which optionally calls `feature-docs-style` (graceful-degradation style utility). Each skill is independently installable; the pack depends on no other repo skill.
 
 **Tech Stack:** Markdown skill files (`SKILL.md` + one-level `references/` + `assets/`), `agents/openai.yaml` metadata, and POSIX/bash 3.2-compatible `scripts/check_skill.sh` validators that serve as the tests.
 
@@ -23,7 +23,7 @@
 
 ```text
 skills/
-  feature-documentation/            # core engine
+  feature-docs-write/            # core engine
     SKILL.md
     agents/openai.yaml
     references/
@@ -36,16 +36,16 @@ skills/
     scripts/
       check_docs.sh                 # structural check of generated docs
       check_skill.sh                # validator (test)
-  tracker-feature-handoff/          # read-only evidence adapter
+  feature-docs-collect/          # read-only evidence adapter
     SKILL.md
     agents/openai.yaml
     references/
       evidence-collection.md
       evidence-schema.md            # exact copy of the core canonical file
-      feature-documentation-handoff.md
+      feature-docs-write-handoff.md
     scripts/
       check_skill.sh                # validator (test)
-  docs-style-enforcer/              # style/normalization utility
+  feature-docs-style/              # style/normalization utility
     SKILL.md
     agents/openai.yaml
     references/
@@ -65,19 +65,19 @@ Responsibilities: the adapter only gathers evidence; the core owns every documen
 
 ---
 
-## Task 1: feature-documentation (core engine)
+## Task 1: feature-docs-write (core engine)
 
 **Files:**
-- Create: `skills/feature-documentation/scripts/check_skill.sh`
-- Create: `skills/feature-documentation/scripts/check_docs.sh`
-- Create: `skills/feature-documentation/SKILL.md`
-- Create: `skills/feature-documentation/agents/openai.yaml`
-- Create: `skills/feature-documentation/references/evidence-schema.md`
-- Create: `skills/feature-documentation/references/domain-routing-rules.md`
-- Create: `skills/feature-documentation/references/doc-model.md`
-- Create: `skills/feature-documentation/references/feature-doc-template.md`
-- Create: `skills/feature-documentation/references/agent-context-update.md`
-- Create: `skills/feature-documentation/references/completion-checklist.md`
+- Create: `skills/feature-docs-write/scripts/check_skill.sh`
+- Create: `skills/feature-docs-write/scripts/check_docs.sh`
+- Create: `skills/feature-docs-write/SKILL.md`
+- Create: `skills/feature-docs-write/agents/openai.yaml`
+- Create: `skills/feature-docs-write/references/evidence-schema.md`
+- Create: `skills/feature-docs-write/references/domain-routing-rules.md`
+- Create: `skills/feature-docs-write/references/doc-model.md`
+- Create: `skills/feature-docs-write/references/feature-doc-template.md`
+- Create: `skills/feature-docs-write/references/agent-context-update.md`
+- Create: `skills/feature-docs-write/references/completion-checklist.md`
 
 - [ ] **Step 1: Write the validator (test) `scripts/check_skill.sh`**
 
@@ -86,7 +86,7 @@ Responsibilities: the adapter only gathers evidence; the core owns every documen
 set -euo pipefail
 
 fail() {
-  echo "feature-documentation check failed: $*" >&2
+  echo "feature-docs-write check failed: $*" >&2
   exit 1
 }
 
@@ -119,22 +119,22 @@ if [[ "$lines" -gt 200 ]]; then
   fail "$skill_file has $lines lines; split details into references/"
 fi
 
-grep -q '^name: feature-documentation$' "$skill_file" || fail "skill name changed"
+grep -q '^name: feature-docs-write$' "$skill_file" || fail "skill name changed"
 grep -q 'docs/ai/' "$skill_file" || fail "docs/ai default output is missing"
 grep -q 'docs/ai/' "$skill_dir/references/doc-model.md" || fail "doc-model docs/ai tree is missing"
 grep -q 'Segregation Rule' "$skill_dir/references/doc-model.md" || fail "segregation rule is missing"
 grep -q 'scripts/check_docs.sh' "$skill_file" || fail "check_docs routing is missing"
-grep -q 'docs-style-enforcer' "$skill_file" || fail "style enforcer handoff is missing"
+grep -q 'feature-docs-style' "$skill_file" || fail "style enforcer handoff is missing"
 grep -q 'self-contained' "$skill_file" || fail "self-contained statement is missing"
 grep -q 'allow_implicit_invocation: true' "$metadata" || fail "implicit invocation policy is missing"
 
-echo "feature-documentation check passed"
+echo "feature-docs-write check passed"
 ````
 
 - [ ] **Step 2: Run the validator to verify it fails (red)**
 
-Run: `bash skills/feature-documentation/scripts/check_skill.sh`
-Expected: FAIL with `feature-documentation check failed: SKILL.md is missing`
+Run: `bash skills/feature-docs-write/scripts/check_skill.sh`
+Expected: FAIL with `feature-docs-write check failed: SKILL.md is missing`
 
 - [ ] **Step 3: Write `scripts/check_docs.sh` (bash 3.2-safe, no globstar)**
 
@@ -187,11 +187,11 @@ echo "check_docs passed for '$target'"
 
 ````markdown
 ---
-name: feature-documentation
+name: feature-docs-write
 description: Use when the user wants durable documentation for a finished or in-progress feature, written for both humans and agents. Routes the feature to a domain, writes Diataxis-style docs (explanation, reference, how-to) plus an ADR for major decisions under docs/ai/, and updates agent context. Accepts an evidence bundle or collects evidence inline.
 ---
 
-# Feature Documentation
+# Feature Docs Write
 
 ## Purpose
 
@@ -201,7 +201,7 @@ major decisions, and a changelog entry, then update the agent-facing surface.
 
 ## Operating Mode
 
-- Accept a normalized evidence bundle from `tracker-feature-handoff`, or collect
+- Accept a normalized evidence bundle from `feature-docs-collect`, or collect
   evidence inline when invoked directly.
 - Treat tracker/PR material as evidence, not as documentation. Output a domain-
   structured knowledge base, not a stitched-together timeline.
@@ -243,7 +243,7 @@ a human-curated `docs/` root by default.
    the feature dossier, an ADR for each major decision, and a changelog entry.
 5. Read `references/agent-context-update.md` and update the agent surface.
 6. Read `references/completion-checklist.md` and verify the pass.
-7. Optionally apply `docs-style-enforcer` to normalize style.
+7. Optionally apply `feature-docs-style` to normalize style.
 8. Run `scripts/check_docs.sh` against the output directory.
 
 ## Avoid
@@ -260,9 +260,9 @@ a human-curated `docs/` root by default.
 
 ````yaml
 interface:
-  display_name: "Feature Documentation"
+  display_name: "Feature Docs Write"
   short_description: "Turn feature evidence into durable docs"
-  default_prompt: "Use $feature-documentation to write durable, domain-structured docs for this feature under docs/ai/."
+  default_prompt: "Use $feature-docs-write to write durable, domain-structured docs for this feature under docs/ai/."
 
 policy:
   allow_implicit_invocation: true
@@ -309,7 +309,7 @@ writing any documentation. Keep it factual: record evidence, not prose.
 - When sources conflict, keep the newest authoritative source and note the
   conflict in `unresolved_questions`.
 - Do not invent artifacts, decisions, or facts not supported by evidence.
-- The bundle is input to `feature-documentation`; it is not itself the docs.
+- The bundle is input to `feature-docs-write`; it is not itself the docs.
 ````
 
 - [ ] **Step 7: Write `references/domain-routing-rules.md`**
@@ -580,7 +580,7 @@ A feature documentation pass is done only when:
       under `docs/ai/`), reported explicitly.
 - [ ] Links between domain pages, the feature dossier, ADRs, and changelog are
       present and resolve where checkable.
-- [ ] Style was normalized (via `docs-style-enforcer` or manually).
+- [ ] Style was normalized (via `feature-docs-style` or manually).
 - [ ] `scripts/check_docs.sh` passed against the output directory.
 
 Report changed files, the output location, the domains touched, and any open
@@ -591,13 +591,13 @@ questions in the final summary.
 
 Run:
 ```bash
-chmod +x skills/feature-documentation/scripts/check_skill.sh skills/feature-documentation/scripts/check_docs.sh
+chmod +x skills/feature-docs-write/scripts/check_skill.sh skills/feature-docs-write/scripts/check_docs.sh
 ```
 
 - [ ] **Step 13: Run the validator to verify it passes (green)**
 
-Run: `bash skills/feature-documentation/scripts/check_skill.sh`
-Expected: `feature-documentation check passed`
+Run: `bash skills/feature-docs-write/scripts/check_skill.sh`
+Expected: `feature-docs-write check passed`
 
 - [ ] **Step 14: Smoke-test `check_docs.sh` against a scratch directory**
 
@@ -605,28 +605,28 @@ Run:
 ```bash
 tmpdir="$(mktemp -d)"; mkdir -p "$tmpdir/domains/x"
 printf '# X overview\n\nbody\n' > "$tmpdir/domains/x/overview.md"
-bash skills/feature-documentation/scripts/check_docs.sh "$tmpdir"; rm -rf "$tmpdir"
+bash skills/feature-docs-write/scripts/check_docs.sh "$tmpdir"; rm -rf "$tmpdir"
 ```
 Expected: `check_docs passed for '<tmpdir>'`
 
 - [ ] **Step 15: Commit**
 
 ```bash
-git add skills/feature-documentation
-git commit -m "$(printf 'Add feature-documentation core skill\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>')"
+git add skills/feature-docs-write
+git commit -m "$(printf 'Add feature-docs-write core skill\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>')"
 ```
 
 ---
 
-## Task 2: tracker-feature-handoff (read-only evidence adapter)
+## Task 2: feature-docs-collect (read-only evidence adapter)
 
 **Files:**
-- Create: `skills/tracker-feature-handoff/scripts/check_skill.sh`
-- Create: `skills/tracker-feature-handoff/SKILL.md`
-- Create: `skills/tracker-feature-handoff/agents/openai.yaml`
-- Create: `skills/tracker-feature-handoff/references/evidence-collection.md`
-- Create: `skills/tracker-feature-handoff/references/evidence-schema.md` (copied from core)
-- Create: `skills/tracker-feature-handoff/references/feature-documentation-handoff.md`
+- Create: `skills/feature-docs-collect/scripts/check_skill.sh`
+- Create: `skills/feature-docs-collect/SKILL.md`
+- Create: `skills/feature-docs-collect/agents/openai.yaml`
+- Create: `skills/feature-docs-collect/references/evidence-collection.md`
+- Create: `skills/feature-docs-collect/references/evidence-schema.md` (copied from core)
+- Create: `skills/feature-docs-collect/references/feature-docs-write-handoff.md`
 
 - [ ] **Step 1: Write the validator (test) `scripts/check_skill.sh`**
 
@@ -635,7 +635,7 @@ git commit -m "$(printf 'Add feature-documentation core skill\n\nCo-Authored-By:
 set -euo pipefail
 
 fail() {
-  echo "tracker-feature-handoff check failed: $*" >&2
+  echo "feature-docs-collect check failed: $*" >&2
   exit 1
 }
 
@@ -643,13 +643,13 @@ skill_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 skill_file="$skill_dir/SKILL.md"
 collection_ref="$skill_dir/references/evidence-collection.md"
 schema_ref="$skill_dir/references/evidence-schema.md"
-handoff_ref="$skill_dir/references/feature-documentation-handoff.md"
+handoff_ref="$skill_dir/references/feature-docs-write-handoff.md"
 metadata="$skill_dir/agents/openai.yaml"
 
 test -f "$skill_file" || fail "SKILL.md is missing"
 test -f "$collection_ref" || fail "evidence-collection reference is missing"
 test -f "$schema_ref" || fail "evidence-schema reference is missing"
-test -f "$handoff_ref" || fail "feature-documentation handoff reference is missing"
+test -f "$handoff_ref" || fail "feature-docs-write handoff reference is missing"
 test -f "$metadata" || fail "agents/openai.yaml is missing"
 
 lines="$(wc -l < "$skill_file" | tr -d ' ')"
@@ -657,48 +657,48 @@ if [[ "$lines" -gt 200 ]]; then
   fail "$skill_file has $lines lines; split details into references/"
 fi
 
-grep -q '^name: tracker-feature-handoff$' "$skill_file" || fail "skill name changed"
+grep -q '^name: feature-docs-collect$' "$skill_file" || fail "skill name changed"
 grep -q 'REQUIRED SUB-SKILL' "$skill_file" || fail "required sub-skill declaration is missing"
-grep -q 'feature-documentation' "$skill_file" || fail "feature-documentation handoff is missing"
+grep -q 'feature-docs-write' "$skill_file" || fail "feature-docs-write handoff is missing"
 grep -q 'read-only' "$skill_file" || fail "read-only operating mode is missing"
 grep -q 'references/evidence-collection.md' "$skill_file" || fail "evidence-collection routing is missing"
 grep -q 'references/evidence-schema.md' "$skill_file" || fail "evidence-schema routing is missing"
-grep -q 'references/feature-documentation-handoff.md' "$skill_file" || fail "handoff routing is missing"
+grep -q 'references/feature-docs-write-handoff.md' "$skill_file" || fail "handoff routing is missing"
 grep -q 'self-contained' "$skill_file" || fail "self-contained statement is missing"
 grep -q 'allow_implicit_invocation: true' "$metadata" || fail "implicit invocation policy is missing"
 
 # Shared evidence schema must match the core skill's copy when both are present.
-core_schema="$skill_dir/../feature-documentation/references/evidence-schema.md"
+core_schema="$skill_dir/../feature-docs-write/references/evidence-schema.md"
 if [[ -f "$core_schema" ]]; then
-  diff -q "$schema_ref" "$core_schema" >/dev/null || fail "evidence-schema.md differs from feature-documentation copy"
+  diff -q "$schema_ref" "$core_schema" >/dev/null || fail "evidence-schema.md differs from feature-docs-write copy"
 fi
 
-echo "tracker-feature-handoff check passed"
+echo "feature-docs-collect check passed"
 ````
 
 - [ ] **Step 2: Run the validator to verify it fails (red)**
 
-Run: `bash skills/tracker-feature-handoff/scripts/check_skill.sh`
-Expected: FAIL with `tracker-feature-handoff check failed: SKILL.md is missing`
+Run: `bash skills/feature-docs-collect/scripts/check_skill.sh`
+Expected: FAIL with `feature-docs-collect check failed: SKILL.md is missing`
 
 - [ ] **Step 3: Write `SKILL.md`**
 
 ````markdown
 ---
-name: tracker-feature-handoff
-description: Use when the user wants to document a finished, shipped, or merged feature from a tracker item, task, project, change request, or pull request. Collects read-only evidence from tracker and source control, normalizes it, then hands off to feature-documentation. Do not use for writing code or mutating tracker state.
+name: feature-docs-collect
+description: Use when the user wants to document a finished, shipped, or merged feature from a tracker item, task, project, change request, or pull request. Collects read-only evidence from tracker and source control, normalizes it, then hands off to feature-docs-write. Do not use for writing code or mutating tracker state.
 ---
 
-# Tracker Feature Handoff
+# Feature Docs Collect
 
 ## Purpose
 
 Turn a finished feature's tracker and source-control history into a normalized
 evidence bundle, then produce durable documentation through
-`feature-documentation`. This skill is a read-only evidence adapter: it gathers
+`feature-docs-write`. This skill is a read-only evidence adapter: it gathers
 and normalizes facts; it does not write documentation itself.
 
-**REQUIRED SUB-SKILL:** Use `feature-documentation` after the evidence bundle is
+**REQUIRED SUB-SKILL:** Use `feature-docs-write` after the evidence bundle is
 prepared.
 
 ## Operating Mode
@@ -724,9 +724,9 @@ Read these one-level references before handing off:
 - `references/evidence-collection.md`: required. Defines what evidence to
   gather, conflict resolution, and read-only subagent guidance.
 - `references/evidence-schema.md`: required. Defines the normalized evidence
-  bundle shape that `feature-documentation` consumes.
-- `references/feature-documentation-handoff.md`: required before invoking
-  `feature-documentation`. Defines how to pass the bundle and what the core
+  bundle shape that `feature-docs-write` consumes.
+- `references/feature-docs-write-handoff.md`: required before invoking
+  `feature-docs-write`. Defines how to pass the bundle and what the core
   expects.
 
 ## Source Resolution
@@ -751,8 +751,8 @@ missing reference or access.
 3. Gather evidence read-only: summary, touched domains, linked artifacts,
    decisions, operational facts, caveats, unresolved questions.
 4. Read `references/evidence-schema.md` and normalize evidence into the bundle.
-5. Read `references/feature-documentation-handoff.md`.
-6. Read and apply `feature-documentation`, passing the evidence bundle.
+5. Read `references/feature-docs-write-handoff.md`.
+6. Read and apply `feature-docs-write`, passing the evidence bundle.
 7. Return the documentation result, not a raw timeline.
 
 ## Avoid
@@ -762,7 +762,7 @@ missing reference or access.
 - Do not treat every comment as a requirement; identify authority.
 - Do not invent artifacts, decisions, or operational facts.
 - Do not mutate tracker, change-request, or source-control state.
-- Do not write documentation in this skill; `feature-documentation` owns that.
+- Do not write documentation in this skill; `feature-docs-write` owns that.
 - Do not depend on other skills in this repository; this pack is self-contained.
 ````
 
@@ -770,9 +770,9 @@ missing reference or access.
 
 ````yaml
 interface:
-  display_name: "Tracker Feature Handoff"
+  display_name: "Feature Docs Collect"
   short_description: "Collect feature evidence, then document it"
-  default_prompt: "Use $tracker-feature-handoff to document a shipped feature from its tracker item and change requests."
+  default_prompt: "Use $feature-docs-collect to document a shipped feature from its tracker item and change requests."
 
 policy:
   allow_implicit_invocation: true
@@ -829,15 +829,15 @@ owns the final normalized bundle. Subagents must not write files or mutate state
 
 Run:
 ```bash
-cp skills/feature-documentation/references/evidence-schema.md skills/tracker-feature-handoff/references/evidence-schema.md
+cp skills/feature-docs-write/references/evidence-schema.md skills/feature-docs-collect/references/evidence-schema.md
 ```
 
-- [ ] **Step 7: Write `references/feature-documentation-handoff.md`**
+- [ ] **Step 7: Write `references/feature-docs-write-handoff.md`**
 
 ````markdown
-# Feature Documentation Handoff
+# Feature Docs Write Handoff
 
-After the evidence bundle is complete, invoke `feature-documentation` and pass
+After the evidence bundle is complete, invoke `feature-docs-write` and pass
 the bundle as input.
 
 ## What To Pass
@@ -847,24 +847,24 @@ the bundle as input.
 - Any project documentation convention already observed (for example an
   existing `docs/ai/` tree or a documented docs store).
 
-Invoke `feature-documentation` once, after evidence collection is finished; do
+Invoke `feature-docs-write` once, after evidence collection is finished; do
 not hand off a partial bundle.
 
 ## What The Core Does
 
-`feature-documentation` will:
+`feature-docs-write` will:
 
 1. Route the feature to one or more domains.
 2. Write or update durable docs (domain pages, a feature dossier, ADRs, and a
    changelog entry) under the detected docs convention, defaulting to
    `docs/ai/`.
 3. Update the agent-facing instruction surface when warranted.
-4. Optionally normalize style via `docs-style-enforcer`.
+4. Optionally normalize style via `feature-docs-style`.
 
 ## Boundary
 
 This adapter does not choose document structure, domain placement, or wording.
-It provides evidence. `feature-documentation` owns all documentation decisions.
+It provides evidence. `feature-docs-write` owns all documentation decisions.
 Do not pre-write documentation pages here.
 ````
 
@@ -872,43 +872,43 @@ Do not pre-write documentation pages here.
 
 Run:
 ```bash
-chmod +x skills/tracker-feature-handoff/scripts/check_skill.sh
+chmod +x skills/feature-docs-collect/scripts/check_skill.sh
 ```
 
 - [ ] **Step 9: Run the validator to verify it passes (green)**
 
-Run: `bash skills/tracker-feature-handoff/scripts/check_skill.sh`
-Expected: `tracker-feature-handoff check passed`
+Run: `bash skills/feature-docs-collect/scripts/check_skill.sh`
+Expected: `feature-docs-collect check passed`
 
 - [ ] **Step 10: Verify the shared schema is byte-identical**
 
 Run:
 ```bash
-diff -u skills/feature-documentation/references/evidence-schema.md skills/tracker-feature-handoff/references/evidence-schema.md && echo "schemas identical"
+diff -u skills/feature-docs-write/references/evidence-schema.md skills/feature-docs-collect/references/evidence-schema.md && echo "schemas identical"
 ```
 Expected: `schemas identical` (no diff output)
 
 - [ ] **Step 11: Commit**
 
 ```bash
-git add skills/tracker-feature-handoff
-git commit -m "$(printf 'Add tracker-feature-handoff adapter skill\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>')"
+git add skills/feature-docs-collect
+git commit -m "$(printf 'Add feature-docs-collect adapter skill\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>')"
 ```
 
 ---
 
-## Task 3: docs-style-enforcer (style/normalization utility)
+## Task 3: feature-docs-style (style/normalization utility)
 
 **Files:**
-- Create: `skills/docs-style-enforcer/scripts/check_skill.sh`
-- Create: `skills/docs-style-enforcer/SKILL.md`
-- Create: `skills/docs-style-enforcer/agents/openai.yaml`
-- Create: `skills/docs-style-enforcer/references/style-rules.md`
-- Create: `skills/docs-style-enforcer/references/tooling.md`
-- Create: `skills/docs-style-enforcer/assets/vale/.vale.ini`
-- Create: `skills/docs-style-enforcer/assets/vale/styles/config/vocabularies/Project/accept.txt`
-- Create: `skills/docs-style-enforcer/assets/vale/styles/config/vocabularies/Project/reject.txt`
-- Create: `skills/docs-style-enforcer/assets/markdownlint/.markdownlint.jsonc`
+- Create: `skills/feature-docs-style/scripts/check_skill.sh`
+- Create: `skills/feature-docs-style/SKILL.md`
+- Create: `skills/feature-docs-style/agents/openai.yaml`
+- Create: `skills/feature-docs-style/references/style-rules.md`
+- Create: `skills/feature-docs-style/references/tooling.md`
+- Create: `skills/feature-docs-style/assets/vale/.vale.ini`
+- Create: `skills/feature-docs-style/assets/vale/styles/config/vocabularies/Project/accept.txt`
+- Create: `skills/feature-docs-style/assets/vale/styles/config/vocabularies/Project/reject.txt`
+- Create: `skills/feature-docs-style/assets/markdownlint/.markdownlint.jsonc`
 
 - [ ] **Step 1: Write the validator (test) `scripts/check_skill.sh`**
 
@@ -917,7 +917,7 @@ git commit -m "$(printf 'Add tracker-feature-handoff adapter skill\n\nCo-Authore
 set -euo pipefail
 
 fail() {
-  echo "docs-style-enforcer check failed: $*" >&2
+  echo "feature-docs-style check failed: $*" >&2
   exit 1
 }
 
@@ -941,7 +941,7 @@ if [[ "$lines" -gt 200 ]]; then
   fail "$skill_file has $lines lines; split details into references/"
 fi
 
-grep -q '^name: docs-style-enforcer$' "$skill_file" || fail "skill name changed"
+grep -q '^name: feature-docs-style$' "$skill_file" || fail "skill name changed"
 grep -qi 'graceful degradation' "$skill_file" || fail "graceful degradation mode is missing"
 grep -q 'markdownlint' "$skill_file" || fail "markdownlint handling is missing"
 grep -qi 'vale' "$skill_file" || fail "vale handling is missing"
@@ -950,29 +950,29 @@ grep -q 'references/tooling.md' "$skill_file" || fail "tooling routing is missin
 grep -q 'self-contained' "$skill_file" || fail "self-contained statement is missing"
 grep -q 'allow_implicit_invocation: true' "$metadata" || fail "implicit invocation policy is missing"
 
-echo "docs-style-enforcer check passed"
+echo "feature-docs-style check passed"
 ````
 
 - [ ] **Step 2: Run the validator to verify it fails (red)**
 
-Run: `bash skills/docs-style-enforcer/scripts/check_skill.sh`
-Expected: FAIL with `docs-style-enforcer check failed: SKILL.md is missing`
+Run: `bash skills/feature-docs-style/scripts/check_skill.sh`
+Expected: FAIL with `feature-docs-style check failed: SKILL.md is missing`
 
 - [ ] **Step 3: Write `SKILL.md`**
 
 ````markdown
 ---
-name: docs-style-enforcer
-description: Use when documentation markdown needs style and structure normalization (terminology, typography, heading rules). Runs Vale and markdownlint when installed and applies the same rules manually when they are absent. Usable standalone or as the final step of feature-documentation.
+name: feature-docs-style
+description: Use when documentation markdown needs style and structure normalization (terminology, typography, heading rules). Runs Vale and markdownlint when installed and applies the same rules manually when they are absent. Usable standalone or as the final step of feature-docs-write.
 ---
 
-# Docs Style Enforcer
+# Feature Docs Style
 
 ## Purpose
 
 Normalize documentation style and structure so authors can choose terminology
 and typography without hard-coding rules into every workflow. Works on any
-markdown, and is the optional final step of `feature-documentation`.
+markdown, and is the optional final step of `feature-docs-write`.
 
 ## Operating Mode
 
@@ -1023,9 +1023,9 @@ treat the examples as mandatory project rules.
 
 ````yaml
 interface:
-  display_name: "Docs Style Enforcer"
+  display_name: "Feature Docs Style"
   short_description: "Normalize documentation style"
-  default_prompt: "Use $docs-style-enforcer to normalize the style and structure of these docs."
+  default_prompt: "Use $feature-docs-style to normalize the style and structure of these docs."
 
 policy:
   allow_implicit_invocation: true
@@ -1158,19 +1158,19 @@ change-log
 
 Run:
 ```bash
-chmod +x skills/docs-style-enforcer/scripts/check_skill.sh
+chmod +x skills/feature-docs-style/scripts/check_skill.sh
 ```
 
 - [ ] **Step 12: Run the validator to verify it passes (green)**
 
-Run: `bash skills/docs-style-enforcer/scripts/check_skill.sh`
-Expected: `docs-style-enforcer check passed`
+Run: `bash skills/feature-docs-style/scripts/check_skill.sh`
+Expected: `feature-docs-style check passed`
 
 - [ ] **Step 13: Commit**
 
 ```bash
-git add skills/docs-style-enforcer
-git commit -m "$(printf 'Add docs-style-enforcer skill\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>')"
+git add skills/feature-docs-style
+git commit -m "$(printf 'Add feature-docs-style skill\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>')"
 ```
 
 ---
@@ -1185,14 +1185,14 @@ git commit -m "$(printf 'Add docs-style-enforcer skill\n\nCo-Authored-By: Claude
 In `README.md`, after the `github-pr-codex-review-monitor` bullet (the one ending "until the review and checks are clear."), insert these bullets:
 
 ````markdown
-- [`feature-documentation`](skills/feature-documentation/) turns a feature
+- [`feature-docs-write`](skills/feature-docs-write/) turns a feature
   evidence bundle into durable, domain-structured documentation under `docs/ai/`
   (explanation, reference, how-to, ADRs, changelog) and updates the agent-facing
   surface. It is the self-contained core of the documentation skill pack.
-- [`tracker-feature-handoff`](skills/tracker-feature-handoff/) collects
+- [`feature-docs-collect`](skills/feature-docs-collect/) collects
   read-only feature evidence from a tracker item, change request, or PR,
-  normalizes it, and hands off to `feature-documentation`.
-- [`docs-style-enforcer`](skills/docs-style-enforcer/) normalizes documentation
+  normalizes it, and hands off to `feature-docs-write`.
+- [`feature-docs-style`](skills/feature-docs-style/) normalizes documentation
   style and structure with Vale and markdownlint when present, and applies the
   same rules manually when they are absent.
 ````
@@ -1202,17 +1202,17 @@ In `README.md`, after the `github-pr-codex-review-monitor` bullet (the one endin
 In the `## Repository Layout` fenced `text` block, before the closing fence, append:
 
 ````text
-  feature-documentation/
+  feature-docs-write/
     SKILL.md
     agents/openai.yaml
     references/
     scripts/
-  tracker-feature-handoff/
+  feature-docs-collect/
     SKILL.md
     agents/openai.yaml
     references/
     scripts/
-  docs-style-enforcer/
+  feature-docs-style/
     SKILL.md
     agents/openai.yaml
     references/
@@ -1225,7 +1225,7 @@ In the `## Repository Layout` fenced `text` block, before the closing fence, app
 After the existing `### github-pr-codex-review-monitor` navigation block (before `## Maintenance Notes`), insert:
 
 `````markdown
-### `feature-documentation`
+### `feature-docs-write`
 
 Use when a finished or in-progress feature needs durable docs for humans and
 agents, routed by domain and written under `docs/ai/`.
@@ -1233,34 +1233,34 @@ agents, routed by domain and written under `docs/ai/`.
 Default prompt:
 
 ```text
-Use $feature-documentation to write durable, domain-structured docs for this feature under docs/ai/.
+Use $feature-docs-write to write durable, domain-structured docs for this feature under docs/ai/.
 ```
 
 Important files:
 
-- [`skills/feature-documentation/SKILL.md`](skills/feature-documentation/SKILL.md)
-- [`skills/feature-documentation/references/doc-model.md`](skills/feature-documentation/references/doc-model.md)
-- [`skills/feature-documentation/references/feature-doc-template.md`](skills/feature-documentation/references/feature-doc-template.md)
-- [`skills/feature-documentation/scripts/check_docs.sh`](skills/feature-documentation/scripts/check_docs.sh)
+- [`skills/feature-docs-write/SKILL.md`](skills/feature-docs-write/SKILL.md)
+- [`skills/feature-docs-write/references/doc-model.md`](skills/feature-docs-write/references/doc-model.md)
+- [`skills/feature-docs-write/references/feature-doc-template.md`](skills/feature-docs-write/references/feature-doc-template.md)
+- [`skills/feature-docs-write/scripts/check_docs.sh`](skills/feature-docs-write/scripts/check_docs.sh)
 
-### `tracker-feature-handoff`
+### `feature-docs-collect`
 
 Use when documentation should start from a tracker item, change request, or PR,
-collecting evidence read-only before handing off to `feature-documentation`.
+collecting evidence read-only before handing off to `feature-docs-write`.
 
 Default prompt:
 
 ```text
-Use $tracker-feature-handoff to document a shipped feature from its tracker item and change requests.
+Use $feature-docs-collect to document a shipped feature from its tracker item and change requests.
 ```
 
 Important files:
 
-- [`skills/tracker-feature-handoff/SKILL.md`](skills/tracker-feature-handoff/SKILL.md)
-- [`skills/tracker-feature-handoff/references/evidence-collection.md`](skills/tracker-feature-handoff/references/evidence-collection.md)
-- [`skills/tracker-feature-handoff/references/feature-documentation-handoff.md`](skills/tracker-feature-handoff/references/feature-documentation-handoff.md)
+- [`skills/feature-docs-collect/SKILL.md`](skills/feature-docs-collect/SKILL.md)
+- [`skills/feature-docs-collect/references/evidence-collection.md`](skills/feature-docs-collect/references/evidence-collection.md)
+- [`skills/feature-docs-collect/references/feature-docs-write-handoff.md`](skills/feature-docs-collect/references/feature-docs-write-handoff.md)
 
-### `docs-style-enforcer`
+### `feature-docs-style`
 
 Use when documentation markdown needs style and structure normalization, with or
 without Vale and markdownlint installed.
@@ -1268,21 +1268,21 @@ without Vale and markdownlint installed.
 Default prompt:
 
 ```text
-Use $docs-style-enforcer to normalize the style and structure of these docs.
+Use $feature-docs-style to normalize the style and structure of these docs.
 ```
 
 Important files:
 
-- [`skills/docs-style-enforcer/SKILL.md`](skills/docs-style-enforcer/SKILL.md)
-- [`skills/docs-style-enforcer/references/style-rules.md`](skills/docs-style-enforcer/references/style-rules.md)
-- [`skills/docs-style-enforcer/references/tooling.md`](skills/docs-style-enforcer/references/tooling.md)
+- [`skills/feature-docs-style/SKILL.md`](skills/feature-docs-style/SKILL.md)
+- [`skills/feature-docs-style/references/style-rules.md`](skills/feature-docs-style/references/style-rules.md)
+- [`skills/feature-docs-style/references/tooling.md`](skills/feature-docs-style/references/tooling.md)
 `````
 
 - [ ] **Step 4: Run all three validators (pack-wide green check)**
 
 Run:
 ```bash
-for s in feature-documentation tracker-feature-handoff docs-style-enforcer; do
+for s in feature-docs-write feature-docs-collect feature-docs-style; do
   bash "skills/$s/scripts/check_skill.sh"
 done
 ```
@@ -1292,7 +1292,7 @@ Expected: three lines, each `<skill> check passed`.
 
 Run:
 ```bash
-diff -q skills/feature-documentation/references/evidence-schema.md skills/tracker-feature-handoff/references/evidence-schema.md && echo "schemas identical"
+diff -q skills/feature-docs-write/references/evidence-schema.md skills/feature-docs-collect/references/evidence-schema.md && echo "schemas identical"
 ```
 Expected: `schemas identical`
 
@@ -1308,7 +1308,7 @@ Expected: `no docs/ai in skill library (correct)`
 
 ```bash
 git add README.md
-git commit -m "$(printf 'Document feature-documentation skill pack in README\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>')"
+git commit -m "$(printf 'Document feature-docs-write skill pack in README\n\nCo-Authored-By: Claude Opus 4.8 (1M context) <noreply@anthropic.com>')"
 ```
 
 ---
@@ -1327,17 +1327,17 @@ scratch="$(mktemp -d)"; echo "scratch=$scratch"
 
 - [ ] **Step 2: Manually exercise the core skill against the scratch dir**
 
-Invoke `feature-documentation` (read its SKILL.md and references) with a small
+Invoke `feature-docs-write` (read its SKILL.md and references) with a small
 synthetic evidence bundle, writing output under `"$scratch/docs/ai"`. Produce at
 least: one domain `overview.md` + `reference.md`, one feature dossier
 `overview.md`, and one `adrs/ADR-0001-*.md`, following
-`skills/feature-documentation/references/feature-doc-template.md`.
+`skills/feature-docs-write/references/feature-doc-template.md`.
 
 - [ ] **Step 3: Validate the generated docs**
 
 Run:
 ```bash
-bash skills/feature-documentation/scripts/check_docs.sh "$scratch/docs/ai"
+bash skills/feature-docs-write/scripts/check_docs.sh "$scratch/docs/ai"
 ```
 Expected: `check_docs passed for '<scratch>/docs/ai'`
 
@@ -1357,7 +1357,7 @@ Expected: `cleaned`
   composition (SKILL.md handoffs), `docs/ai/` default + convention detection
   (doc-model.md, SKILL.md Output Location), Diataxis + three-tier model
   (doc-model.md, feature-doc-template.md), agent-context segregation
-  (agent-context-update.md), graceful-degradation style (docs-style-enforcer
+  (agent-context-update.md), graceful-degradation style (feature-docs-style
   SKILL.md + tooling.md), shared evidence schema with identity check (Task 1
   Step 6 / Task 2 Steps 6,10 / Task 4 Step 5), per-skill validators + check_docs
   (every task), README updates (Task 4), self-contained / no-sibling-dependency

@@ -2,7 +2,7 @@
 set -euo pipefail
 
 fail() {
-  echo "docs-style-enforcer check failed: $*" >&2
+  echo "feature-docs-style check failed: $*" >&2
   exit 1
 }
 
@@ -26,7 +26,7 @@ if [[ "$lines" -gt 200 ]]; then
   fail "$skill_file has $lines lines; split details into references/"
 fi
 
-grep -q '^name: docs-style-enforcer$' "$skill_file" || fail "skill name changed"
+grep -q '^name: feature-docs-style$' "$skill_file" || fail "skill name changed"
 grep -qi 'graceful degradation' "$skill_file" || fail "graceful degradation mode is missing"
 grep -q 'markdownlint' "$skill_file" || fail "markdownlint handling is missing"
 grep -qi 'vale' "$skill_file" || fail "vale handling is missing"
@@ -35,4 +35,4 @@ grep -q 'references/tooling.md' "$skill_file" || fail "tooling routing is missin
 grep -q 'self-contained' "$skill_file" || fail "self-contained statement is missing"
 grep -q 'allow_implicit_invocation: true' "$metadata" || fail "implicit invocation policy is missing"
 
-echo "docs-style-enforcer check passed"
+echo "feature-docs-style check passed"

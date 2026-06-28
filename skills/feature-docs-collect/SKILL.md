@@ -1,18 +1,18 @@
 ---
-name: tracker-feature-handoff
-description: Use when the user wants to document a finished, shipped, or merged feature from a tracker item, task, project, change request, or pull request. Collects read-only evidence from tracker and source control, normalizes it, then hands off to feature-documentation. Do not use for writing code or mutating tracker state.
+name: feature-docs-collect
+description: Use when the user wants to document a finished, shipped, or merged feature from a tracker item, task, project, change request, or pull request. Collects read-only evidence from tracker and source control, normalizes it, then hands off to feature-docs-write. Do not use for writing code or mutating tracker state.
 ---
 
-# Tracker Feature Handoff
+# Feature Docs Collect
 
 ## Purpose
 
 Turn a finished feature's tracker and source-control history into a normalized
 evidence bundle, then produce durable documentation through
-`feature-documentation`. This skill is a read-only evidence adapter: it gathers
+`feature-docs-write`. This skill is a read-only evidence adapter: it gathers
 and normalizes facts; it does not write documentation itself.
 
-**REQUIRED SUB-SKILL:** Use `feature-documentation` after the evidence bundle is
+**REQUIRED SUB-SKILL:** Use `feature-docs-write` after the evidence bundle is
 prepared.
 
 ## Operating Mode
@@ -38,9 +38,9 @@ Read these one-level references before handing off:
 - `references/evidence-collection.md`: required. Defines what evidence to
   gather, conflict resolution, and read-only subagent guidance.
 - `references/evidence-schema.md`: required. Defines the normalized evidence
-  bundle shape that `feature-documentation` consumes.
-- `references/feature-documentation-handoff.md`: required before invoking
-  `feature-documentation`. Defines how to pass the bundle and what the core
+  bundle shape that `feature-docs-write` consumes.
+- `references/feature-docs-write-handoff.md`: required before invoking
+  `feature-docs-write`. Defines how to pass the bundle and what the core
   expects.
 
 ## Source Resolution
@@ -65,8 +65,8 @@ missing reference or access.
 3. Gather evidence read-only: summary, touched domains, linked artifacts,
    decisions, operational facts, caveats, unresolved questions.
 4. Read `references/evidence-schema.md` and normalize evidence into the bundle.
-5. Read `references/feature-documentation-handoff.md`.
-6. Read and apply `feature-documentation`, passing the evidence bundle.
+5. Read `references/feature-docs-write-handoff.md`.
+6. Read and apply `feature-docs-write`, passing the evidence bundle.
 7. Return the documentation result, not a raw timeline.
 
 ## Avoid
@@ -76,5 +76,5 @@ missing reference or access.
 - Do not treat every comment as a requirement; identify authority.
 - Do not invent artifacts, decisions, or operational facts.
 - Do not mutate tracker, change-request, or source-control state.
-- Do not write documentation in this skill; `feature-documentation` owns that.
+- Do not write documentation in this skill; `feature-docs-write` owns that.
 - Do not depend on other skills in this repository; this pack is self-contained.
