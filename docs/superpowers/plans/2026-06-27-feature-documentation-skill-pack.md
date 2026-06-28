@@ -163,13 +163,21 @@ if [[ "${#md_files[@]}" -eq 0 ]]; then
   fail "no markdown files found under '$target'"
 fi
 
+# Count level-1 ATX headings outside fenced code blocks (``` or ~~~), so that
+# commented lines inside shell/config snippets are not miscounted as headings.
+count_h1() {
+  awk '
+    /^[ ]*(```|~~~)/ { in_fence = !in_fence; next }
+    !in_fence && /^# / { n++ }
+    END { print n + 0 }
+  ' "$1"
+}
+
 status=0
 for f in "${md_files[@]}"; do
-  # NOTE: counts all lines matching '^# ' including any inside ``` fences.
-  # Intended for generated output docs, not for skill template files.
-  h1_count="$(grep -c '^# ' "$f" || true)"
+  h1_count="$(count_h1 "$f")"
   if [[ "$h1_count" -ne 1 ]]; then
-    echo "check_docs: $f has $h1_count level-1 headings (expected 1)" >&2
+    echo "check_docs: $f has $h1_count level-1 headings outside code fences (expected 1)" >&2
     status=1
   fi
   if [[ ! -s "$f" ]]; then
