@@ -1,7 +1,0 @@
-interface:
-  display_name: "Feature Docs Collect"
-  short_description: "Collect feature evidence, then document it"
-  default_prompt: "Use $feature-docs-collect to document a shipped feature from its tracker item and change requests."
-
-policy:
-  allow_implicit_invocation: true
