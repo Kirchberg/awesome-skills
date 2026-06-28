@@ -1,0 +1,7 @@
+interface:
+  display_name: "Docs Feature Write"
+  short_description: "Turn feature evidence into durable docs"
+  default_prompt: "Use $docs-feature-write to write durable, domain-structured docs for this feature under docs/ai/."
+
+policy:
+  allow_implicit_invocation: true
