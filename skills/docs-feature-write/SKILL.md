@@ -1,9 +1,9 @@
 ---
-name: feature-docs-write
+name: docs-feature-write
 description: Use when the user wants durable documentation for a finished or in-progress feature, written for both humans and agents. Routes the feature to a domain, writes Diataxis-style docs (explanation, reference, how-to) plus an ADR for major decisions under docs/ai/, and updates agent context. Accepts an evidence bundle or collects evidence inline.
 ---
 
-# Feature Docs Write
+# Docs Feature Write
 
 ## Purpose
 
@@ -13,7 +13,7 @@ major decisions, and a changelog entry, then update the agent-facing surface.
 
 ## Operating Mode
 
-- Accept a normalized evidence bundle from `feature-docs-collect`, or collect
+- Accept a normalized evidence bundle from `docs-feature-collect`, or collect
   evidence inline when invoked directly.
 - Treat tracker/PR material as evidence, not as documentation. Output a domain-
   structured knowledge base, not a stitched-together timeline.
@@ -55,7 +55,7 @@ a human-curated `docs/` root by default.
    the feature dossier, an ADR for each major decision, and a changelog entry.
 5. Read `references/agent-context-update.md` and update the agent surface.
 6. Read `references/completion-checklist.md` and verify the pass.
-7. Optionally apply `feature-docs-style` to normalize style.
+7. Optionally apply `docs-feature-style` to normalize style.
 8. Run `scripts/check_docs.sh` against the output directory.
 
 ## Avoid

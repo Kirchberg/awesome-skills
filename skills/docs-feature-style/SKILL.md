@@ -1,15 +1,15 @@
 ---
-name: feature-docs-style
-description: Use when documentation markdown needs style and structure normalization (terminology, typography, heading rules). Runs Vale and markdownlint when installed and applies the same rules manually when they are absent. Usable standalone or as the final step of feature-docs-write.
+name: docs-feature-style
+description: Use when documentation markdown needs style and structure normalization (terminology, typography, heading rules). Runs Vale and markdownlint when installed and applies the same rules manually when they are absent. Usable standalone or as the final step of docs-feature-write.
 ---
 
-# Feature Docs Style
+# Docs Feature Style
 
 ## Purpose
 
 Normalize documentation style and structure so authors can choose terminology
 and typography without hard-coding rules into every workflow. Works on any
-markdown, and is the optional final step of `feature-docs-write`.
+markdown, and is the optional final step of `docs-feature-write`.
 
 ## Operating Mode
 

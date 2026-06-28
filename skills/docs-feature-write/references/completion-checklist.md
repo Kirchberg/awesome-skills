@@ -12,7 +12,7 @@ A feature documentation pass is done only when:
       under `docs/ai/`), reported explicitly.
 - [ ] Links between domain pages, the feature dossier, ADRs, and changelog are
       present and resolve where checkable.
-- [ ] Style was normalized (via `feature-docs-style` or manually).
+- [ ] Style was normalized (via `docs-feature-style` or manually).
 - [ ] `scripts/check_docs.sh` passed against the output directory.
 
 Report changed files, the output location, the domains touched, and any open
