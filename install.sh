@@ -108,6 +108,11 @@ for dest in "${dests[@]}"; do
     fail "destination '$dest' is this repository's skills/ directory; refusing to install onto the source"
   fi
   echo "==> $dest"
+
+  # Phase 1: swap every requested skill into place BEFORE validating any, so
+  # cross-skill checks (e.g. the collect schema compared against the sibling
+  # write copy) see the fully refreshed pack, not a half-updated tree.
+  installed=()
   for s in "${skills[@]}"; do
     src="$skills_src/$s"
     dst="$dest/$s"
@@ -125,16 +130,22 @@ for dest in "${dests[@]}"; do
     rm -rf "$dst"
     mv "$staging/$s" "$dst"
     rm -rf "$staging"; staging=""
-    line="    installed $s"
-    if [ -f "$dst/scripts/check_skill.sh" ]; then
-      if bash "$dst/scripts/check_skill.sh" >/dev/null 2>&1; then
-        line="$line  (check_skill: ok)"
-      else
-        line="$line  (check_skill: FAILED)"; rc=1
-      fi
-    fi
-    echo "$line"
+    echo "    installed $s"
+    installed+=("$s")
   done
+
+  # Phase 2: validate once the whole requested set has been refreshed.
+  if [ "${#installed[@]}" -gt 0 ]; then
+    for s in "${installed[@]}"; do
+      [ -f "$dest/$s/scripts/check_skill.sh" ] || continue
+      if bash "$dest/$s/scripts/check_skill.sh" >/dev/null 2>&1; then
+        echo "    check $s: ok"
+      else
+        echo "    check $s: FAILED" >&2
+        rc=1
+      fi
+    done
+  fi
 done
 
 if [ "$rc" -ne 0 ]; then
