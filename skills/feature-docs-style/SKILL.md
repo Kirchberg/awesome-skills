@@ -16,8 +16,9 @@ markdown, and is the optional final step of `feature-docs-write`.
 Graceful degradation:
 
 - Detect `vale` and `markdownlint` (or `markdownlint-cli`) on `PATH`.
-- When a tool is present, run it using the shipped example config as a starting
-  point, then apply fixes.
+- When a tool is present, run it with the project's own config if present,
+  otherwise the shipped example config, or skip to manual rules; then apply
+  fixes.
 - When a tool is absent, apply the same rules manually from
   `references/style-rules.md`. Never block on a missing binary.
 - Report which tools ran and which rules were applied manually.
