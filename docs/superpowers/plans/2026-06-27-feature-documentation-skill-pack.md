@@ -362,7 +362,7 @@ agent follows the same taxonomy instead of inventing new buckets.
 
 ## Output Tree
 
-Detect an existing convention first; otherwise default to `docs/ai/`:
+Detect an existing AI-docs location first; otherwise default to `docs/ai/`:
 
 ```text
 docs/ai/
@@ -394,9 +394,11 @@ docs/ai/
 
 ## Convention Detection
 
-- If the project already has an AI-docs location, use it unchanged.
-- If the project documents a docs store, follow it.
-- Only when neither exists, create `docs/ai/`.
+- If the project already has an established AI-docs location (for example an
+  existing `docs/ai/` tree, or a docs store explicitly designated for
+  AI-generated docs), use it unchanged.
+- Otherwise default to `docs/ai/`. Do not route generated docs into a
+  human-curated docs store, even when the project documents one.
 
 ## Segregation Rule
 
