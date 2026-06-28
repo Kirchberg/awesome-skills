@@ -42,6 +42,12 @@ Destinations (override with env vars):
 USAGE
 }
 
+# Absolute, symlink-resolved path of an existing directory (empty if missing).
+canonical_dir() {
+  [ -d "$1" ] || return 0
+  ( cd "$1" && pwd -P )
+}
+
 want_claude=1
 want_codex=1
 install_all=0
@@ -86,20 +92,45 @@ dests=()
 [ "$want_codex" -eq 1 ] && dests+=("$codex_dir")
 [ "${#dests[@]}" -gt 0 ] || fail "no destination selected"
 
+src_root="$(canonical_dir "$skills_src")"
+
+# Clean up an in-progress staging dir if the script is interrupted.
+staging=""
+cleanup() { [ -n "$staging" ] && rm -rf "$staging" 2>/dev/null || true; }
+trap cleanup EXIT
+
 rc=0
 for dest in "${dests[@]}"; do
   mkdir -p "$dest"
+  # Never install onto the repository's own skills/ tree (also catches a
+  # destination that is a symlink to it) — that would delete the source.
+  if [ "$(canonical_dir "$dest")" = "$src_root" ]; then
+    fail "destination '$dest' is this repository's skills/ directory; refusing to install onto the source"
+  fi
   echo "==> $dest"
   for s in "${skills[@]}"; do
-    rm -rf "$dest/$s"
-    cp -R "$skills_src/$s" "$dest/$s"
+    src="$skills_src/$s"
+    dst="$dest/$s"
+    # If the destination already IS the source (e.g. a symlink back to the
+    # repo), leave it untouched instead of deleting the source.
+    if [ -e "$dst" ] && [ "$(canonical_dir "$dst")" = "$(canonical_dir "$src")" ]; then
+      echo "    skip $s (destination is the source)"
+      continue
+    fi
+    # Copy into a staging dir first, then swap into place. The source is only
+    # ever read from; the removal below can only ever target an existing
+    # install under $dest, never the repository source.
+    staging="$(mktemp -d "$dest/.dfinstall.XXXXXX")"
+    cp -R "$src" "$staging/$s"
+    rm -rf "$dst"
+    mv "$staging/$s" "$dst"
+    rm -rf "$staging"; staging=""
     line="    installed $s"
-    if [ -f "$dest/$s/scripts/check_skill.sh" ]; then
-      if bash "$dest/$s/scripts/check_skill.sh" >/dev/null 2>&1; then
+    if [ -f "$dst/scripts/check_skill.sh" ]; then
+      if bash "$dst/scripts/check_skill.sh" >/dev/null 2>&1; then
         line="$line  (check_skill: ok)"
       else
-        line="$line  (check_skill: FAILED)"
-        rc=1
+        line="$line  (check_skill: FAILED)"; rc=1
       fi
     fi
     echo "$line"
