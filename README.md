@@ -104,9 +104,11 @@ Claude and Codex skill directories in one step:
 ```
 
 Destinations default to `~/.claude/skills` and `~/.codex/skills` (override with
-`CLAUDE_SKILLS_DIR` / `CODEX_SKILLS_DIR`). Each installed skill is re-validated
-with its `check_skill.sh`. Restart your Claude/Codex session afterwards to pick
-up changes.
+`CLAUDE_SKILLS_DIR` / `CODEX_SKILLS_DIR`). A named install automatically pulls in
+any required sub-skills (installing `docs-feature-collect` also installs
+`docs-feature-write`). Each installed skill is re-validated with its
+`check_skill.sh`. Restart your Claude/Codex session afterwards to pick up
+changes.
 
 ## Navigation
 

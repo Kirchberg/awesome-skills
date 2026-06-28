@@ -48,6 +48,42 @@ canonical_dir() {
   ( cd "$1" && pwd -P )
 }
 
+# Required sub-skills a skill declares in its SKILL.md, limited to names that are
+# themselves installable skills under skills/. Matches whole tokens so that, for
+# example, "docs-feature-write" is not found inside "docs-feature-write-handoff".
+deps_of() {
+  local sk="$1" reqlines toks name
+  reqlines="$(grep -i 'REQUIRED SUB-SKILL' "$skills_src/$sk/SKILL.md" 2>/dev/null || true)"
+  [ -n "$reqlines" ] || return 0
+  toks=" $(printf '%s' "$reqlines" | tr -c 'A-Za-z0-9-' ' ') "
+  for name in "${avail[@]}"; do
+    [ "$name" = "$sk" ] && continue
+    case "$toks" in
+      *" $name "*) echo "$name" ;;
+    esac
+  done
+}
+
+# Add every requested skill's required sub-skills to the install set so an
+# adapter is never installed alone and left unable to complete its handoff.
+# Runs to a fixpoint so transitive dependencies are covered too.
+expand_required() {
+  local changed=1 sk dep
+  while [ "$changed" -eq 1 ]; do
+    changed=0
+    for sk in "${skills[@]}"; do
+      for dep in $(deps_of "$sk"); do
+        case " ${skills[*]} " in
+          *" $dep "*) ;;
+          *) skills+=("$dep")
+             echo "including required sub-skill '$dep' (needed by '$sk')"
+             changed=1 ;;
+        esac
+      done
+    done
+  done
+}
+
 want_claude=1
 want_codex=1
 install_all=0
@@ -86,6 +122,16 @@ fi
 for s in "${skills[@]}"; do
   test -f "$skills_src/$s/SKILL.md" || fail "unknown skill '$s' (no skills/$s/SKILL.md)"
 done
+
+# All installable skills, used to resolve adapter dependencies.
+avail=()
+for d in "$skills_src"/*/; do
+  [ -f "$d/SKILL.md" ] && avail+=("$(basename "$d")")
+done
+
+# Pull in required sub-skills (e.g. an adapter's core) so a named install of an
+# adapter stays able to complete its documented handoff workflow.
+expand_required
 
 dests=()
 [ "$want_claude" -eq 1 ] && dests+=("$claude_dir")
