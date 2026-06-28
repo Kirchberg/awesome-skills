@@ -22,14 +22,14 @@ skills directory.
   monitors a GitHub PR for ChatGPT Codex Connector review feedback and failing
   PR checks, applies actionable fixes, pushes updates, and requests another
   `@codex review` until the review and checks are clear.
-- [`feature-documentation`](skills/feature-documentation/) turns a feature
+- [`feature-docs-write`](skills/feature-docs-write/) turns a feature
   evidence bundle into durable, domain-structured documentation under `docs/ai/`
   (explanation, reference, how-to, ADRs, changelog) and updates the agent-facing
   surface. It is the self-contained core of the documentation skill pack.
-- [`tracker-feature-handoff`](skills/tracker-feature-handoff/) collects
+- [`feature-docs-collect`](skills/feature-docs-collect/) collects
   read-only feature evidence from a tracker item, change request, or PR,
-  normalizes it, and hands off to `feature-documentation`.
-- [`docs-style-enforcer`](skills/docs-style-enforcer/) normalizes documentation
+  normalizes it, and hands off to `feature-docs-write`.
+- [`feature-docs-style`](skills/feature-docs-style/) normalizes documentation
   style and structure with Vale and markdownlint when present, and applies the
   same rules manually when they are absent.
 
@@ -55,17 +55,17 @@ skills/
     agents/openai.yaml
     references/
     scripts/
-  feature-documentation/
+  feature-docs-write/
     SKILL.md
     agents/openai.yaml
     references/
     scripts/
-  tracker-feature-handoff/
+  feature-docs-collect/
     SKILL.md
     agents/openai.yaml
     references/
     scripts/
-  docs-style-enforcer/
+  feature-docs-style/
     SKILL.md
     agents/openai.yaml
     references/
@@ -165,7 +165,7 @@ Important files:
 - [`skills/github-pr-codex-review-monitor/references/fix-validate-review.md`](skills/github-pr-codex-review-monitor/references/fix-validate-review.md)
 - [`skills/github-pr-codex-review-monitor/scripts/check_skill.sh`](skills/github-pr-codex-review-monitor/scripts/check_skill.sh)
 
-### `feature-documentation`
+### `feature-docs-write`
 
 Use when a finished or in-progress feature needs durable docs for humans and
 agents, routed by domain and written under `docs/ai/`.
@@ -173,34 +173,34 @@ agents, routed by domain and written under `docs/ai/`.
 Default prompt:
 
 ```text
-Use $feature-documentation to write durable, domain-structured docs for this feature under docs/ai/.
+Use $feature-docs-write to write durable, domain-structured docs for this feature under docs/ai/.
 ```
 
 Important files:
 
-- [`skills/feature-documentation/SKILL.md`](skills/feature-documentation/SKILL.md)
-- [`skills/feature-documentation/references/doc-model.md`](skills/feature-documentation/references/doc-model.md)
-- [`skills/feature-documentation/references/feature-doc-template.md`](skills/feature-documentation/references/feature-doc-template.md)
-- [`skills/feature-documentation/scripts/check_docs.sh`](skills/feature-documentation/scripts/check_docs.sh)
+- [`skills/feature-docs-write/SKILL.md`](skills/feature-docs-write/SKILL.md)
+- [`skills/feature-docs-write/references/doc-model.md`](skills/feature-docs-write/references/doc-model.md)
+- [`skills/feature-docs-write/references/feature-doc-template.md`](skills/feature-docs-write/references/feature-doc-template.md)
+- [`skills/feature-docs-write/scripts/check_docs.sh`](skills/feature-docs-write/scripts/check_docs.sh)
 
-### `tracker-feature-handoff`
+### `feature-docs-collect`
 
 Use when documentation should start from a tracker item, change request, or PR,
-collecting evidence read-only before handing off to `feature-documentation`.
+collecting evidence read-only before handing off to `feature-docs-write`.
 
 Default prompt:
 
 ```text
-Use $tracker-feature-handoff to document a shipped feature from its tracker item and change requests.
+Use $feature-docs-collect to document a shipped feature from its tracker item and change requests.
 ```
 
 Important files:
 
-- [`skills/tracker-feature-handoff/SKILL.md`](skills/tracker-feature-handoff/SKILL.md)
-- [`skills/tracker-feature-handoff/references/evidence-collection.md`](skills/tracker-feature-handoff/references/evidence-collection.md)
-- [`skills/tracker-feature-handoff/references/feature-documentation-handoff.md`](skills/tracker-feature-handoff/references/feature-documentation-handoff.md)
+- [`skills/feature-docs-collect/SKILL.md`](skills/feature-docs-collect/SKILL.md)
+- [`skills/feature-docs-collect/references/evidence-collection.md`](skills/feature-docs-collect/references/evidence-collection.md)
+- [`skills/feature-docs-collect/references/feature-docs-write-handoff.md`](skills/feature-docs-collect/references/feature-docs-write-handoff.md)
 
-### `docs-style-enforcer`
+### `feature-docs-style`
 
 Use when documentation markdown needs style and structure normalization, with or
 without Vale and markdownlint installed.
@@ -208,14 +208,14 @@ without Vale and markdownlint installed.
 Default prompt:
 
 ```text
-Use $docs-style-enforcer to normalize the style and structure of these docs.
+Use $feature-docs-style to normalize the style and structure of these docs.
 ```
 
 Important files:
 
-- [`skills/docs-style-enforcer/SKILL.md`](skills/docs-style-enforcer/SKILL.md)
-- [`skills/docs-style-enforcer/references/style-rules.md`](skills/docs-style-enforcer/references/style-rules.md)
-- [`skills/docs-style-enforcer/references/tooling.md`](skills/docs-style-enforcer/references/tooling.md)
+- [`skills/feature-docs-style/SKILL.md`](skills/feature-docs-style/SKILL.md)
+- [`skills/feature-docs-style/references/style-rules.md`](skills/feature-docs-style/references/style-rules.md)
+- [`skills/feature-docs-style/references/tooling.md`](skills/feature-docs-style/references/tooling.md)
 
 ## Maintenance Notes
 

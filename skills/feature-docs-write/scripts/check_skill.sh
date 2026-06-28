@@ -2,7 +2,7 @@
 set -euo pipefail
 
 fail() {
-  echo "feature-documentation check failed: $*" >&2
+  echo "feature-docs-write check failed: $*" >&2
   exit 1
 }
 
@@ -35,13 +35,13 @@ if [[ "$lines" -gt 200 ]]; then
   fail "$skill_file has $lines lines; split details into references/"
 fi
 
-grep -q '^name: feature-documentation$' "$skill_file" || fail "skill name changed"
+grep -q '^name: feature-docs-write$' "$skill_file" || fail "skill name changed"
 grep -q 'docs/ai/' "$skill_file" || fail "docs/ai default output is missing"
 grep -q 'docs/ai/' "$skill_dir/references/doc-model.md" || fail "doc-model docs/ai tree is missing"
 grep -q 'Segregation Rule' "$skill_dir/references/doc-model.md" || fail "segregation rule is missing"
 grep -q 'scripts/check_docs.sh' "$skill_file" || fail "check_docs routing is missing"
-grep -q 'docs-style-enforcer' "$skill_file" || fail "style enforcer handoff is missing"
+grep -q 'feature-docs-style' "$skill_file" || fail "style enforcer handoff is missing"
 grep -q 'self-contained' "$skill_file" || fail "self-contained statement is missing"
 grep -q 'allow_implicit_invocation: true' "$metadata" || fail "implicit invocation policy is missing"
 
-echo "feature-documentation check passed"
+echo "feature-docs-write check passed"

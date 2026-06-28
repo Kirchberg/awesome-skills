@@ -12,9 +12,9 @@ project-agnostic abstractions).
 
 The three skills are:
 
-1. `tracker-feature-handoff` — a read-only evidence adapter.
-2. `feature-documentation` — the core documentation engine.
-3. `docs-style-enforcer` — a style/normalization utility.
+1. `feature-docs-collect` — a read-only evidence adapter.
+2. `feature-docs-write` — the core documentation engine.
+3. `feature-docs-style` — a style/normalization utility.
 
 ## Goals
 
@@ -61,34 +61,34 @@ Composition mirrors this repo's existing `github-issue-development-plan →
 development-plan` adapter→core precedent, extended with a downstream utility:
 
 ```text
-tracker-feature-handoff   (read-only adapter: evidence in)
+feature-docs-collect   (read-only adapter: evidence in)
         │  REQUIRED SUB-SKILL
         ▼
-feature-documentation     (core: route → write → update agent context)
+feature-docs-write     (core: route → write → update agent context)
         │  OPTIONAL final step
         ▼
-docs-style-enforcer       (utility: normalize style; also usable standalone)
+feature-docs-style       (utility: normalize style; also usable standalone)
 ```
 
-- `tracker-feature-handoff` collects and normalizes evidence, then hands off to
-  `feature-documentation`. It never writes docs itself.
-- `feature-documentation` is the core. It can also run directly (collect
+- `feature-docs-collect` collects and normalizes evidence, then hands off to
+  `feature-docs-write`. It never writes docs itself.
+- `feature-docs-write` is the core. It can also run directly (collect
   evidence inline) when no tracker handoff is used. It internally realizes the
   report's *domain-router*, *feature-doc-writer*, and *agent-context-updater*
   components as workflow phases backed by references. It optionally invokes
-  `docs-style-enforcer` as its final step.
-- `docs-style-enforcer` is independently usable on any markdown and is also the
+  `feature-docs-style` as its final step.
+- `feature-docs-style` is independently usable on any markdown and is also the
   core's final normalization step.
 
 The report's five conceptual components map onto the three skills as:
 
 | Report component          | Where it lives                                   |
 | ------------------------- | ------------------------------------------------ |
-| feature-evidence-collector | `tracker-feature-handoff` (+ inline in core)    |
-| domain-router             | `feature-documentation` phase + reference        |
-| feature-doc-writer        | `feature-documentation` phase + reference        |
-| agent-context-updater     | `feature-documentation` phase + reference        |
-| docs-style-enforcer       | `docs-style-enforcer` skill                      |
+| feature-evidence-collector | `feature-docs-collect` (+ inline in core)    |
+| domain-router             | `feature-docs-write` phase + reference        |
+| feature-doc-writer        | `feature-docs-write` phase + reference        |
+| agent-context-updater     | `feature-docs-write` phase + reference        |
+| feature-docs-style       | `feature-docs-style` skill                      |
 
 ## Project-agnostic boundary
 
@@ -146,19 +146,19 @@ Agent-context rule (respecting "AI output stays segregated"):
 
 ## Skill specifications
 
-### 1. `skills/tracker-feature-handoff/`
+### 1. `skills/feature-docs-collect/`
 
 Read-only evidence adapter. Default operating mode: read-only; never mutates
 tracker state or source files.
 
 Files:
 
-- `SKILL.md` — frontmatter `name: tracker-feature-handoff`; description triggers
+- `SKILL.md` — frontmatter `name: feature-docs-collect`; description triggers
   on "document a finished/shipped feature from a tracker item / PR / change
   request". Sections: Purpose, Operating Mode (read-only), Reference Routing,
   Source Resolution (abstract tracker/change-request sources; optional
   `gh`/connector fallbacks), Workflow (resolve → gather → normalize → hand off),
-  Avoid. Declares `feature-documentation` as REQUIRED SUB-SKILL. Stays under the
+  Avoid. Declares `feature-docs-write` as REQUIRED SUB-SKILL. Stays under the
   200-line budget.
 - `references/evidence-collection.md` — what to gather (summary, touched
   domains, linked artifacts, decisions, unresolved questions, operational
@@ -167,19 +167,19 @@ Files:
 - `references/evidence-schema.md` — the normalized evidence-bundle shape (shared
   contract with the core; the core ships an identical copy so each skill is
   independently installable).
-- `references/feature-documentation-handoff.md` — how to pass the bundle to the
+- `references/feature-docs-write-handoff.md` — how to pass the bundle to the
   core and what the core expects.
 - `agents/openai.yaml` — interface + `allow_implicit_invocation: true`.
 - `scripts/check_skill.sh` — validator.
 
-### 2. `skills/feature-documentation/`
+### 2. `skills/feature-docs-write/`
 
 Core engine. Default operating mode: writes durable docs into the active
 project's docs store (under `docs/ai/` by default).
 
 Files:
 
-- `SKILL.md` — frontmatter `name: feature-documentation`; description triggers
+- `SKILL.md` — frontmatter `name: feature-docs-write`; description triggers
   on "create/update durable feature documentation", "document this feature for
   humans and agents". Sections: Purpose, Operating Mode, Reference Routing,
   Workflow (ingest-or-collect evidence → route to domain → write docs → update
@@ -203,13 +203,13 @@ Files:
 - `scripts/check_skill.sh` — validator.
 - `agents/openai.yaml` — interface + `allow_implicit_invocation: true`.
 
-### 3. `skills/docs-style-enforcer/`
+### 3. `skills/feature-docs-style/`
 
 Style/normalization utility with graceful degradation.
 
 Files:
 
-- `SKILL.md` — frontmatter `name: docs-style-enforcer`; description triggers on
+- `SKILL.md` — frontmatter `name: feature-docs-style`; description triggers on
   "normalize/lint documentation style". Sections: Purpose, Operating Mode
   (detect `vale`/`markdownlint`; run if present; else apply rules manually),
   Reference Routing, Workflow, Avoid. Under 200 lines.
@@ -229,7 +229,7 @@ Files:
 Each skill ships `scripts/check_skill.sh` following the existing validator
 style (`set -euo pipefail`, `fail()` helper, presence checks, `SKILL.md` line
 budget ≤ 200, frontmatter `name:` assertion, required routing/guardrail string
-greps, `agents/openai.yaml` policy assertion). `feature-documentation` also
+greps, `agents/openai.yaml` policy assertion). `feature-docs-write` also
 ships `check_docs.sh`. All scripts are executable and pass on a clean checkout.
 
 Manual acceptance: a dry run where the core, given a small synthetic evidence
@@ -262,4 +262,4 @@ both with and without linters installed.
 - Concrete tracker adapters (Jira/GitHub/Arcanum) as separate installable
   sub-skills.
 - An `llms.txt` / MCP search surface for published docs.
-- CI wiring to run `docs-style-enforcer` automatically.
+- CI wiring to run `feature-docs-style` automatically.

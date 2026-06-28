@@ -1,15 +1,15 @@
 ---
-name: docs-style-enforcer
-description: Use when documentation markdown needs style and structure normalization (terminology, typography, heading rules). Runs Vale and markdownlint when installed and applies the same rules manually when they are absent. Usable standalone or as the final step of feature-documentation.
+name: feature-docs-style
+description: Use when documentation markdown needs style and structure normalization (terminology, typography, heading rules). Runs Vale and markdownlint when installed and applies the same rules manually when they are absent. Usable standalone or as the final step of feature-docs-write.
 ---
 
-# Docs Style Enforcer
+# Feature Docs Style
 
 ## Purpose
 
 Normalize documentation style and structure so authors can choose terminology
 and typography without hard-coding rules into every workflow. Works on any
-markdown, and is the optional final step of `feature-documentation`.
+markdown, and is the optional final step of `feature-docs-write`.
 
 ## Operating Mode
 
