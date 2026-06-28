@@ -22,19 +22,24 @@ if [[ "${#md_files[@]}" -eq 0 ]]; then
   fail "no markdown files found under '$target'"
 fi
 
-# Count level-1 ATX headings outside fenced code blocks. Track the opening
-# fence marker (``` or ~~~) and only close on a matching marker, so a snippet
-# that shows one fence style inside the other does not end the block early and
-# cause comment lines to be miscounted as headings.
+# Count level-1 ATX headings outside fenced code blocks. Capture the opening
+# fence's marker character (``` or ~~~) AND its length, and close only on a
+# same-marker run of at least that length followed by whitespace. This keeps a
+# longer fence (e.g. four backticks) wrapping a shorter example (three
+# backticks) from ending early and miscounting comment lines as headings.
 count_h1() {
   awk '
     {
-      marker = ""
-      if ($0 ~ /^[ ]*```/) marker = "`"
-      if (marker == "" && $0 ~ /^[ ]*~~~/) marker = "~"
-      if (marker != "") {
-        if (!in_fence) { in_fence = 1; fence = marker; next }
-        if (marker == fence) { in_fence = 0; fence = ""; next }
+      if (match($0, /^[ ]*(`+|~+)/)) {
+        seg = substr($0, RSTART, RLENGTH)
+        sub(/^[ ]+/, "", seg)
+        ch = substr(seg, 1, 1)
+        len = length(seg)
+        rest = substr($0, RSTART + RLENGTH)
+        if (len >= 3) {
+          if (!in_fence) { in_fence = 1; fence_ch = ch; fence_len = len; next }
+          if (ch == fence_ch && len >= fence_len && rest ~ /^[ \t]*$/) { in_fence = 0; fence_ch = ""; fence_len = 0; next }
+        }
       }
       if (!in_fence && $0 ~ /^# /) n++
     }
