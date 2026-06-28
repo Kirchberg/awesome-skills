@@ -12,15 +12,15 @@ set -euo pipefail
 #   ./install.sh --codex                  the Codex skills dir only
 #   ./install.sh -h | --help
 #
-# Destination dirs (override with env vars):
-#   CLAUDE_SKILLS_DIR   (default ~/.claude/skills)
-#   CODEX_SKILLS_DIR    (default ~/.codex/skills)
+# Destination dirs, resolved in this order:
+#   Claude: CLAUDE_SKILLS_DIR, else ${CLAUDE_CONFIG_DIR:-~/.claude}/skills
+#   Codex:  CODEX_SKILLS_DIR,  else ${CODEX_HOME:-~/.codex}/skills
 
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 skills_src="$repo_root/skills"
 
-claude_dir="${CLAUDE_SKILLS_DIR:-$HOME/.claude/skills}"
-codex_dir="${CODEX_SKILLS_DIR:-$HOME/.codex/skills}"
+claude_dir="${CLAUDE_SKILLS_DIR:-${CLAUDE_CONFIG_DIR:-$HOME/.claude}/skills}"
+codex_dir="${CODEX_SKILLS_DIR:-${CODEX_HOME:-$HOME/.codex}/skills}"
 
 fail() { echo "install failed: $*" >&2; exit 1; }
 
@@ -36,9 +36,9 @@ Usage:
   ./install.sh --codex                  the Codex skills dir only
   ./install.sh -h | --help
 
-Destinations (override with env vars):
-  CLAUDE_SKILLS_DIR   (default ~/.claude/skills)
-  CODEX_SKILLS_DIR    (default ~/.codex/skills)
+Destinations (resolved in order):
+  Claude: CLAUDE_SKILLS_DIR, else ${CLAUDE_CONFIG_DIR:-~/.claude}/skills
+  Codex:  CODEX_SKILLS_DIR,  else ${CODEX_HOME:-~/.codex}/skills
 USAGE
 }
 
