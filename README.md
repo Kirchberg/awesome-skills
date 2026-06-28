@@ -91,6 +91,23 @@ cp -R skills/development-plan /path/to/project/.agents/skills/development-plan
 Repeat for each skill you want to use. Keep the folder name the same as the
 `name:` field in `SKILL.md`.
 
+### One-command install (Claude + Codex)
+
+Use `install.sh` to (re)install the `docs-feature-*` documentation pack into your
+Claude and Codex skill directories in one step:
+
+```bash
+./install.sh                                        # all docs-feature-* skills, both runtimes
+./install.sh docs-feature-write docs-feature-style  # only the named skills
+./install.sh --all                                  # every skill under skills/
+./install.sh --claude                               # Claude only (--codex for Codex only)
+```
+
+Destinations default to `~/.claude/skills` and `~/.codex/skills` (override with
+`CLAUDE_SKILLS_DIR` / `CODEX_SKILLS_DIR`). Each installed skill is re-validated
+with its `check_skill.sh`. Restart your Claude/Codex session afterwards to pick
+up changes.
+
 ## Navigation
 
 ### `development-plan`
