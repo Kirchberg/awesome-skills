@@ -1,0 +1,7 @@
+interface:
+  display_name: "Docs Feature Style"
+  short_description: "Normalize documentation style"
+  default_prompt: "Use $docs-feature-style to normalize the style and structure of these docs."
+
+policy:
+  allow_implicit_invocation: true

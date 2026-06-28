@@ -22,6 +22,16 @@ skills directory.
   monitors a GitHub PR for ChatGPT Codex Connector review feedback and failing
   PR checks, applies actionable fixes, pushes updates, and requests another
   `@codex review` until the review and checks are clear.
+- [`docs-feature-write`](skills/docs-feature-write/) turns a feature
+  evidence bundle into durable, domain-structured documentation under `docs/ai/`
+  (explanation, reference, how-to, ADRs, changelog) and updates the agent-facing
+  surface. It is the self-contained core of the documentation skill pack.
+- [`docs-feature-collect`](skills/docs-feature-collect/) collects
+  read-only feature evidence from a tracker item, change request, or PR,
+  normalizes it, and hands off to `docs-feature-write`.
+- [`docs-feature-style`](skills/docs-feature-style/) normalizes documentation
+  style and structure with Vale and markdownlint when present, and applies the
+  same rules manually when they are absent.
 
 ## Repository Layout
 
@@ -45,6 +55,22 @@ skills/
     agents/openai.yaml
     references/
     scripts/
+  docs-feature-write/
+    SKILL.md
+    agents/openai.yaml
+    references/
+    scripts/
+  docs-feature-collect/
+    SKILL.md
+    agents/openai.yaml
+    references/
+    scripts/
+  docs-feature-style/
+    SKILL.md
+    agents/openai.yaml
+    references/
+    assets/
+    scripts/
 ```
 
 ## Installation
@@ -64,6 +90,26 @@ cp -R skills/development-plan /path/to/project/.agents/skills/development-plan
 
 Repeat for each skill you want to use. Keep the folder name the same as the
 `name:` field in `SKILL.md`.
+
+### One-command install (Claude + Codex)
+
+Use `install.sh` to (re)install the `docs-feature-*` documentation pack into your
+Claude and Codex skill directories in one step:
+
+```bash
+./install.sh                                        # all docs-feature-* skills, both runtimes
+./install.sh docs-feature-write docs-feature-style  # only the named skills
+./install.sh --all                                  # every skill under skills/
+./install.sh --claude                               # Claude only (--codex for Codex only)
+```
+
+Destinations default to `~/.claude/skills` and `~/.codex/skills`, honoring
+`CLAUDE_CONFIG_DIR` / `CODEX_HOME` when set; the explicit `CLAUDE_SKILLS_DIR` /
+`CODEX_SKILLS_DIR` overrides take precedence. A named install automatically pulls in
+any required sub-skills (installing `docs-feature-collect` also installs
+`docs-feature-write`). Each installed skill is re-validated with its
+`check_skill.sh`. Restart your Claude/Codex session afterwards to pick up
+changes.
 
 ## Navigation
 
@@ -138,6 +184,58 @@ Important files:
 - [`skills/github-pr-codex-review-monitor/references/pr-state-and-checks.md`](skills/github-pr-codex-review-monitor/references/pr-state-and-checks.md)
 - [`skills/github-pr-codex-review-monitor/references/fix-validate-review.md`](skills/github-pr-codex-review-monitor/references/fix-validate-review.md)
 - [`skills/github-pr-codex-review-monitor/scripts/check_skill.sh`](skills/github-pr-codex-review-monitor/scripts/check_skill.sh)
+
+### `docs-feature-write`
+
+Use when a finished or in-progress feature needs durable docs for humans and
+agents, routed by domain and written under `docs/ai/`.
+
+Default prompt:
+
+```text
+Use $docs-feature-write to write durable, domain-structured docs for this feature under docs/ai/.
+```
+
+Important files:
+
+- [`skills/docs-feature-write/SKILL.md`](skills/docs-feature-write/SKILL.md)
+- [`skills/docs-feature-write/references/doc-model.md`](skills/docs-feature-write/references/doc-model.md)
+- [`skills/docs-feature-write/references/feature-doc-template.md`](skills/docs-feature-write/references/feature-doc-template.md)
+- [`skills/docs-feature-write/scripts/check_docs.sh`](skills/docs-feature-write/scripts/check_docs.sh)
+
+### `docs-feature-collect`
+
+Use when documentation should start from a tracker item, change request, or PR,
+collecting evidence read-only before handing off to `docs-feature-write`.
+
+Default prompt:
+
+```text
+Use $docs-feature-collect to document a shipped feature from its tracker item and change requests.
+```
+
+Important files:
+
+- [`skills/docs-feature-collect/SKILL.md`](skills/docs-feature-collect/SKILL.md)
+- [`skills/docs-feature-collect/references/evidence-collection.md`](skills/docs-feature-collect/references/evidence-collection.md)
+- [`skills/docs-feature-collect/references/docs-feature-write-handoff.md`](skills/docs-feature-collect/references/docs-feature-write-handoff.md)
+
+### `docs-feature-style`
+
+Use when documentation markdown needs style and structure normalization, with or
+without Vale and markdownlint installed.
+
+Default prompt:
+
+```text
+Use $docs-feature-style to normalize the style and structure of these docs.
+```
+
+Important files:
+
+- [`skills/docs-feature-style/SKILL.md`](skills/docs-feature-style/SKILL.md)
+- [`skills/docs-feature-style/references/style-rules.md`](skills/docs-feature-style/references/style-rules.md)
+- [`skills/docs-feature-style/references/tooling.md`](skills/docs-feature-style/references/tooling.md)
 
 ## Maintenance Notes
 
