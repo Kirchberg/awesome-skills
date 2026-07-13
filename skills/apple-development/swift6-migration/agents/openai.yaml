@@ -1,0 +1,7 @@
+interface:
+  display_name: "Swift 6 Migration"
+  short_description: "Migrate Apple-platform projects to Swift 6 safely"
+  default_prompt: "Use $swift6-migration to assess this Apple-platform project and create a staged, verifiable Swift 6 migration plan."
+
+policy:
+  allow_implicit_invocation: true

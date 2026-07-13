@@ -1,10 +1,10 @@
 # awesome-skills
 
-A reusable collection skills for AI-native engineering workflows ✨
+A reusable collection of skills for AI-native engineering workflows ✨
 
-This repository is a portable skill library. Each folder under `skills/` is an
-installable agent skill that can be copied into a personal or project-local
-skills directory.
+This repository is a portable skill library. Each skill folder under `skills/`,
+either directly or one category deep, is installable into a personal or
+project-local skills directory.
 
 ## Skills
 
@@ -32,11 +32,20 @@ skills directory.
 - [`docs-feature-style`](skills/docs-feature-style/) normalizes documentation
   style and structure with Vale and markdownlint when present, and applies the
   same rules manually when they are absent.
+- [`swift6-migration`](skills/apple-development/swift6-migration/) audits,
+  plans, executes, and resumes staged migrations of Apple-platform projects to
+  Swift 6 language mode and strict concurrency.
 
 ## Repository Layout
 
 ```text
 skills/
+  apple-development/
+    swift6-migration/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
   development-plan/
     SKILL.md
     agents/openai.yaml
@@ -81,6 +90,13 @@ Install one skill by copying its folder into your personal skills directory:
 cp -R skills/development-plan "$SKILLS_HOME/development-plan"
 ```
 
+Categorized skills are installed by their skill name rather than their category
+path:
+
+```bash
+./install.sh swift6-migration
+```
+
 Install into a specific project by copying the folder into that project's local
 skills directory:
 
@@ -99,7 +115,7 @@ Claude and Codex skill directories in one step:
 ```bash
 ./install.sh                                        # all docs-feature-* skills, both runtimes
 ./install.sh docs-feature-write docs-feature-style  # only the named skills
-./install.sh --all                                  # every skill under skills/
+./install.sh --all                                  # every skill, including categorized skills
 ./install.sh --claude                               # Claude only (--codex for Codex only)
 ```
 
@@ -237,10 +253,32 @@ Important files:
 - [`skills/docs-feature-style/references/style-rules.md`](skills/docs-feature-style/references/style-rules.md)
 - [`skills/docs-feature-style/references/tooling.md`](skills/docs-feature-style/references/tooling.md)
 
+### Apple development / `swift6-migration`
+
+Use when an Xcode, Tuist, XcodeGen, or SwiftPM project needs a target-aware,
+dependency-aware migration to Swift 6 language mode and strict concurrency.
+
+Default prompt:
+
+```text
+Use $swift6-migration to assess this Apple-platform project and create a staged, verifiable Swift 6 migration plan.
+```
+
+Important files:
+
+- [`skills/apple-development/swift6-migration/SKILL.md`](skills/apple-development/swift6-migration/SKILL.md)
+- [`skills/apple-development/swift6-migration/references/methodology.md`](skills/apple-development/swift6-migration/references/methodology.md)
+- [`skills/apple-development/swift6-migration/references/conversion-guide.md`](skills/apple-development/swift6-migration/references/conversion-guide.md)
+- [`skills/apple-development/swift6-migration/references/recipes.md`](skills/apple-development/swift6-migration/references/recipes.md)
+- [`skills/apple-development/swift6-migration/scripts/check_skill.sh`](skills/apple-development/swift6-migration/scripts/check_skill.sh)
+
 ## Maintenance Notes
 
 - Keep `SKILL.md` concise and move detailed procedures into one-level
   `references/` files.
+- Place broad skills directly under `skills/`. Use one category directory for
+  domain collections such as `skills/apple-development/`; skill names must stay
+  unique because installation destinations are flat.
 - Keep skills project-agnostic: avoid hard-coded repository names, app names,
   branch names, and product-specific paths.
 - Keep runtime state out of this repository. For example,
