@@ -52,7 +52,7 @@ A migration request does not imply permission to commit, push, or open a pull re
 ## Start safely
 
 1. Read the repository's root and nearest local agent instructions.
-2. Inspect version-control status and stop on the default branch or an unrelated dirty worktree.
+2. Inspect version-control status. A clean default-branch checkout is allowed for a read-only readiness audit; require a non-default branch before source edits or version-control actions. Stop on an unrelated dirty worktree.
 3. Resume from existing state only after validating it against `references/state-schema.md`.
 4. Inventory targets, language modes, configuration sources, dependencies, consumers, schemes, test plans, platforms, and variants without editing files.
 5. Identify settings shared by multiple targets before changing any shared helper or configuration file.
