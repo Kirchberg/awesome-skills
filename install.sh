@@ -7,7 +7,7 @@ set -euo pipefail
 # Usage:
 #   ./install.sh                          all docs-feature-* skills into both runtimes
 #   ./install.sh <skill> [<skill>...]     only the named skills
-#   ./install.sh --all                    every skill under skills/
+#   ./install.sh --all                    every skill under skills/, including categories
 #   ./install.sh --claude                 the Claude skills dir only
 #   ./install.sh --codex                  the Codex skills dir only
 #   ./install.sh -h | --help
@@ -31,7 +31,7 @@ install.sh — (re)install skills into Claude and Codex in one command.
 Usage:
   ./install.sh                          all docs-feature-* skills into both runtimes
   ./install.sh <skill> [<skill>...]     only the named skills
-  ./install.sh --all                    every skill under skills/
+  ./install.sh --all                    every skill under skills/, including categories
   ./install.sh --claude                 the Claude skills dir only
   ./install.sh --codex                  the Codex skills dir only
   ./install.sh -h | --help
@@ -52,8 +52,9 @@ canonical_dir() {
 # themselves installable skills under skills/. Matches whole tokens so that, for
 # example, "docs-feature-write" is not found inside "docs-feature-write-handoff".
 deps_of() {
-  local sk="$1" reqlines toks name
-  reqlines="$(grep -i 'REQUIRED SUB-SKILL' "$skills_src/$sk/SKILL.md" 2>/dev/null || true)"
+  local sk="$1" reqlines toks name src
+  src="$(source_for "$sk")"
+  reqlines="$(grep -i 'REQUIRED SUB-SKILL' "$src/SKILL.md" 2>/dev/null || true)"
   [ -n "$reqlines" ] || return 0
   toks=" $(printf '%s' "$reqlines" | tr -c 'A-Za-z0-9-' ' ') "
   for name in "${avail[@]}"; do
@@ -103,12 +104,38 @@ done
 
 test -d "$skills_src" || fail "skills/ not found at $skills_src"
 
+# Installable skills may live directly under skills/ or one category deeper,
+# for example skills/apple-development/swift6-migration/. Skill names must be
+# unique because installation destinations are intentionally flat.
+avail=()
+avail_srcs=()
+for d in "$skills_src"/*/ "$skills_src"/*/*/; do
+  [ -f "$d/SKILL.md" ] || continue
+  name="$(basename "$d")"
+  if [ "${#avail[@]}" -gt 0 ]; then
+    case " ${avail[*]} " in
+      *" $name "*) fail "duplicate skill name '$name' under skills/" ;;
+    esac
+  fi
+  avail+=("$name")
+  avail_srcs+=("${d%/}")
+done
+
+source_for() {
+  local requested="$1" i
+  for i in "${!avail[@]}"; do
+    if [ "${avail[$i]}" = "$requested" ]; then
+      printf '%s\n' "${avail_srcs[$i]}"
+      return 0
+    fi
+  done
+  return 1
+}
+
 # Resolve the skill list when none were named.
 if [ "${#skills[@]}" -eq 0 ]; then
   if [ "$install_all" -eq 1 ]; then
-    for d in "$skills_src"/*/; do
-      [ -f "$d/SKILL.md" ] && skills+=("$(basename "$d")")
-    done
+    skills=("${avail[@]}")
   else
     for d in "$skills_src"/docs-feature-*/; do
       [ -d "$d" ] && [ -f "$d/SKILL.md" ] && skills+=("$(basename "$d")")
@@ -120,13 +147,7 @@ fi
 
 # Validate every requested skill exists before touching any destination.
 for s in "${skills[@]}"; do
-  test -f "$skills_src/$s/SKILL.md" || fail "unknown skill '$s' (no skills/$s/SKILL.md)"
-done
-
-# All installable skills, used to resolve adapter dependencies.
-avail=()
-for d in "$skills_src"/*/; do
-  [ -f "$d/SKILL.md" ] && avail+=("$(basename "$d")")
+  source_for "$s" >/dev/null || fail "unknown skill '$s'"
 done
 
 # Pull in required sub-skills (e.g. an adapter's core) so a named install of an
@@ -160,7 +181,7 @@ for dest in "${dests[@]}"; do
   # write copy) see the fully refreshed pack, not a half-updated tree.
   installed=()
   for s in "${skills[@]}"; do
-    src="$skills_src/$s"
+    src="$(source_for "$s")"
     dst="$dest/$s"
     # If the destination already IS the source (e.g. a symlink back to the
     # repo), leave it untouched instead of deleting the source.
