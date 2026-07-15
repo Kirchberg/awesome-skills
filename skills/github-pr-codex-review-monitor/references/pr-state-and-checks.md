@@ -1,8 +1,8 @@
 # PR State And Checks
 
-## Thread Automations
+## Codex App Thread Automations
 
-When running inside an agent app and an automation tool is available, use an
+When running inside the Codex app and an automation tool is available, use an
 in-chat heartbeat automation to keep the current thread monitoring the PR every
 10 minutes.
 
@@ -15,12 +15,16 @@ Rules:
   thread; update or reuse the existing one when possible.
 - The automation prompt must identify the PR, fetch fresh connector feedback and
   checks, process actionable suggestions and failing checks, validate, commit,
-  push, comment `@codex review`, and stop only on terminal success plus passing
-  checks, PR closure/merge, or an unrecoverable blocker.
-- Keep dedupe state in `.git/pr-review-monitor-state.json`; heartbeat is
+  push, comment `@codex review`, and stop on terminal success plus passing
+  checks, PR closure/merge, an unrecoverable blocker, or the bounded Connector
+  silence timeout.
+- Keep dedupe state in the path from
+  `git rev-parse --git-path codex-pr-review-monitor-state.json`; heartbeat is
   only the wake-up mechanism.
-- If terminal success, PR closure/merge, or an unrecoverable blocker is reached,
-  pause or delete the heartbeat before the final summary.
+- If any terminal outcome is reached, including Connector silence, pause or
+  delete the heartbeat before the final summary.
+- Treat Connector silence as a stop without approval; the default 60-minute
+  timeout is overridden only by an explicit user-supplied duration.
 - If current-thread automations are unavailable, continue with `sleep 600`.
 
 ## Fetching PR Data
@@ -112,7 +116,7 @@ required/current PR checks pass. Examples include:
 - No blocking issues found.
 - Review passed.
 - Nothing major to fix.
-- Looks good from review.
+- Looks good from Codex review.
 
 The terminal success message is current only when it is connector-authored and
 newer than the last `@codex review` request timestamp stored in local state when
@@ -124,20 +128,57 @@ Do not stop on an older success message that predates current HEAD, last pushed
 fix commit, or last `@codex review` request. Do not stop while any current-head
 required PR check is pending, failing, missing, or action-required.
 
+## Bounded Connector Silence
+
+Default to a 60-minute silence timeout unless the user specifies another
+duration. Start the window at the latest `@codex review` request; if the monitor
+has not posted a request in this run, start it at monitor startup. Connector
+silence means no connector-authored issue comment, review, review comment, or
+inline event newer than that timestamp.
+
+Fetch fresh PR data every 10 minutes during the window. Any connector-authored
+response ends the current silence window. If a fix is later pushed and a new
+`@codex review` request is posted, start a new window at that request.
+
+When the window expires:
+
+1. Fetch connector events and current-head checks one final time.
+2. Stop the heartbeat automation and any local polling.
+3. Do not infer approval from green checks or from the absence of findings.
+4. Do not create an evidence/no-op commit or post another `@codex review` merely
+   to restart the Connector.
+5. Report the latest checks and that no Connector verdict was received.
+6. Leave the PR and branch unchanged; require an explicit user request to
+   resume or retry monitoring.
+
+Treat this as a bounded monitor outcome, not terminal review success and not an
+unrecoverable blocker.
+
 ## Local State
 
-Keep dedupe state inside `.git`, never in the repository working tree:
+Keep dedupe state inside the real Git directory, never in the repository
+working tree. Resolve the path with Git so normal checkouts and linked
+worktrees both work:
 
-```text
-.git/pr-review-monitor-state.json
+```bash
+STATE_FILE="$(git rev-parse --git-path codex-pr-review-monitor-state.json)"
+mkdir -p "$(dirname "$STATE_FILE")"
 ```
 
-Track PR number, last checked timestamp, processed issue/review/review-comment
+In an ordinary checkout this usually resolves under `.git/`. In a linked
+worktree, `.git` is a gitdir file, so never write the state by concatenating the
+literal `.git/codex-pr-review-monitor-state.json` path.
+
+Track PR number, monitor-cycle start timestamp, last Connector response
+timestamp, silence-timeout minutes, last checked timestamp,
+processed issue/review/review-comment
 IDs, hashes of processed suggestion text, processed failing check IDs or names
 plus failure hashes, last observed PR head SHA and check conclusions, rerun
 attempts, last pushed commit SHA, last `@codex review` request timestamp and
 commit SHA, processed suggestion batch count, and active heartbeat automation ID
-when one exists.
+when one exists. Also track monitor start time, silence start time, configured
+silence timeout, last Connector event time, consecutive silent checks, and the
+terminal stop reason.
 
 If no state exists, initialize it. If a message was already processed and the
 underlying issue is already fixed, mark it processed without creating a commit.

@@ -55,7 +55,7 @@ Infer relevant validation from the repository:
 Run targeted checks first, then broader checks when practical. Treat failing PR
 checks as validation failures for the current branch. If local validation or
 current-head PR checks fail because of applied changes, fix them before
-requesting another connector review. If failures are pre-existing, external, flaky,
+requesting another Codex review. If failures are pre-existing, external, flaky,
 or unrelated, report that clearly and commit only when the applied fix is safe.
 
 ## Git Workflow
@@ -71,7 +71,7 @@ Commit behavior:
 
 - Prefer one clear commit for one coherent connector review batch.
 - Use separate commits only when suggestions are unrelated and large.
-- Use concise commit messages such as `fix: address connector review suggestions`.
+- Use concise commit messages such as `fix: address Codex review suggestions`.
 
 After committing:
 
@@ -122,6 +122,10 @@ used, and next check time.
 
 Avoid raw API dumps unless debugging requires them.
 
+On a Connector-silence timeout, use the dedicated stopped-after-silence output
+from `SKILL.md`. Do not label the outcome complete, successful, or blocked. Stop
+all waiting mechanisms before returning control to the user.
+
 ## Error Handling
 
 - If GitHub authentication fails, report it and stop safely.
@@ -135,6 +139,9 @@ Avoid raw API dumps unless debugging requires them.
   flaky, or unrelated, skip it with a reason, continue processing other valid
   items, and request another review only if at least one fix was committed and
   pushed.
+- If the Connector returns an explicit service error instead of a review
+  verdict, report the error and stop safely. Do not enter another wait cycle or
+  retry unless the user explicitly asks.
 
 ## Invocation Prompts
 
@@ -143,15 +150,15 @@ Current PR:
 ```text
 Monitor the current GitHub Pull Request for ChatGPT Codex Connector review feedback.
 
-Every 10 minutes, check the PR for new automated review suggestions from `chatgpt-codex-connector` and for failing PR checks on the current head commit. Apply all actionable suggestions and immediately fix actionable failing checks, validate the changes, commit and push them to the PR branch, then comment `@codex review` from my GitHub account. Use a current-thread heartbeat automation for the wait cadence when available. Keep the current agent session alive and continue monitoring until the connector reports that it did not find any major issues and required/current PR checks pass.
+Every 10 minutes, check the PR for new automated review suggestions from `chatgpt-codex-connector` and for failing PR checks on the current head commit. Apply all actionable suggestions and immediately fix actionable failing checks, validate the changes, commit and push them to the PR branch, then comment `@codex review` from my GitHub account. Use a current-thread Codex App heartbeat automation for the wait cadence when available. Keep the current Codex session alive and continue monitoring until the Codex Connector reports that it did not find any major issues and required/current PR checks pass, or stop without claiming success after 60 minutes with no Connector response in the current review cycle.
 ```
 
 Specific PR:
 
 ```text
-Use the GitHub PR review monitor skill for this PR:
+Use the GitHub PR Codex Review Monitor skill for this PR:
 
 <PR_URL>
 
-Stay in the current session. Check every 10 minutes. Use a current-thread heartbeat automation for the wait cadence when available. Process every actionable review suggestion from the ChatGPT Codex Connector GitHub App and every actionable failing PR check on the current head commit, commit and push fixes, then comment `@codex review`. Continue until the app posts a terminal success message equivalent to "no major issues found" and required/current PR checks pass.
+Stay in the current session. Check every 10 minutes. Use a current-thread Codex App heartbeat automation for the wait cadence when available. Process every actionable review suggestion from the ChatGPT Codex Connector GitHub App and every actionable failing PR check on the current head commit, commit and push fixes, then comment `@codex review`. Continue until the app posts a terminal success message equivalent to "Codex Review: Didn't find any major issues" and required/current PR checks pass, or stop without claiming success after 60 minutes with no Connector response in the current review cycle.
 ```

@@ -186,12 +186,13 @@ Important files:
 ### `github-pr-codex-review-monitor`
 
 Use when a PR needs a live monitor loop for ChatGPT Codex Connector comments,
-failing PR checks, fix commits, and follow-up `@codex review` requests.
+failing PR checks, fix commits, and follow-up `@codex review` requests. The loop
+stops without claiming approval after 60 minutes of Connector silence.
 
 Default prompt:
 
 ```text
-Use $github-pr-codex-review-monitor to monitor this PR until connector review feedback and required checks are clear.
+Use $github-pr-codex-review-monitor to monitor this PR until Codex review feedback and required checks are clear, or stop after 60 minutes of Connector silence without claiming approval.
 ```
 
 Important files:
