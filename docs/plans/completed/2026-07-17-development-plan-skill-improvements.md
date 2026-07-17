@@ -6,9 +6,9 @@ imperfect checks, and adding deterministic validation plus independent
 forward-tests.
 
 - Mode: full
-- Status: active
+- Status: completed
 - Saved plan:
-  `docs/plans/active/2026-07-17-development-plan-skill-improvements.md`
+  `docs/plans/completed/2026-07-17-development-plan-skill-improvements.md`
 
 ## Task intake
 
@@ -33,7 +33,7 @@ In scope:
 - [x] Clarify that plans and ownership do not grant new authority.
 - [x] Add deterministic skill validation and update repository navigation.
 - [x] Complete final routing smoke tests.
-- [ ] Publish the branch and PR.
+- [x] Publish the branch and PR.
 
 Out of scope:
 
@@ -106,7 +106,7 @@ resumability where risk requires them.
 
 ### Verification
 
-- [x] `SKILL.md` remains under 200 lines (140 after the final mode changes).
+- [x] `SKILL.md` remains under 200 lines (141 after the final mode changes).
 - [x] Medium CLI forward-test selected compact mode with four actions,
   `Status: proposed`, shared validation, and no invented repository paths.
 - [x] Full debugging forward-test selected full mode and used step-local gates.
@@ -216,21 +216,21 @@ to the correct mode-specific references.
 
 ### Objective and expected result
 
-Publish one focused commit from the dedicated branch and open a draft PR against
-current `main`.
+Publish the focused implementation commit from the dedicated branch, open a
+draft PR against current `main`, and add this completed lifecycle record.
 
 ### Actions
 
-- [ ] Finalize validation evidence and move this plan to `completed/`.
-- [ ] Review and stage only intended files.
-- [ ] Commit with a concise message and push the tracking branch.
-- [ ] Open a draft PR through the authenticated GitHub connector.
+- [x] Finalize validation evidence and move this plan to `completed/`.
+- [x] Review and stage only intended files.
+- [x] Commit with a concise message and push the tracking branch.
+- [x] Open a draft PR through the authenticated GitHub connector.
 
 ### Verification
 
-- [ ] Staged and committed paths match the reviewed scope.
-- [ ] Remote head matches the validated local commit.
-- [ ] PR targets `main` and records changes, rationale, impact, and checks.
+- [x] Staged and committed paths match the reviewed scope.
+- [x] Remote implementation head matched commit `d2870e0` after push.
+- [x] PR #3 targets `main` and records changes, rationale, impact, and checks.
 
 ### Quality gate and failure response
 
@@ -240,10 +240,13 @@ current `main`.
 
 ### Completion evidence
 
-- Implemented:
-- Verified by:
-- Check outcomes:
-- Fixes or re-planning:
+- Implemented: committed the reviewed implementation as `d2870e0`, pushed
+  `agent/improve-development-plan-skill`, and opened draft PR #3 against `main`.
+- Verified by: explicit staged-diff review, successful `git push -u`, and the
+  GitHub connector response reporting base `main` and head `d2870e0`.
+- Check outcomes: passed; this completed-plan move is the final bookkeeping
+  update to the same PR branch.
+- Fixes or re-planning: none.
 
 ## Validation plan
 
@@ -255,7 +258,7 @@ current `main`.
 - [x] Full ambiguous-debugging behavior and baseline failure handling.
 - [x] Long-running migration behavior and rollback boundaries.
 - [x] Final post-split routing smoke tests.
-- [ ] Final staged-diff and remote-commit verification.
+- [x] Final staged-diff and remote-commit verification.
 
 ## Subagent strategy
 
@@ -278,8 +281,8 @@ current `main`.
 
 ## Final Definition of Done
 
-- [ ] Every step passed its quality gate.
-- [ ] All deterministic and behavioral checks passed.
-- [ ] The completed plan records final evidence at its lifecycle destination.
-- [ ] The dedicated branch is pushed from the validated commit.
-- [ ] A draft PR against `main` is open with validation evidence.
+- [x] Every step passed its quality gate.
+- [x] All deterministic and behavioral checks passed.
+- [x] The completed plan records final evidence at its lifecycle destination.
+- [x] The dedicated branch is pushed from the validated commit.
+- [x] A draft PR against `main` is open with validation evidence.
