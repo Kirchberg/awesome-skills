@@ -1,7 +1,7 @@
 interface:
   display_name: "Development Plan"
-  short_description: "Create executable implementation plans"
-  default_prompt: "Use $development-plan to turn this medium-sized implementation request into a saved, verifiable plan."
+  short_description: "Create adaptive, verifiable implementation plans"
+  default_prompt: "Use $development-plan to choose the right planning depth and create a saved, verifiable implementation plan."
 
 policy:
   allow_implicit_invocation: true

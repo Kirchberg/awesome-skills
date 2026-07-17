@@ -8,9 +8,10 @@ project-local skills directory.
 
 ## Skills
 
-- [`development-plan`](skills/development-plan/) creates executable
-  implementation plans for medium and large engineering tasks, including saved
-  plans, validation steps, quality gates, and progress tracking.
+- [`development-plan`](skills/development-plan/) creates adaptive, executable
+  plans for medium and large engineering tasks, selecting compact, full, or
+  long-running depth while preserving saved-plan lifecycle, validation evidence,
+  quality gates, and truthful handling of unresolved checks.
 - [`agent-autonomous-loop`](skills/agent-autonomous-loop/) runs an explicit,
   bounded multi-round handoff loop through fresh worker agents, with a
   review-only completion gate after the latest source changes. It is opt-in
@@ -50,6 +51,7 @@ skills/
     SKILL.md
     agents/openai.yaml
     references/
+    scripts/
   agent-autonomous-loop/
     SKILL.md
     agents/openai.yaml
@@ -131,20 +133,24 @@ changes.
 
 ### `development-plan`
 
-Use when a task is large enough that a saved, verifiable plan is safer than
-editing immediately.
+Use when a task needs a saved, verifiable plan before editing. The skill keeps
+ordinary medium work compact and escalates to full or long-running structure
+for risky, ambiguous, cross-boundary, or resumable work.
 
 Default prompt:
 
 ```text
-Use $development-plan to turn this medium-sized implementation request into a saved, verifiable plan.
+Use $development-plan to choose the right planning depth and create a saved, verifiable implementation plan.
 ```
 
 Important files:
 
 - [`skills/development-plan/SKILL.md`](skills/development-plan/SKILL.md)
 - [`skills/development-plan/references/core-planning-rules.md`](skills/development-plan/references/core-planning-rules.md)
-- [`skills/development-plan/references/plan-template.md`](skills/development-plan/references/plan-template.md)
+- [`skills/development-plan/references/compact-plan-template.md`](skills/development-plan/references/compact-plan-template.md)
+- [`skills/development-plan/references/full-plan-template.md`](skills/development-plan/references/full-plan-template.md)
+- [`skills/development-plan/references/long-running-addendum.md`](skills/development-plan/references/long-running-addendum.md)
+- [`skills/development-plan/scripts/check_skill.sh`](skills/development-plan/scripts/check_skill.sh)
 
 ### `agent-autonomous-loop`
 
