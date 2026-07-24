@@ -1,0 +1,7 @@
+interface:
+  display_name: "App Performance"
+  short_description: "Diagnose and improve Apple app performance"
+  default_prompt: "Use $app-performance to classify this Apple app performance request, define its measurement contract, gather only authorized evidence, and report the supported result."
+
+policy:
+  allow_implicit_invocation: true

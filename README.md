@@ -40,12 +40,20 @@ project-local skills directory.
   creates, refactors, reviews, and profiles SwiftUI views with narrow
   dependencies, stable identity, efficient Observation, and measured update
   performance.
+- [`app-performance`](skills/apple-development/app-performance/) diagnoses,
+  measures, improves, and regression-tests Apple-platform app performance
+  across responsiveness, CPU, memory, graphics, power, storage, and networking.
 
 ## Repository Layout
 
 ```text
 skills/
   apple-development/
+    app-performance/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
     swift6-migration/
       SKILL.md
       agents/openai.yaml
@@ -106,6 +114,7 @@ path:
 
 ```bash
 ./install.sh swift6-migration
+./install.sh app-performance
 ```
 
 Install into a specific project by copying the folder into that project's local
@@ -309,6 +318,30 @@ Important files:
 - [`skills/apple-development/swiftui-optimization/references/profiling.md`](skills/apple-development/swiftui-optimization/references/profiling.md)
 - [`skills/apple-development/swiftui-optimization/references/source-notes.md`](skills/apple-development/swiftui-optimization/references/source-notes.md)
 - [`skills/apple-development/swiftui-optimization/scripts/check_skill.sh`](skills/apple-development/swiftui-optimization/scripts/check_skill.sh)
+
+### Apple development / `app-performance`
+
+Use when an iOS, iPadOS, macOS, watchOS, tvOS, or visionOS app needs an
+evidence-driven performance plan, diagnosis, improvement, or regression guard
+using Xcode, Instruments, Organizer, MetricKit, and XCTest.
+
+Default prompt:
+
+```text
+Use $app-performance to classify this Apple app performance request, define its measurement contract, gather only authorized evidence, and report the supported result.
+```
+
+Important files:
+
+- [`skills/apple-development/app-performance/SKILL.md`](skills/apple-development/app-performance/SKILL.md)
+- [`skills/apple-development/app-performance/references/methodology.md`](skills/apple-development/app-performance/references/methodology.md)
+- [`skills/apple-development/app-performance/references/tools-and-evidence.md`](skills/apple-development/app-performance/references/tools-and-evidence.md)
+- [`skills/apple-development/app-performance/references/responsiveness.md`](skills/apple-development/app-performance/references/responsiveness.md)
+- [`skills/apple-development/app-performance/references/cpu-memory-size.md`](skills/apple-development/app-performance/references/cpu-memory-size.md)
+- [`skills/apple-development/app-performance/references/power-storage-network.md`](skills/apple-development/app-performance/references/power-storage-network.md)
+- [`skills/apple-development/app-performance/references/graphics.md`](skills/apple-development/app-performance/references/graphics.md)
+- [`skills/apple-development/app-performance/references/apple-source-map.md`](skills/apple-development/app-performance/references/apple-source-map.md)
+- [`skills/apple-development/app-performance/scripts/check_skill.sh`](skills/apple-development/app-performance/scripts/check_skill.sh)
 
 ## Maintenance Notes
 
