@@ -36,6 +36,10 @@ project-local skills directory.
 - [`swift6-migration`](skills/apple-development/swift6-migration/) audits,
   plans, executes, and resumes staged migrations of Apple-platform projects to
   Swift 6 language mode and strict concurrency.
+- [`swiftui-optimization`](skills/apple-development/swiftui-optimization/)
+  creates, refactors, reviews, and profiles SwiftUI views with narrow
+  dependencies, stable identity, efficient Observation, and measured update
+  performance.
 
 ## Repository Layout
 
@@ -43,6 +47,11 @@ project-local skills directory.
 skills/
   apple-development/
     swift6-migration/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    swiftui-optimization/
       SKILL.md
       agents/openai.yaml
       references/
@@ -278,6 +287,28 @@ Important files:
 - [`skills/apple-development/swift6-migration/references/conversion-guide.md`](skills/apple-development/swift6-migration/references/conversion-guide.md)
 - [`skills/apple-development/swift6-migration/references/recipes.md`](skills/apple-development/swift6-migration/references/recipes.md)
 - [`skills/apple-development/swift6-migration/scripts/check_skill.sh`](skills/apple-development/swift6-migration/scripts/check_skill.sh)
+
+### Apple development / `swiftui-optimization`
+
+Use when SwiftUI views or screens need to be created, refactored, reviewed, or
+profiled with explicit dependency, Observation, identity, and hitch-performance
+guardrails.
+
+Default prompt:
+
+```text
+Use $swiftui-optimization to build or refactor this SwiftUI view for correct, measurable update performance.
+```
+
+Important files:
+
+- [`skills/apple-development/swiftui-optimization/SKILL.md`](skills/apple-development/swiftui-optimization/SKILL.md)
+- [`skills/apple-development/swiftui-optimization/references/data-flow-and-diffing.md`](skills/apple-development/swiftui-optimization/references/data-flow-and-diffing.md)
+- [`skills/apple-development/swiftui-optimization/references/observation.md`](skills/apple-development/swiftui-optimization/references/observation.md)
+- [`skills/apple-development/swiftui-optimization/references/construction-patterns.md`](skills/apple-development/swiftui-optimization/references/construction-patterns.md)
+- [`skills/apple-development/swiftui-optimization/references/profiling.md`](skills/apple-development/swiftui-optimization/references/profiling.md)
+- [`skills/apple-development/swiftui-optimization/references/source-notes.md`](skills/apple-development/swiftui-optimization/references/source-notes.md)
+- [`skills/apple-development/swiftui-optimization/scripts/check_skill.sh`](skills/apple-development/swiftui-optimization/scripts/check_skill.sh)
 
 ## Maintenance Notes
 
