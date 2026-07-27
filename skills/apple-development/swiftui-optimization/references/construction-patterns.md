@@ -4,10 +4,9 @@
 
 - Keep initialization and body work cheap
 - Scope event and observation sources
-- Build scalable collections
+- Coordinate presentation and navigation state
 - Control layout dependencies
 - Scope animation work
-- Handle images explicitly
 - Keep version-specific workarounds quarantined
 
 ## Keep initialization and body work cheap
@@ -39,7 +38,9 @@ Use `.task(id:)` when the input defines the work identity:
 ```
 
 Ensure `loadProduct` checks cancellation and does not publish a stale result for
-an old ID.
+an old ID. Treat `CancellationError` as expected lifecycle behavior, not as a
+user-facing failure. Do not replace a view-scoped task with an untracked
+unstructured task merely to keep work alive.
 
 ## Scope event and observation sources
 
@@ -48,45 +49,34 @@ high-frequency observable data in the smallest child that uses them. Remove
 unused dynamic-property declarations; legacy environment or observable objects
 can invalidate a view even when the displayed content is unrelated.
 
-Do not store an escaping closure that builds static child content when the
-content can be produced once in the container initializer and stored as a
-generic `Content`. This rule does not ban action closures or parameterized
-collection closures.
+For static generic child content, evaluate a nonescaping builder during each
+container initialization and store the resulting `Content` value instead of
+retaining the builder for later invocation. A `View` initializer can still run
+many times. This rule does not ban action closures or parameterized collection
+closures.
 
-## Build scalable collections
+## Coordinate presentation and navigation state
 
-- Prefer `List` when its interaction, reuse, accessibility, and platform
-  behavior match the product.
-- Use lazy stacks or grids when off-screen construction is a measured problem
-  and their layout semantics fit.
-- Supply a `RandomAccessCollection` or a precomputed array for large data when
-  repeated conversion or traversal is measurable.
-- Precompute filtered and sorted collections outside the hot `body` path.
-- Keep identifiers cheap; `List` and `Table` collect row identities eagerly
-  even though row content is generally built lazily.
-- Keep a constant number of top-level rows per `ForEach` element on a
-  performance-sensitive lazy path.
+Give each sheet, popover, navigation path, and selection one authoritative
+owner. Do not drive the same transition by mutating a path or binding and
+calling `dismiss()` independently.
 
-Prefer:
+Interactive sheet dismissal and back gestures have updated their associated
+state after the visual transition on some framework releases. Do not assume
+that presentation, gesture, and bound state become final in the same callback.
 
-```swift
-let visibleItems: [Item]
+- When application state owns the route, mutate that state through its binding
+  or path.
+- When the presented context owns only the act of dismissal, use the
+  environment action and observe the authoritative state transition separately.
+- Sequence dependent work from a public completion or an observed state
+  transition when the supported OS provides one.
+- Test rapid dismiss-then-back, back-while-scrolling, cancellation, and
+  interactive gesture paths on the deployment matrix.
 
-List(visibleItems) { item in
-    ItemRow(item: item)
-}
-```
-
-over filtering with a conditional inside `ForEach`. When a condition must stay
-inside an element, a stable outer row container can preserve one row per
-element; verify the semantics and profile the supported OS versions.
-
-Avoid redundant `.id` modifiers on large list rows. They can reset lifetime and
-have inhibited lazy behavior in observed framework versions. Add one only for a
-specific identity or scrolling requirement and profile that configuration.
-
-Do not treat a lazy container as a memory-eviction guarantee. Off-screen state
-or decoded resources may remain alive.
+Do not repair a race with an arbitrary `asyncAfter`, duplicate path mutation,
+or disabled gesture unless a minimal reproduction and OS-specific test justify
+that workaround.
 
 ## Control layout dependencies
 
@@ -118,20 +108,6 @@ animation continuity problem, not as a generic optimization modifier.
 If the app commits on time but the render server misses presentation, inspect
 visual complexity, overdraw, blending, masks, shadows, filters, and image size
 as hypotheses. Confirm them with rendering tools before simplifying visuals.
-
-## Handle images explicitly
-
-`resizable()` changes layout behavior; it does not reduce the decoded backing
-image. `AsyncImage` loads an image but does not define every product's cache,
-retry, prefetch, or downsampling policy.
-
-For image-heavy screens:
-
-- request an appropriately sized source when possible;
-- downsample before creating the full display image;
-- define memory and disk cache limits;
-- cancel off-screen requests and deduplicate in-flight work;
-- measure decoding, memory pressure, scrolling, and network behavior together.
 
 ## Keep version-specific workarounds quarantined
 

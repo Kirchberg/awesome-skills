@@ -38,8 +38,8 @@ project-local skills directory.
   Swift 6 language mode and strict concurrency.
 - [`swiftui-optimization`](skills/apple-development/swiftui-optimization/)
   creates, refactors, reviews, and profiles SwiftUI views with narrow
-  dependencies, stable identity, efficient Observation, and measured update
-  performance.
+  dependencies, stable identity, efficient Observation, scalable scrolling,
+  bounded resource lifetime, and measured update performance.
 - [`app-performance`](skills/apple-development/app-performance/) diagnoses,
   measures, improves, and regression-tests Apple-platform app performance
   across responsiveness, CPU, memory, graphics, power, storage, and networking.
@@ -301,12 +301,12 @@ Important files:
 
 Use when SwiftUI views or screens need to be created, refactored, reviewed, or
 profiled with explicit dependency, Observation, identity, and hitch-performance
-guardrails.
+guardrails, including scrolling and memory-lifetime investigations.
 
 Default prompt:
 
 ```text
-Use $swiftui-optimization to build or refactor this SwiftUI view for correct, measurable update performance.
+Use $swiftui-optimization to build or refactor this SwiftUI view for correct, measurable update, scrolling, and resource-lifetime performance.
 ```
 
 Important files:
@@ -315,6 +315,8 @@ Important files:
 - [`skills/apple-development/swiftui-optimization/references/data-flow-and-diffing.md`](skills/apple-development/swiftui-optimization/references/data-flow-and-diffing.md)
 - [`skills/apple-development/swiftui-optimization/references/observation.md`](skills/apple-development/swiftui-optimization/references/observation.md)
 - [`skills/apple-development/swiftui-optimization/references/construction-patterns.md`](skills/apple-development/swiftui-optimization/references/construction-patterns.md)
+- [`skills/apple-development/swiftui-optimization/references/collections-and-scrolling.md`](skills/apple-development/swiftui-optimization/references/collections-and-scrolling.md)
+- [`skills/apple-development/swiftui-optimization/references/memory-and-resources.md`](skills/apple-development/swiftui-optimization/references/memory-and-resources.md)
 - [`skills/apple-development/swiftui-optimization/references/profiling.md`](skills/apple-development/swiftui-optimization/references/profiling.md)
 - [`skills/apple-development/swiftui-optimization/references/source-notes.md`](skills/apple-development/swiftui-optimization/references/source-notes.md)
 - [`skills/apple-development/swiftui-optimization/scripts/check_skill.sh`](skills/apple-development/swiftui-optimization/scripts/check_skill.sh)
