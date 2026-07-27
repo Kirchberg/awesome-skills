@@ -95,8 +95,9 @@ targets support it. When using
 - never read uninitialized memory;
 - initialize exactly the elements reported in the initialized count;
 - keep the count within capacity;
-- clean up initialized nontrivial elements on every throwing path as required by
-  the API contract;
+- advance the initialized count immediately after each successful element
+  initialization so the array can destroy that prefix if the closure throws;
+- do not manually destroy elements already included in the initialized count;
 - do not expose partially initialized storage;
 - test empty, exact-capacity, maximum, and error cases.
 
