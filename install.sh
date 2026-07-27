@@ -105,7 +105,7 @@ done
 test -d "$skills_src" || fail "skills/ not found at $skills_src"
 
 # Installable skills may live directly under skills/ or one category deeper,
-# for example skills/apple-development/swift6-migration/. Skill names must be
+# for example skills/apple-development/swift-concurrency/. Skill names must be
 # unique because installation destinations are intentionally flat.
 avail=()
 avail_srcs=()

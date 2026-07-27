@@ -33,9 +33,10 @@ project-local skills directory.
 - [`docs-feature-style`](skills/docs-feature-style/) normalizes documentation
   style and structure with Vale and markdownlint when present, and applies the
   same rules manually when they are absent.
-- [`swift6-migration`](skills/apple-development/swift6-migration/) audits,
-  plans, executes, and resumes staged migrations of Apple-platform projects to
-  Swift 6 language mode and strict concurrency.
+- [`swift-concurrency`](skills/apple-development/swift-concurrency/) designs,
+  implements, reviews, diagnoses, profiles, tests, and migrates safe, bounded
+  Swift concurrency across tasks, actors, isolation, cancellation, streams,
+  performance, and staged Swift 6 adoption.
 - [`swiftui-optimization`](skills/apple-development/swiftui-optimization/)
   creates, refactors, reviews, and profiles SwiftUI views with narrow
   dependencies, stable identity, efficient Observation, scalable scrolling,
@@ -71,7 +72,7 @@ skills/
       agents/openai.yaml
       references/
       scripts/
-    swift6-migration/
+    swift-concurrency/
       SKILL.md
       agents/openai.yaml
       references/
@@ -130,7 +131,7 @@ Categorized skills are installed by their skill name rather than their category
 path:
 
 ```bash
-./install.sh swift6-migration
+./install.sh swift-concurrency
 ./install.sh swift-ios-performance
 ./install.sh app-performance
 ./install.sh voice-over-accessibility
@@ -145,6 +146,11 @@ cp -R skills/development-plan /path/to/project/.agents/skills/development-plan
 
 Repeat for each skill you want to use. Keep the folder name the same as the
 `name:` field in `SKILL.md`.
+
+When upgrading an installation that previously contained `swift6-migration`,
+archive or remove that old installed folder after installing
+`swift-concurrency` and confirming it has no local-only changes, so both skill
+identities cannot trigger for the same request.
 
 ### One-command install (Claude + Codex)
 
@@ -297,24 +303,29 @@ Important files:
 - [`skills/docs-feature-style/references/style-rules.md`](skills/docs-feature-style/references/style-rules.md)
 - [`skills/docs-feature-style/references/tooling.md`](skills/docs-feature-style/references/tooling.md)
 
-### Apple development / `swift6-migration`
+### Apple development / `swift-concurrency`
 
-Use when an Xcode, Tuist, XcodeGen, or SwiftPM project needs a target-aware,
-dependency-aware migration to Swift 6 language mode and strict concurrency.
+Use when Swift concurrency needs to be designed, implemented, reviewed,
+diagnosed, profiled, tested, or migrated, including task lifetime, cancellation,
+actors and reentrancy, isolation and transfer, continuations and streams,
+SwiftUI integration, bounded parallelism, and staged Swift 6 adoption.
 
 Default prompt:
 
 ```text
-Use $swift6-migration to assess this Apple-platform project and create a staged, verifiable Swift 6 migration plan.
+Use $swift-concurrency to review this Swift code for isolation, task lifetime, cancellation, and performance issues, then propose a verified fix.
 ```
 
 Important files:
 
-- [`skills/apple-development/swift6-migration/SKILL.md`](skills/apple-development/swift6-migration/SKILL.md)
-- [`skills/apple-development/swift6-migration/references/methodology.md`](skills/apple-development/swift6-migration/references/methodology.md)
-- [`skills/apple-development/swift6-migration/references/conversion-guide.md`](skills/apple-development/swift6-migration/references/conversion-guide.md)
-- [`skills/apple-development/swift6-migration/references/recipes.md`](skills/apple-development/swift6-migration/references/recipes.md)
-- [`skills/apple-development/swift6-migration/scripts/check_skill.sh`](skills/apple-development/swift6-migration/scripts/check_skill.sh)
+- [`skills/apple-development/swift-concurrency/SKILL.md`](skills/apple-development/swift-concurrency/SKILL.md)
+- [`skills/apple-development/swift-concurrency/references/mental-model.md`](skills/apple-development/swift-concurrency/references/mental-model.md)
+- [`skills/apple-development/swift-concurrency/references/structured-concurrency.md`](skills/apple-development/swift-concurrency/references/structured-concurrency.md)
+- [`skills/apple-development/swift-concurrency/references/isolation-and-sendability.md`](skills/apple-development/swift-concurrency/references/isolation-and-sendability.md)
+- [`skills/apple-development/swift-concurrency/references/performance-and-memory.md`](skills/apple-development/swift-concurrency/references/performance-and-memory.md)
+- [`skills/apple-development/swift-concurrency/references/migration-methodology.md`](skills/apple-development/swift-concurrency/references/migration-methodology.md)
+- [`skills/apple-development/swift-concurrency/references/sources.md`](skills/apple-development/swift-concurrency/references/sources.md)
+- [`skills/apple-development/swift-concurrency/scripts/check_skill.sh`](skills/apple-development/swift-concurrency/scripts/check_skill.sh)
 
 ### Apple development / `swiftui-optimization`
 

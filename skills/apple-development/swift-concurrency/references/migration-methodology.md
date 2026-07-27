@@ -1,8 +1,9 @@
-# Migration methodology
+# Staged Swift 6 concurrency migration
 
 ## Contents
 
 - [Phases](#phases)
+- [Configuration dimensions](#configuration-dimensions)
 - [Target graph](#target-graph)
 - [Stage ordering](#stage-ordering)
 - [Baseline](#baseline)
@@ -21,6 +22,23 @@ Run the migration in five phases:
 5. **Verify**: run the final matrix, audit escape hatches, and publish reports.
 
 Do not combine discovery and source editing. An incomplete graph makes shared-setting changes unpredictable.
+
+## Configuration dimensions
+
+Track these independently:
+
+- compiler and Xcode version;
+- Swift language mode;
+- strict-concurrency checking while still in Swift 5 mode;
+- default actor isolation;
+- `NonisolatedNonsendingByDefault` and other upcoming features;
+- package tools version and manifest API availability;
+- deployment targets and SDK concurrency annotations.
+
+Do not bundle approachable-concurrency options into a language-mode change
+without inventorying the declarations and consumers they affect. A target can
+compile in Swift 6 while another supported target or package consumer uses a
+different language mode or feature set.
 
 ## Target graph
 

@@ -76,6 +76,8 @@ grep -q '\$app-performance' "$skill_file" \
   || fail "app-performance routing is missing"
 grep -q '\$swiftui-optimization' "$skill_file" \
   || fail "swiftui-optimization routing is missing"
+grep -q '\$swift-concurrency' "$skill_file" \
+  || fail "swift-concurrency routing is missing"
 
 grep -q 'allow_implicit_invocation: true' "$metadata" \
   || fail "implicit invocation policy is missing"
