@@ -1,5 +1,5 @@
 ---
-name: ios-accessibility
+name: voice-over-accessibility
 description: Use when planning, auditing, implementing, fixing, or reviewing VoiceOver accessibility in iOS or iPadOS apps built with SwiftUI, UIKit, or mixed UI. Applies to accessibility trees, labels, values, hints, traits, actions, reading and rotor order, grouping, focus, announcements, text entry, custom controls and gestures, manual device testing, Accessibility Inspector, and UI-test audits. Trigger for requests such as "make this screen work with VoiceOver", "audit this SwiftUI flow for screen-reader users", "fix the accessibility order", or "add accessible actions to this custom control". This first version is VoiceOver-only; do not use for Dynamic Type, contrast, color, motion, captions, Voice Control, Switch Control, macOS VoiceOver, Android TalkBack, or web screen readers unless the request also contains an iOS or iPadOS VoiceOver task.
 ---
 

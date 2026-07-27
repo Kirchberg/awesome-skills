@@ -43,7 +43,7 @@ project-local skills directory.
 - [`app-performance`](skills/apple-development/app-performance/) diagnoses,
   measures, improves, and regression-tests Apple-platform app performance
   across responsiveness, CPU, memory, graphics, power, storage, and networking.
-- [`ios-accessibility`](skills/apple-development/ios-accessibility/) plans,
+- [`voice-over-accessibility`](skills/apple-development/voice-over-accessibility/) plans,
   audits, implements, and reviews VoiceOver support for iOS and iPadOS
   interfaces across semantics, navigation, actions, focus, and device testing.
 
@@ -57,7 +57,7 @@ skills/
       agents/openai.yaml
       references/
       scripts/
-    ios-accessibility/
+    voice-over-accessibility/
       SKILL.md
       agents/openai.yaml
       references/
@@ -123,7 +123,7 @@ path:
 ```bash
 ./install.sh swift6-migration
 ./install.sh app-performance
-./install.sh ios-accessibility
+./install.sh voice-over-accessibility
 ```
 
 Install into a specific project by copying the folder into that project's local
@@ -352,7 +352,7 @@ Important files:
 - [`skills/apple-development/app-performance/references/apple-source-map.md`](skills/apple-development/app-performance/references/apple-source-map.md)
 - [`skills/apple-development/app-performance/scripts/check_skill.sh`](skills/apple-development/app-performance/scripts/check_skill.sh)
 
-### Apple development / `ios-accessibility`
+### Apple development / `voice-over-accessibility`
 
 Use when an iOS or iPadOS SwiftUI, UIKit, or mixed interface needs a VoiceOver
 plan, audit, implementation, fix, or review covering semantic elements,
@@ -363,18 +363,18 @@ categories and assistive technologies.
 Default prompt:
 
 ```text
-Use $ios-accessibility to make this iOS flow fully operable with VoiceOver using correct semantics, focus, actions, and device testing.
+Use $voice-over-accessibility to make this iOS flow fully operable with VoiceOver using correct semantics, focus, actions, and device testing.
 ```
 
 Important files:
 
-- [`skills/apple-development/ios-accessibility/SKILL.md`](skills/apple-development/ios-accessibility/SKILL.md)
-- [`skills/apple-development/ios-accessibility/references/methodology.md`](skills/apple-development/ios-accessibility/references/methodology.md)
-- [`skills/apple-development/ios-accessibility/references/semantics-and-navigation.md`](skills/apple-development/ios-accessibility/references/semantics-and-navigation.md)
-- [`skills/apple-development/ios-accessibility/references/swiftui-and-uikit.md`](skills/apple-development/ios-accessibility/references/swiftui-and-uikit.md)
-- [`skills/apple-development/ios-accessibility/references/testing-and-evidence.md`](skills/apple-development/ios-accessibility/references/testing-and-evidence.md)
-- [`skills/apple-development/ios-accessibility/references/source-map.md`](skills/apple-development/ios-accessibility/references/source-map.md)
-- [`skills/apple-development/ios-accessibility/scripts/check_skill.sh`](skills/apple-development/ios-accessibility/scripts/check_skill.sh)
+- [`skills/apple-development/voice-over-accessibility/SKILL.md`](skills/apple-development/voice-over-accessibility/SKILL.md)
+- [`skills/apple-development/voice-over-accessibility/references/methodology.md`](skills/apple-development/voice-over-accessibility/references/methodology.md)
+- [`skills/apple-development/voice-over-accessibility/references/semantics-and-navigation.md`](skills/apple-development/voice-over-accessibility/references/semantics-and-navigation.md)
+- [`skills/apple-development/voice-over-accessibility/references/swiftui-and-uikit.md`](skills/apple-development/voice-over-accessibility/references/swiftui-and-uikit.md)
+- [`skills/apple-development/voice-over-accessibility/references/testing-and-evidence.md`](skills/apple-development/voice-over-accessibility/references/testing-and-evidence.md)
+- [`skills/apple-development/voice-over-accessibility/references/source-map.md`](skills/apple-development/voice-over-accessibility/references/source-map.md)
+- [`skills/apple-development/voice-over-accessibility/scripts/check_skill.sh`](skills/apple-development/voice-over-accessibility/scripts/check_skill.sh)
 
 ## Maintenance Notes
 

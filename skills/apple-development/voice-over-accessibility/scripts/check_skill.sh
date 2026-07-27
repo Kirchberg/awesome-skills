@@ -7,7 +7,7 @@ metadata="$root_dir/agents/openai.yaml"
 source_map="$root_dir/references/source-map.md"
 
 fail() {
-  printf 'ios-accessibility check failed: %s\n' "$1" >&2
+  printf 'voice-over-accessibility check failed: %s\n' "$1" >&2
   exit 1
 }
 
@@ -41,7 +41,7 @@ lines="$(wc -l < "$skill_file" | tr -d ' ')"
 [[ "$lines" -le 200 ]] \
   || fail "SKILL.md has $lines lines; move details into references/"
 
-grep -q '^name: ios-accessibility$' "$skill_file" \
+grep -q '^name: voice-over-accessibility$' "$skill_file" \
   || fail "skill name is missing or changed"
 grep -q '^description: Use when ' "$skill_file" \
   || fail "description must start with 'Use when'"
@@ -64,7 +64,7 @@ grep -q 'zero automated-audit findings' "$skill_file" \
 grep -q 'manual VoiceOver verification pending' "$skill_file" \
   || fail "truthful incomplete-status wording is missing"
 
-grep -q 'default_prompt: "Use \$ios-accessibility ' "$metadata" \
+grep -q 'default_prompt: "Use \$voice-over-accessibility ' "$metadata" \
   || fail "default prompt is stale"
 grep -q 'allow_implicit_invocation: true' "$metadata" \
   || fail "implicit invocation policy is missing"
@@ -114,4 +114,4 @@ grep -Fq \
   'https://github.com/cvs-health/ios-swiftui-accessibility-techniques' \
   "$source_map" || fail "CVS practical source is missing"
 
-printf 'ios-accessibility check passed\n'
+printf 'voice-over-accessibility check passed\n'
