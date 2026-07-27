@@ -13,7 +13,7 @@ fail() {
 [[ -f "$skill_file" ]] || fail "SKILL.md is missing"
 [[ -f "$metadata" ]] || fail "agents/openai.yaml is missing"
 
-for reference in data-flow-and-diffing observation construction-patterns profiling source-notes; do
+for reference in data-flow-and-diffing observation construction-patterns collections-and-scrolling memory-and-resources profiling source-notes; do
   [[ -f "$root_dir/references/$reference.md" ]] ||
     fail "references/$reference.md is missing"
   grep -q "references/$reference.md" "$skill_file" ||
@@ -34,6 +34,12 @@ grep -q 'custom macros' "$skill_file" ||
   fail "Airbnb macro caveat is missing"
 grep -q 'Do not claim completion from fewer `body` logs alone' "$skill_file" ||
   fail "measurement completion gate is missing"
+grep -qi 'transient growth' "$root_dir/references/memory-and-resources.md" ||
+  fail "memory symptom classification is missing"
+grep -q 'prefetch' "$root_dir/references/collections-and-scrolling.md" ||
+  fail "lazy-container prefetch guidance is missing"
+grep -q 'Instruments 27' "$root_dir/references/profiling.md" ||
+  fail "current Instruments guidance is missing"
 grep -q '\$swiftui-optimization' "$metadata" ||
   fail "default prompt does not reference the skill"
 

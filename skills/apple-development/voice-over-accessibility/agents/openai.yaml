@@ -1,0 +1,7 @@
+interface:
+  display_name: "VoiceOver Accessibility"
+  short_description: "Build and verify VoiceOver-ready iOS interfaces"
+  default_prompt: "Use $voice-over-accessibility to make this iOS flow fully operable with VoiceOver using correct semantics, focus, actions, and device testing."
+
+policy:
+  allow_implicit_invocation: true

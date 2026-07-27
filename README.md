@@ -38,8 +38,8 @@ project-local skills directory.
   Swift 6 language mode and strict concurrency.
 - [`swiftui-optimization`](skills/apple-development/swiftui-optimization/)
   creates, refactors, reviews, and profiles SwiftUI views with narrow
-  dependencies, stable identity, efficient Observation, and measured update
-  performance.
+  dependencies, stable identity, efficient Observation, scalable scrolling,
+  bounded resource lifetime, and measured update performance.
 - [`swift-ios-performance`](skills/apple-development/swift-ios-performance/)
   researches, reviews, refactors, and benchmarks performance-sensitive Swift
   source with explicit allocation, ownership, collection, dispatch, and
@@ -47,6 +47,9 @@ project-local skills directory.
 - [`app-performance`](skills/apple-development/app-performance/) diagnoses,
   measures, improves, and regression-tests Apple-platform app performance
   across responsiveness, CPU, memory, graphics, power, storage, and networking.
+- [`voice-over-accessibility`](skills/apple-development/voice-over-accessibility/) plans,
+  audits, implements, and reviews VoiceOver support for iOS and iPadOS
+  interfaces across semantics, navigation, actions, focus, and device testing.
 
 ## Repository Layout
 
@@ -59,6 +62,11 @@ skills/
       references/
       scripts/
     swift-ios-performance/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    voice-over-accessibility/
       SKILL.md
       agents/openai.yaml
       references/
@@ -125,6 +133,7 @@ path:
 ./install.sh swift6-migration
 ./install.sh swift-ios-performance
 ./install.sh app-performance
+./install.sh voice-over-accessibility
 ```
 
 Install into a specific project by copying the folder into that project's local
@@ -311,12 +320,12 @@ Important files:
 
 Use when SwiftUI views or screens need to be created, refactored, reviewed, or
 profiled with explicit dependency, Observation, identity, and hitch-performance
-guardrails.
+guardrails, including scrolling and memory-lifetime investigations.
 
 Default prompt:
 
 ```text
-Use $swiftui-optimization to build or refactor this SwiftUI view for correct, measurable update performance.
+Use $swiftui-optimization to build or refactor this SwiftUI view for correct, measurable update, scrolling, and resource-lifetime performance.
 ```
 
 Important files:
@@ -325,6 +334,8 @@ Important files:
 - [`skills/apple-development/swiftui-optimization/references/data-flow-and-diffing.md`](skills/apple-development/swiftui-optimization/references/data-flow-and-diffing.md)
 - [`skills/apple-development/swiftui-optimization/references/observation.md`](skills/apple-development/swiftui-optimization/references/observation.md)
 - [`skills/apple-development/swiftui-optimization/references/construction-patterns.md`](skills/apple-development/swiftui-optimization/references/construction-patterns.md)
+- [`skills/apple-development/swiftui-optimization/references/collections-and-scrolling.md`](skills/apple-development/swiftui-optimization/references/collections-and-scrolling.md)
+- [`skills/apple-development/swiftui-optimization/references/memory-and-resources.md`](skills/apple-development/swiftui-optimization/references/memory-and-resources.md)
 - [`skills/apple-development/swiftui-optimization/references/profiling.md`](skills/apple-development/swiftui-optimization/references/profiling.md)
 - [`skills/apple-development/swiftui-optimization/references/source-notes.md`](skills/apple-development/swiftui-optimization/references/source-notes.md)
 - [`skills/apple-development/swiftui-optimization/scripts/check_skill.sh`](skills/apple-development/swiftui-optimization/scripts/check_skill.sh)
@@ -378,6 +389,30 @@ Important files:
 - [`skills/apple-development/app-performance/references/graphics.md`](skills/apple-development/app-performance/references/graphics.md)
 - [`skills/apple-development/app-performance/references/apple-source-map.md`](skills/apple-development/app-performance/references/apple-source-map.md)
 - [`skills/apple-development/app-performance/scripts/check_skill.sh`](skills/apple-development/app-performance/scripts/check_skill.sh)
+
+### Apple development / `voice-over-accessibility`
+
+Use when an iOS or iPadOS SwiftUI, UIKit, or mixed interface needs a VoiceOver
+plan, audit, implementation, fix, or review covering semantic elements,
+navigation, custom actions, focus, announcements, and physical-device
+verification. The first version intentionally excludes other accessibility
+categories and assistive technologies.
+
+Default prompt:
+
+```text
+Use $voice-over-accessibility to make this iOS flow fully operable with VoiceOver using correct semantics, focus, actions, and device testing.
+```
+
+Important files:
+
+- [`skills/apple-development/voice-over-accessibility/SKILL.md`](skills/apple-development/voice-over-accessibility/SKILL.md)
+- [`skills/apple-development/voice-over-accessibility/references/methodology.md`](skills/apple-development/voice-over-accessibility/references/methodology.md)
+- [`skills/apple-development/voice-over-accessibility/references/semantics-and-navigation.md`](skills/apple-development/voice-over-accessibility/references/semantics-and-navigation.md)
+- [`skills/apple-development/voice-over-accessibility/references/swiftui-and-uikit.md`](skills/apple-development/voice-over-accessibility/references/swiftui-and-uikit.md)
+- [`skills/apple-development/voice-over-accessibility/references/testing-and-evidence.md`](skills/apple-development/voice-over-accessibility/references/testing-and-evidence.md)
+- [`skills/apple-development/voice-over-accessibility/references/source-map.md`](skills/apple-development/voice-over-accessibility/references/source-map.md)
+- [`skills/apple-development/voice-over-accessibility/scripts/check_skill.sh`](skills/apple-development/voice-over-accessibility/scripts/check_skill.sh)
 
 ## Maintenance Notes
 

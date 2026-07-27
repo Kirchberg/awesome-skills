@@ -1,7 +1,7 @@
 interface:
   display_name: "SwiftUI Optimization"
-  short_description: "Write and tune efficient SwiftUI views"
-  default_prompt: "Use $swiftui-optimization to build or refactor this SwiftUI view for correct, measurable update performance."
+  short_description: "Tune SwiftUI updates, scrolling, and memory"
+  default_prompt: "Use $swiftui-optimization to build or refactor this SwiftUI view for correct, measurable update, scrolling, and resource-lifetime performance."
 
 policy:
   allow_implicit_invocation: true

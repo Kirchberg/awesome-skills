@@ -1,16 +1,16 @@
 ---
 name: swiftui-optimization
-description: Use when creating, refactoring, reviewing, or diagnosing SwiftUI views and screens where update frequency, body cost, state ownership, Observation, diffing, identity, lists, layout, animation smoothness, hangs, hitches, or Instruments evidence matter. Applies to new SwiftUI code, performance audits, scrolling or animation regressions, and performance-focused code review across Apple platforms. Do not use for purely visual design work, non-SwiftUI rendering, or unsupported claims about undocumented SwiftUI internals.
+description: Use when creating, refactoring, reviewing, or diagnosing SwiftUI views and screens where update frequency, body cost, state ownership, Observation, diffing, identity, lists, scrolling, memory lifetime, layout, animation smoothness, hangs, hitches, or Instruments evidence matter. Applies to new SwiftUI code, performance and memory audits, scrolling or animation regressions, and performance-focused code review across Apple platforms. Do not use for purely visual design work, non-SwiftUI rendering, or unsupported claims about undocumented SwiftUI internals.
 ---
 
 # Build efficient SwiftUI views
 
 ## Outcome
 
-Produce correct, maintainable SwiftUI views whose bodies finish quickly and
-update only for relevant changes. Treat correctness and evidence as gates:
-never trade current actions, state, accessibility, or identity for a smaller
-update count.
+Produce correct, maintainable SwiftUI views whose bodies finish quickly, update
+only for relevant changes, and keep resources within their intended lifetimes.
+Treat correctness and evidence as gates: never trade current actions, state,
+accessibility, or identity for a smaller update count or footprint.
 
 ## Read references selectively
 
@@ -20,7 +20,12 @@ update count.
   from `ObservableObject`, or choosing `@State`, `@Bindable`, or environment
   injection for an observable model.
 - Read `references/construction-patterns.md` before changing view boundaries,
-  lists, layout readers, tasks, images, or animations.
+  layout readers, tasks, presentation, or animations.
+- Read `references/collections-and-scrolling.md` before changing `List`,
+  `Table`, a lazy stack or grid, `ForEach`, programmatic scrolling, or a
+  high-frequency feed.
+- Read `references/memory-and-resources.md` before diagnosing memory growth,
+  leaks, image footprint, cache retention, or persistence-backed screens.
 - Read `references/profiling.md` before diagnosing an existing regression or
   claiming a performance improvement.
 - Read `references/source-notes.md` when a recommendation is disputed,
@@ -43,7 +48,10 @@ to preserve correctness and verify performance claims.
 4. For an existing issue, record one reproducible interaction, representative
    data volume, affected device and OS, build configuration, and visible
    symptom before editing.
-5. Do not redesign unrelated architecture or add optimization machinery without
+5. Classify memory symptoms as transient growth, persistent growth, abandoned
+   reachable memory, a reference-cycle leak, or an unbounded resource policy
+   before changing ownership.
+6. Do not redesign unrelated architecture or add optimization machinery without
    a demonstrated need.
 
 ## Use the SwiftUI mental model
@@ -74,14 +82,17 @@ to preserve correctness and verify performance claims.
    `@ViewBuilder` helper does not create that boundary.
 5. Keep event sources and frequently changing dependencies in the smallest
    subtree that needs them.
-6. Use stable domain identity in `ForEach`, `List`, and `Table`. Precompute
-   filtered data and keep the number of top-level rows produced per element
-   constant on performance-sensitive lazy paths.
+6. Use stable domain identity in `ForEach`, `List`, and `Table`. Follow
+   `references/collections-and-scrolling.md` for row cardinality, lazy
+   lifetime, prefetching, and high-frequency data.
 7. Tie asynchronous work to view lifetime with `.task` or `.task(id:)` when
    appropriate. Make work idempotent and cooperatively cancellable, and keep
    CPU-heavy work off the main actor.
 8. Scope geometry observation and animation to the presentation they affect.
    Avoid state-layout feedback loops and broad implicit animation.
+9. Give caches, decoded images, subscriptions, tasks, and persistence objects
+   explicit owners and bounded lifetimes. Verify release paths with memory
+   tools rather than inferring them from view disappearance.
 
 ## Apply targeted optimizations
 
@@ -110,14 +121,15 @@ When relying on custom equality:
 ## Diagnose instead of guessing
 
 1. Reproduce the symptom with the same workload.
-2. Profile a representative device and optimized build using the tools
-   available in the installed Xcode version.
+2. For responsiveness, profile a representative device and optimized build.
+   For ownership, use a diagnostic build when memory tooling requires it, then
+   confirm the user-facing workload in the optimized configuration.
 3. Separate:
    - a long view-body or platform update;
    - many individually short updates;
    - main-thread or Core Animation commit work;
    - render-server CPU or GPU work;
-   - memory or I/O outside SwiftUI.
+   - memory or resource lifetime, and I/O, using separate evidence.
 4. Trace the most frequent or expensive cause to application code.
 5. Make one minimal correction and repeat the same capture.
 6. Reject the change if the metric does not improve reliably or correctness
@@ -126,16 +138,23 @@ When relying on custom equality:
 Use `Self._printChanges()` only as temporary, best-effort debug evidence. It is
 an underscored API with runtime cost; remove it before shipping.
 
+Use Allocations, the Memory Graph Debugger, Leaks, and VM evidence for memory
+symptoms. The SwiftUI instrument does not prove why an allocation remains live.
+
 ## Guard against folklore
 
 - Do not use a fresh `UUID()`, mutable index, or non-unique `\.self` as identity.
 - Do not assume `LazyVStack` is always faster than `VStack` or `List`.
+- Do not assume a lazy container immediately evicts off-screen state or
+  guarantees that row-local state survives a round trip.
 - Do not assume `AsyncImage` supplies the cache policy the product needs.
 - Do not claim `resizable()` down-samples decoded image memory.
 - Do not use `@EnvironmentObject`, `@Binding`, `Group`, `AnyView`, or
   `@ViewBuilder` as a generic performance fix.
-- Do not ban `GeometryReader`, action closures, `onAppear`, `dismiss`, or
-  animations categorically; constrain expensive effects and verify the case.
+- Do not ban `AnyView`, action closures, or `weak self` categorically; measure
+  the hot path and prove the ownership or identity problem.
+- Do not ban `GeometryReader`, `onAppear`, `dismiss`, or animations
+  categorically; constrain expensive effects and verify the case.
 - Do not encode a framework workaround as a general rule without an OS and SDK
   matrix, a minimal reproduction, and current profiling evidence.
 - Do not describe SwiftUI's undocumented diffing internals as an API contract.
@@ -156,5 +175,9 @@ For a performance claim, also report:
 - before and after captures from the same scenario;
 - whether the bottleneck was long work, frequent work, commit, or render;
 - the metric improved and any remaining bottleneck.
+
+For a memory claim, report the same repeated lifecycle checkpoints, peak and
+post-interaction footprint or live-allocation counts, the proven retention
+path, and whether the cache or resource policy reaches a bound.
 
 Do not claim completion from fewer `body` logs alone.

@@ -3,6 +3,7 @@
 ## Contents
 
 - Check availability and architecture
+- Account for `@State` toolchain changes
 - Define observable model data
 - Choose the view relationship
 - Share through the environment deliberately
@@ -20,6 +21,23 @@ Observation supplies change tracking. It does not provide actor isolation,
 thread safety, persistence, request cancellation, or stream operators. Preserve
 the model's synchronization and isolation requirements; use `@MainActor` only
 when the model semantically belongs to the main actor.
+
+## Account for `@State` toolchain changes
+
+In the Xcode 27 generation, `@State` is implemented as a macro and lazily
+evaluates an initial class value once for the state storage. Earlier toolchains
+could allocate a reference-valued initializer expression whenever the
+containing `View` value was initialized, then discard the extra instance. The
+new behavior is back-deployed to aligned systems that support Observation.
+
+Do not preserve eager-initialization workarounds as timeless performance rules.
+Compile ownership examples with every supported Xcode generation. Follow
+TN3211 when migrating: in particular, do not combine a declaration default
+with initializer assignments that can use the wrapped value before all stored
+properties are initialized.
+
+The toolchain change does not make identity irrelevant. Intentionally replacing
+the owning view's identity still creates new state and a new model.
 
 ## Define observable model data
 
@@ -106,8 +124,10 @@ struct SearchField: View {
 }
 ```
 
-`@Bindable` creates bindings. It does not own, retain across identity changes,
-or broaden the model's lifetime.
+`@Bindable` creates bindings and holds the normal stored reference in the
+current `View` value. It does not create source-of-truth storage, preserve the
+model across a change of view identity, or broaden the model's intended
+lifetime.
 
 ## Share through the environment deliberately
 
@@ -178,4 +198,5 @@ AsyncSequence, or Combine API that matches the supported toolchain. Keep that
 pipeline separate from SwiftUI invalidation and avoid publishing the same
 change through two mechanisms accidentally. Removing `@Published` also removes
 its `$property` publisher; a projection from `@Bindable` is a SwiftUI `Binding`,
-not a Combine publisher.
+not a Combine publisher. Observation does not rate-limit a high-frequency
+source; define batching, buffering, and loss semantics outside the view.
