@@ -40,6 +40,10 @@ project-local skills directory.
   creates, refactors, reviews, and profiles SwiftUI views with narrow
   dependencies, stable identity, efficient Observation, and measured update
   performance.
+- [`swift-ios-performance`](skills/apple-development/swift-ios-performance/)
+  researches, reviews, refactors, and benchmarks performance-sensitive Swift
+  source with explicit allocation, ownership, collection, dispatch, and
+  concurrency cost models.
 - [`app-performance`](skills/apple-development/app-performance/) diagnoses,
   measures, improves, and regression-tests Apple-platform app performance
   across responsiveness, CPU, memory, graphics, power, storage, and networking.
@@ -50,6 +54,11 @@ project-local skills directory.
 skills/
   apple-development/
     app-performance/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    swift-ios-performance/
       SKILL.md
       agents/openai.yaml
       references/
@@ -114,6 +123,7 @@ path:
 
 ```bash
 ./install.sh swift6-migration
+./install.sh swift-ios-performance
 ./install.sh app-performance
 ```
 
@@ -318,6 +328,32 @@ Important files:
 - [`skills/apple-development/swiftui-optimization/references/profiling.md`](skills/apple-development/swiftui-optimization/references/profiling.md)
 - [`skills/apple-development/swiftui-optimization/references/source-notes.md`](skills/apple-development/swiftui-optimization/references/source-notes.md)
 - [`skills/apple-development/swiftui-optimization/scripts/check_skill.sh`](skills/apple-development/swiftui-optimization/scripts/check_skill.sh)
+
+### Apple development / `swift-ios-performance`
+
+Use when a concrete Swift construct, algorithm, data pipeline, or known iOS hot
+path needs source-level research, review, refactoring, or a focused benchmark
+covering CPU, allocation, ARC, copying, collections, dispatch, or concurrency
+costs.
+
+Default prompt:
+
+```text
+Use $swift-ios-performance to review and improve this Swift code with measurement-backed CPU and memory optimizations.
+```
+
+Important files:
+
+- [`skills/apple-development/swift-ios-performance/SKILL.md`](skills/apple-development/swift-ios-performance/SKILL.md)
+- [`skills/apple-development/swift-ios-performance/references/methodology.md`](skills/apple-development/swift-ios-performance/references/methodology.md)
+- [`skills/apple-development/swift-ios-performance/references/cost-model-and-compiler.md`](skills/apple-development/swift-ios-performance/references/cost-model-and-compiler.md)
+- [`skills/apple-development/swift-ios-performance/references/ownership-and-memory.md`](skills/apple-development/swift-ios-performance/references/ownership-and-memory.md)
+- [`skills/apple-development/swift-ios-performance/references/collections-algorithms-and-text.md`](skills/apple-development/swift-ios-performance/references/collections-algorithms-and-text.md)
+- [`skills/apple-development/swift-ios-performance/references/concurrency-costs.md`](skills/apple-development/swift-ios-performance/references/concurrency-costs.md)
+- [`skills/apple-development/swift-ios-performance/references/benchmarking.md`](skills/apple-development/swift-ios-performance/references/benchmarking.md)
+- [`skills/apple-development/swift-ios-performance/references/low-level-and-accelerated.md`](skills/apple-development/swift-ios-performance/references/low-level-and-accelerated.md)
+- [`skills/apple-development/swift-ios-performance/references/ranked-sources.md`](skills/apple-development/swift-ios-performance/references/ranked-sources.md)
+- [`skills/apple-development/swift-ios-performance/scripts/check_skill.sh`](skills/apple-development/swift-ios-performance/scripts/check_skill.sh)
 
 ### Apple development / `app-performance`
 
