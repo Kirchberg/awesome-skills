@@ -4,6 +4,7 @@
 
 - Capture a reproducible workload
 - Use the available SwiftUI instrument
+- Add later Instruments evidence conditionally
 - Diagnose long work
 - Diagnose frequent work
 - Separate commit and render hitches
@@ -20,11 +21,12 @@ Record:
 
 Prefer an optimized build on a physical device. Repeat the same interaction
 enough times to distinguish a stable result from warmup, caching, logging, and
-sampling noise.
+sampling noise. Record the scheme's actual Profile configuration rather than
+assuming it is unchanged from Xcode's default.
 
 ## Use the available SwiftUI instrument
 
-With Instruments 26 and a supported device OS:
+With Instruments 26 or later and a supported device OS:
 
 1. Choose Xcode **Product → Profile**.
 2. Select the **SwiftUI** template.
@@ -40,9 +42,25 @@ The SwiftUI instrument marks a body update orange above 500 μs and red above
 1000 μs. Treat these as triage thresholds, not per-view budgets or proof of a
 hitch.
 
+The WWDC25 introduction calls the platform lane **Representable Updates**;
+current documentation calls it **Platform View Updates**. Use the labels in the
+installed Instruments version instead of assuming a trace is missing data.
+
 If the installed toolchain lacks this instrument or a required lane, use Time
 Profiler, Hangs, Hitches, Core Animation, signposts, and repository performance
 tests as available. State which evidence could not be collected.
+
+## Add later Instruments evidence conditionally
+
+In Instruments 27 or later, use **Top Functions** and **Run Comparisons** to
+compare repeated or before-and-after recordings when those views are available.
+Use the Swift Executors instrument to test main-actor or executor saturation,
+and System Trace to distinguish CPU saturation from low-CPU blocking or
+scheduling delay.
+
+These tools supplement the SwiftUI track; they do not identify a SwiftUI
+dependency cause by themselves. Gate the workflow by installed Xcode, target
+platform, and recording support, and describe any unavailable evidence.
 
 ## Diagnose long work
 

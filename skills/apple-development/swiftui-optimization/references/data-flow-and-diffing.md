@@ -5,6 +5,7 @@
 - Use the dependency graph
 - Choose state by ownership
 - Pass render state, not feature state
+- Keep environment values ambient and stable
 - Create real update boundaries
 - Treat identity as lifetime
 - Use custom equality as a measured boundary
@@ -82,6 +83,25 @@ struct ProductHeader: View {
 over passing a feature store containing unrelated loading, analytics, routing,
 and pagination state. An action closure is normal SwiftUI API; optimize it only
 when a capture or unstable handler is proven to invalidate hot children.
+
+## Keep environment values ambient and stable
+
+Use the environment for values that are genuinely ambient across a subtree.
+A frequently changing environment value makes that subtree participate in
+update checks even when only a few leaves display it. Inject it closer to those
+leaves or pass a narrow ordinary input when practical.
+
+Treat an action closure stored in `EnvironmentValues` as a hypothesis on a hot
+path, not as an automatic defect. Newly constructed captured closures have
+caused repeated environment invalidation in measured framework versions.
+Prefer a direct action input for a leaf.
+
+When an environment action is the right dependency-injection shape, give it a
+stable owner that resolves the current behavior, or use a callable value with
+explicit replacement semantics. Do not copy the initial closure into `@State`
+merely to freeze its identity: that can preserve stale routes, targets, or
+captures. Verify both update evidence and changed-action behavior on the
+deployment matrix.
 
 ## Create real update boundaries
 
