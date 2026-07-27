@@ -25,9 +25,9 @@ starting evidence:
 - Use `swiftui-optimization` for view invalidation, Observation, identity, lists,
   layout, and animation. Repeated pure-Swift work discovered inside an update can
   then receive a source-level review here.
-- Use `swift6-migration` for target inventory, language-mode changes, and
-  concurrency-safety migration. Keep performance tuning a separately measured
-  concern.
+- Use `swift-concurrency` for isolation, task lifetime, cancellation, target
+  inventory, language-mode changes, and concurrency-safety migration. Keep
+  performance tuning a separately measured concern.
 
 Do not change code for a research, explanation, or review-only request. Do not
 commit, push, publish traces, or upload symbols unless the user authorizes it.

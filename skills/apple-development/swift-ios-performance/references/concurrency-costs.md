@@ -22,10 +22,10 @@ Optimize concurrency only after preserving:
 - task-local and executor assumptions;
 - UI and framework thread affinity.
 
-Use `swift6-migration` for broad isolation or `Sendable` migration. Use
-`app-performance` when the starting symptom is a hang, responsiveness, CPU,
-energy, or thermal regression. Use this reference for the source-level cost of a
-known concurrent pipeline.
+Use `swift-concurrency` for isolation, `Sendable`, task lifetime, cancellation,
+or migration. Use `app-performance` when the starting symptom is a hang,
+responsiveness, CPU, energy, or thermal regression. Use this reference for the
+source-level cost of a known concurrent pipeline.
 
 ## Cost model
 

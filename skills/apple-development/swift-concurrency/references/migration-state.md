@@ -3,6 +3,7 @@
 ## Contents
 
 - [Location](#location)
+- [Legacy state](#legacy-state)
 - [Write discipline](#write-discipline)
 - [Schema](#schema)
 - [Statuses](#statuses)
@@ -17,7 +18,7 @@
 Use this default unless repository policy defines another safe location:
 
 ```text
-<workspace-root>/.swift6-migration/<task-id>/migration-state.json
+<workspace-root>/.swift-concurrency/migrations/<task-id>/migration-state.json
 ```
 
 Related artifacts:
@@ -29,6 +30,25 @@ logs/<target-id>/<check-id>.log
 ```
 
 Do not store source copies, credentials, generated environment files, build output, or IDE user data.
+
+## Legacy state
+
+An interrupted migration may still use:
+
+```text
+<workspace-root>/.swift6-migration/<task-id>/migration-state.json
+```
+
+Before creating new state:
+
+1. Search both current and legacy locations for the same task.
+2. Parse and validate any candidate against `schema_version`.
+3. Confirm workspace root, branch, starting revision, and diff.
+4. Continue one valid state file in place, or move it only as an explicit
+   atomic migration.
+5. Stop if both locations contain divergent state.
+
+Renaming the skill is not evidence that a running migration can be discarded.
 
 ## Write discipline
 
@@ -49,7 +69,7 @@ Do not patch JSON fragments concurrently. Read-only workers may return findings 
   "workspace_root": "/path/to/project",
   "vcs": {
     "kind": "git",
-    "branch": "feature/swift6-migration",
+    "branch": "feature/swift-concurrency-migration",
     "starting_revision": "full-revision",
     "dirty_at_start": false
   },

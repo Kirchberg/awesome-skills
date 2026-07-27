@@ -1,6 +1,6 @@
 ---
 name: swift-ios-performance
-description: Use when researching, writing, reviewing, refactoring, or benchmarking performance-sensitive Swift source in an iOS or iPadOS app, especially algorithms and data structures, allocations and ARC, value copying and copy-on-write, stored or computed static properties, closures, dispatch and specialization, generics and existentials, String or Data processing, Swift concurrency overhead, or safe low-level APIs. Trigger for questions about the runtime or memory cost of a concrete Swift construct, source-level performance reviews, reducing allocations or copies in a known hot path, or focused microbenchmarks. Do not use as the lead skill for whole-app profiling, launch, hangs, hitches, memory pressure, energy, storage, network, graphics, app size, SwiftUI state or updates, or a general Swift 6 migration; use app-performance, swiftui-optimization, or swift6-migration respectively.
+description: Use when researching, writing, reviewing, refactoring, or benchmarking performance-sensitive Swift source in an iOS or iPadOS app, especially algorithms and data structures, allocations and ARC, value copying and copy-on-write, stored or computed static properties, closures, dispatch and specialization, generics and existentials, String or Data processing, Swift concurrency overhead, or safe low-level APIs. Trigger for questions about the runtime or memory cost of a concrete Swift construct, source-level performance reviews, reducing allocations or copies in a known hot path, or focused microbenchmarks. Do not use as the lead skill for whole-app profiling, launch, hangs, hitches, memory pressure, energy, storage, network, graphics, app size, SwiftUI state or updates, or concurrency correctness and Swift 6 migration; use app-performance, swiftui-optimization, or swift-concurrency respectively.
 ---
 
 # Optimize Swift code for iOS performance
@@ -48,8 +48,9 @@ safety, or evidence gates.
   a Swift hot path.
 - Lead with `$swiftui-optimization` for SwiftUI dependencies, Observation,
   identity, view updates, lists, layout, or animation.
-- Lead with `$swift6-migration` for a staged language-mode or strict-concurrency
-  migration. Use this skill only for a distinct performance question.
+- Lead with `$swift-concurrency` for isolation, task lifetime, cancellation,
+  data-race safety, or a staged Swift 6 migration. Use this skill only for a
+  distinct source-performance question.
 - Keep this skill in the lead when the user names a concrete Swift construct,
   algorithm, data pipeline, source area, or focused benchmark.
 

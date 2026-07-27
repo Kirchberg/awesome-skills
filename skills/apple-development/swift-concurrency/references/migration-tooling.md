@@ -60,6 +60,10 @@ configuration decisions. Do not enable them implicitly when switching
 `SWIFT_VERSION`; add them to the migration scope and verification matrix when
 the project intends to adopt them.
 
+In particular, detect whether `NonisolatedNonsendingByDefault` semantics are
+enabled. Do not assume that every Swift 6.2+ target runs ordinary nonisolated
+async functions in the caller's isolation context.
+
 Trace the final value through target settings, project settings, `.xcconfig` inheritance, and generator output. Change the nearest maintained source of truth.
 
 Generic build shape:
@@ -187,8 +191,13 @@ Do not run every expensive test indiscriminately. Derive the matrix from changed
 Keep migration state outside source folders, for example:
 
 ```text
-.swift6-migration/<task-id>/
+.swift-concurrency/migrations/<task-id>/
 ```
+
+Before creating new state, check for a validated legacy
+`.swift6-migration/<task-id>/migration-state.json`. Continue legacy state in
+place or migrate it explicitly; never create two competing state files for one
+task.
 
 Store small logs only when they help resume or review. Do not store source copies, `DerivedData`, package caches, credentials, generated environments, or IDE user data.
 
@@ -199,8 +208,11 @@ Keep the worktree's unrelated changes untouched. Use separate worktrees only whe
 Use documentation matching the installed toolchain:
 
 - [Migrating to Swift 6](https://www.swift.org/migration/)
+- [Swift 6.3 release](https://www.swift.org/blog/swift-6.3-released/)
 - [Swift 6 data-race safety](https://www.swift.org/migration/documentation/swift-6-concurrency-migration-guide/dataracesafety/)
 - [The Swift Programming Language: Concurrency](https://docs.swift.org/swift-book/documentation/the-swift-programming-language/concurrency/)
+- [Nonisolated nonsending by default](https://docs.swift.org/compiler/documentation/diagnostics/nonisolated-nonsending-by-default/)
 - [PackageDescription: SwiftLanguageMode](https://docs.swift.org/swiftpm/documentation/packagedescription/swiftlanguagemode/)
+- [PackageDescription: defaultIsolation](https://docs.swift.org/swiftpm/documentation/packagedescription/swiftsetting/defaultisolation%28_%3A_%3A%29/)
 - [PackageDescription: swiftLanguageMode](https://docs.swift.org/swiftpm/documentation/packagedescription/swiftsetting/swiftlanguagemode%28_%3A_%3A%29/)
 - [Setting the Swift tools version](https://docs.swift.org/swiftpm/documentation/packagemanagerdocs/settingswifttoolsversion/)
