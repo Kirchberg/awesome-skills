@@ -1,0 +1,7 @@
+interface:
+  display_name: "Swift Player"
+  short_description: "Build resilient Apple media playback"
+  default_prompt: "Use $swift-player to design or review this AVFoundation playback flow for correct ownership, state, teardown, buffering, system integration, and measurable reliability."
+
+policy:
+  allow_implicit_invocation: true

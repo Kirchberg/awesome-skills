@@ -37,6 +37,10 @@ project-local skills directory.
   implements, reviews, diagnoses, profiles, tests, and migrates safe, bounded
   Swift concurrency across tasks, actors, isolation, cancellation, streams,
   performance, and staged Swift 6 adoption.
+- [`swift-player`](skills/apple-development/swift-player/) designs, implements,
+  reviews, diagnoses, profiles, and tests resilient Apple media playback across
+  AVPlayer lifecycle, state reduction, transport, HLS, AVKit presentation,
+  system integration, multiview, teardown, and production evidence.
 - [`swiftui-optimization`](skills/apple-development/swiftui-optimization/)
   creates, refactors, reviews, and profiles SwiftUI views with narrow
   dependencies, stable identity, efficient Observation, scalable scrolling,
@@ -73,6 +77,11 @@ skills/
       references/
       scripts/
     swift-concurrency/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    swift-player/
       SKILL.md
       agents/openai.yaml
       references/
@@ -132,6 +141,7 @@ path:
 
 ```bash
 ./install.sh swift-concurrency
+./install.sh swift-player
 ./install.sh swift-ios-performance
 ./install.sh app-performance
 ./install.sh voice-over-accessibility
@@ -326,6 +336,30 @@ Important files:
 - [`skills/apple-development/swift-concurrency/references/migration-methodology.md`](skills/apple-development/swift-concurrency/references/migration-methodology.md)
 - [`skills/apple-development/swift-concurrency/references/sources.md`](skills/apple-development/swift-concurrency/references/sources.md)
 - [`skills/apple-development/swift-concurrency/scripts/check_skill.sh`](skills/apple-development/swift-concurrency/scripts/check_skill.sh)
+
+### Apple development / `swift-player`
+
+Use when audio or video playback for iOS, iPadOS, tvOS, visionOS, macOS, or Mac
+Catalyst needs to be designed, implemented, reviewed, diagnosed, profiled, or
+tested with explicit ownership, state, cancellation, teardown, presentation,
+streaming, system-integration, and measurement contracts.
+
+Default prompt:
+
+```text
+Use $swift-player to design or review this AVFoundation playback flow for correct ownership, state, teardown, buffering, system integration, and measurable reliability.
+```
+
+Important files:
+
+- [`skills/apple-development/swift-player/SKILL.md`](skills/apple-development/swift-player/SKILL.md)
+- [`skills/apple-development/swift-player/references/architecture-and-state.md`](skills/apple-development/swift-player/references/architecture-and-state.md)
+- [`skills/apple-development/swift-player/references/lifecycle-and-transport.md`](skills/apple-development/swift-player/references/lifecycle-and-transport.md)
+- [`skills/apple-development/swift-player/references/presentation-and-system-integration.md`](skills/apple-development/swift-player/references/presentation-and-system-integration.md)
+- [`skills/apple-development/swift-player/references/streaming-and-multiview.md`](skills/apple-development/swift-player/references/streaming-and-multiview.md)
+- [`skills/apple-development/swift-player/references/diagnostics-and-testing.md`](skills/apple-development/swift-player/references/diagnostics-and-testing.md)
+- [`skills/apple-development/swift-player/references/sources.md`](skills/apple-development/swift-player/references/sources.md)
+- [`skills/apple-development/swift-player/scripts/check_skill.sh`](skills/apple-development/swift-player/scripts/check_skill.sh)
 
 ### Apple development / `swiftui-optimization`
 
