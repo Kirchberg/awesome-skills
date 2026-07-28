@@ -221,7 +221,9 @@ if grep -Eiq 'utm_|[?](ref|source|language)=' "$sources"; then
 fi
 
 repo_root="$(cd "$root_dir/../../.." && pwd)"
-if [[ -e "$repo_root/.git" &&
+repo_skill_dir="$repo_root/skills/apple-development/apple-product-marketing"
+if [[ "$root_dir" == "$repo_skill_dir" &&
+      -e "$repo_root/.git" &&
       -f "$repo_root/README.md" &&
       -x "$repo_root/install.sh" ]]; then
   readme="$repo_root/README.md"
