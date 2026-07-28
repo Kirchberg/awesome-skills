@@ -73,6 +73,7 @@ CATransaction.commit()
 let animation = CABasicAnimation(keyPath: "position")
 animation.fromValue = start
 animation.toValue = target
+animation.duration = 0.35
 layer.add(animation, forKey: "position")
 ```
 
