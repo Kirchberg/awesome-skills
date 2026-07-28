@@ -1,0 +1,7 @@
+interface:
+  display_name: "Swift RTL Support"
+  short_description: "Build native RTL support for Swift iOS apps"
+  default_prompt: "Use $swift-rtl-support to implement or audit this SwiftUI or UIKit flow for native RTL layout, bidi text, localized assets, and regression testing."
+
+policy:
+  allow_implicit_invocation: true
