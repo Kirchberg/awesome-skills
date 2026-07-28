@@ -1,0 +1,7 @@
+interface:
+  display_name: "Apple Platform Design"
+  short_description: "Design and review native Apple interfaces"
+  default_prompt: "Use $apple-platform-design to design or review this Apple interface from user goals through native patterns, states, accessibility, and implementation guidance."
+
+policy:
+  allow_implicit_invocation: true

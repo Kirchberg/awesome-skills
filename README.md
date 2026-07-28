@@ -59,6 +59,10 @@ project-local skills directory.
   implements, audits, and tests native RTL support for SwiftUI and UIKit across
   semantic layout, bidi text, localized formatting, assets, interaction, and
   real-language verification.
+- [`apple-platform-design`](skills/apple-development/apple-platform-design/)
+  designs, redesigns, reviews, and hands off native Apple-platform experiences
+  from user goals and information architecture through components, visual
+  language, interaction, accessibility, privacy, and implementation evidence.
 
 ## Repository Layout
 
@@ -81,6 +85,11 @@ skills/
       references/
       scripts/
     swift-rtl-support/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    apple-platform-design/
       SKILL.md
       agents/openai.yaml
       references/
@@ -155,6 +164,7 @@ path:
 ./install.sh app-performance
 ./install.sh voice-over-accessibility
 ./install.sh swift-rtl-support
+./install.sh apple-platform-design
 ```
 
 Install into a specific project by copying the folder into that project's local
@@ -494,6 +504,37 @@ Important files:
 - [`skills/apple-development/swift-rtl-support/references/testing-and-evidence.md`](skills/apple-development/swift-rtl-support/references/testing-and-evidence.md)
 - [`skills/apple-development/swift-rtl-support/references/sources.md`](skills/apple-development/swift-rtl-support/references/sources.md)
 - [`skills/apple-development/swift-rtl-support/scripts/check_skill.sh`](skills/apple-development/swift-rtl-support/scripts/check_skill.sh)
+
+### Apple development / `apple-platform-design`
+
+Use when an Apple-platform product experience needs to be designed, redesigned,
+reviewed, or translated into implementation guidance from user purpose and
+information architecture through native components, adaptive layout, visual
+language, writing, discoverability, motion, haptics, accessibility, privacy,
+and evidence-based validation.
+
+Default prompt:
+
+```text
+Use $apple-platform-design to design or review this Apple interface from user goals through native patterns, states, accessibility, and implementation guidance.
+```
+
+Important files:
+
+- [`skills/apple-development/apple-platform-design/SKILL.md`](skills/apple-development/apple-platform-design/SKILL.md)
+- [`skills/apple-development/apple-platform-design/references/00-design-principles.md`](skills/apple-development/apple-platform-design/references/00-design-principles.md)
+- [`skills/apple-development/apple-platform-design/references/01-information-architecture-and-navigation.md`](skills/apple-development/apple-platform-design/references/01-information-architecture-and-navigation.md)
+- [`skills/apple-development/apple-platform-design/references/02-layout-and-visual-hierarchy.md`](skills/apple-development/apple-platform-design/references/02-layout-and-visual-hierarchy.md)
+- [`skills/apple-development/apple-platform-design/references/03-components-and-patterns.md`](skills/apple-development/apple-platform-design/references/03-components-and-patterns.md)
+- [`skills/apple-development/apple-platform-design/references/04-color-typography-and-materials.md`](skills/apple-development/apple-platform-design/references/04-color-typography-and-materials.md)
+- [`skills/apple-development/apple-platform-design/references/05-writing-and-naming.md`](skills/apple-development/apple-platform-design/references/05-writing-and-naming.md)
+- [`skills/apple-development/apple-platform-design/references/06-onboarding-and-discoverability.md`](skills/apple-development/apple-platform-design/references/06-onboarding-and-discoverability.md)
+- [`skills/apple-development/apple-platform-design/references/07-motion-feedback-and-haptics.md`](skills/apple-development/apple-platform-design/references/07-motion-feedback-and-haptics.md)
+- [`skills/apple-development/apple-platform-design/references/08-accessibility-inclusion-and-privacy.md`](skills/apple-development/apple-platform-design/references/08-accessibility-inclusion-and-privacy.md)
+- [`skills/apple-development/apple-platform-design/references/09-implementation-handoff.md`](skills/apple-development/apple-platform-design/references/09-implementation-handoff.md)
+- [`skills/apple-development/apple-platform-design/references/10-design-review-checklist.md`](skills/apple-development/apple-platform-design/references/10-design-review-checklist.md)
+- [`skills/apple-development/apple-platform-design/references/sources.md`](skills/apple-development/apple-platform-design/references/sources.md)
+- [`skills/apple-development/apple-platform-design/scripts/check_skill.sh`](skills/apple-development/apple-platform-design/scripts/check_skill.sh)
 
 ## Maintenance Notes
 
