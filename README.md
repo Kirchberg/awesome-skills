@@ -37,6 +37,10 @@ project-local skills directory.
   implements, reviews, diagnoses, profiles, tests, and migrates safe, bounded
   Swift concurrency across tasks, actors, isolation, cancellation, streams,
   performance, and staged Swift 6 adoption.
+- [`swift-animation`](skills/apple-development/swift-animation/) designs,
+  implements, reviews, diagnoses, profiles, and tests fluid Apple UI motion
+  across SwiftUI, UIKit, AppKit, and Core Animation with explicit interruption,
+  velocity, accessibility, availability, and performance contracts.
 - [`swift-player`](skills/apple-development/swift-player/) designs, implements,
   reviews, diagnoses, profiles, and tests resilient Apple media playback across
   AVPlayer lifecycle, state reduction, transport, HLS, AVKit presentation,
@@ -86,6 +90,11 @@ skills/
       references/
       scripts/
     swift-concurrency/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    swift-animation/
       SKILL.md
       agents/openai.yaml
       references/
@@ -150,6 +159,7 @@ path:
 
 ```bash
 ./install.sh swift-concurrency
+./install.sh swift-animation
 ./install.sh swift-player
 ./install.sh swift-ios-performance
 ./install.sh app-performance
@@ -346,6 +356,37 @@ Important files:
 - [`skills/apple-development/swift-concurrency/references/migration-methodology.md`](skills/apple-development/swift-concurrency/references/migration-methodology.md)
 - [`skills/apple-development/swift-concurrency/references/sources.md`](skills/apple-development/swift-concurrency/references/sources.md)
 - [`skills/apple-development/swift-concurrency/scripts/check_skill.sh`](skills/apple-development/swift-concurrency/scripts/check_skill.sh)
+
+### Apple development / `swift-animation`
+
+Use when Apple UI motion needs to be designed, implemented, refactored,
+reviewed, diagnosed, profiled, or tested across SwiftUI, UIKit, AppKit, or Core
+Animation, including state-driven and gesture-driven animation, interruption,
+springs, transitions, Reduce Motion, platform fallbacks, animation hitches, and
+regression evidence.
+
+Default prompt:
+
+```text
+Use $swift-animation to design, implement, or diagnose this Apple UI animation for continuity, accessibility, availability, and measured performance.
+```
+
+Important files:
+
+- [`skills/apple-development/swift-animation/SKILL.md`](skills/apple-development/swift-animation/SKILL.md)
+- [`skills/apple-development/swift-animation/references/methodology-and-motion-design.md`](skills/apple-development/swift-animation/references/methodology-and-motion-design.md)
+- [`skills/apple-development/swift-animation/references/interruption-and-velocity.md`](skills/apple-development/swift-animation/references/interruption-and-velocity.md)
+- [`skills/apple-development/swift-animation/references/swiftui-state-and-transactions.md`](skills/apple-development/swift-animation/references/swiftui-state-and-transactions.md)
+- [`skills/apple-development/swift-animation/references/swiftui-sequences-and-effects.md`](skills/apple-development/swift-animation/references/swiftui-sequences-and-effects.md)
+- [`skills/apple-development/swift-animation/references/uikit-property-animations.md`](skills/apple-development/swift-animation/references/uikit-property-animations.md)
+- [`skills/apple-development/swift-animation/references/navigation-transitions.md`](skills/apple-development/swift-animation/references/navigation-transitions.md)
+- [`skills/apple-development/swift-animation/references/appkit-and-cross-framework.md`](skills/apple-development/swift-animation/references/appkit-and-cross-framework.md)
+- [`skills/apple-development/swift-animation/references/core-animation-and-frame-driving.md`](skills/apple-development/swift-animation/references/core-animation-and-frame-driving.md)
+- [`skills/apple-development/swift-animation/references/performance-and-diagnostics.md`](skills/apple-development/swift-animation/references/performance-and-diagnostics.md)
+- [`skills/apple-development/swift-animation/references/accessibility-and-availability.md`](skills/apple-development/swift-animation/references/accessibility-and-availability.md)
+- [`skills/apple-development/swift-animation/references/testing-and-evidence.md`](skills/apple-development/swift-animation/references/testing-and-evidence.md)
+- [`skills/apple-development/swift-animation/references/sources.md`](skills/apple-development/swift-animation/references/sources.md)
+- [`skills/apple-development/swift-animation/scripts/check_skill.sh`](skills/apple-development/swift-animation/scripts/check_skill.sh)
 
 ### Apple development / `swift-player`
 
