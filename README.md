@@ -55,6 +55,10 @@ project-local skills directory.
 - [`voice-over-accessibility`](skills/apple-development/voice-over-accessibility/) plans,
   audits, implements, and reviews VoiceOver support for iOS and iPadOS
   interfaces across semantics, navigation, actions, focus, and device testing.
+- [`swift-rtl-support`](skills/apple-development/swift-rtl-support/) plans,
+  implements, audits, and tests native RTL support for SwiftUI and UIKit across
+  semantic layout, bidi text, localized formatting, assets, interaction, and
+  real-language verification.
 
 ## Repository Layout
 
@@ -72,6 +76,11 @@ skills/
       references/
       scripts/
     voice-over-accessibility/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    swift-rtl-support/
       SKILL.md
       agents/openai.yaml
       references/
@@ -145,6 +154,7 @@ path:
 ./install.sh swift-ios-performance
 ./install.sh app-performance
 ./install.sh voice-over-accessibility
+./install.sh swift-rtl-support
 ```
 
 Install into a specific project by copying the folder into that project's local
@@ -458,6 +468,32 @@ Important files:
 - [`skills/apple-development/voice-over-accessibility/references/testing-and-evidence.md`](skills/apple-development/voice-over-accessibility/references/testing-and-evidence.md)
 - [`skills/apple-development/voice-over-accessibility/references/source-map.md`](skills/apple-development/voice-over-accessibility/references/source-map.md)
 - [`skills/apple-development/voice-over-accessibility/scripts/check_skill.sh`](skills/apple-development/voice-over-accessibility/scripts/check_skill.sh)
+
+### Apple development / `swift-rtl-support`
+
+Use when an iOS or iPadOS SwiftUI, UIKit, or mixed interface needs an RTL plan,
+implementation, audit, diagnosis, review, or test covering semantic layout,
+bidi text, writing direction, locale-aware formatting, directional assets,
+navigation, gestures, typography, supported real RTL localizations, and
+representative Arabic and Hebrew fixtures for general RTL claims.
+
+Default prompt:
+
+```text
+Use $swift-rtl-support to implement or audit this SwiftUI or UIKit flow for native RTL layout, bidi text, localized assets, and regression testing.
+```
+
+Important files:
+
+- [`skills/apple-development/swift-rtl-support/SKILL.md`](skills/apple-development/swift-rtl-support/SKILL.md)
+- [`skills/apple-development/swift-rtl-support/references/methodology.md`](skills/apple-development/swift-rtl-support/references/methodology.md)
+- [`skills/apple-development/swift-rtl-support/references/layout-and-navigation.md`](skills/apple-development/swift-rtl-support/references/layout-and-navigation.md)
+- [`skills/apple-development/swift-rtl-support/references/text-and-formatting.md`](skills/apple-development/swift-rtl-support/references/text-and-formatting.md)
+- [`skills/apple-development/swift-rtl-support/references/swiftui-and-uikit.md`](skills/apple-development/swift-rtl-support/references/swiftui-and-uikit.md)
+- [`skills/apple-development/swift-rtl-support/references/assets-and-typography.md`](skills/apple-development/swift-rtl-support/references/assets-and-typography.md)
+- [`skills/apple-development/swift-rtl-support/references/testing-and-evidence.md`](skills/apple-development/swift-rtl-support/references/testing-and-evidence.md)
+- [`skills/apple-development/swift-rtl-support/references/sources.md`](skills/apple-development/swift-rtl-support/references/sources.md)
+- [`skills/apple-development/swift-rtl-support/scripts/check_skill.sh`](skills/apple-development/swift-rtl-support/scripts/check_skill.sh)
 
 ## Maintenance Notes
 
