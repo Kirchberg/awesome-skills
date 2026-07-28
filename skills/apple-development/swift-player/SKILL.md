@@ -51,10 +51,18 @@ Choose one lead mode:
 - **Review or diagnose**: inspect the actual ownership graph and event sequence;
   report root causes and prioritized findings without fixing unless requested.
 - **Implement**: make the smallest lifecycle-complete change and validate it.
-- **Profile**: establish an equivalent playback scenario, measure, change one
-  supported mechanism, and measure again.
+- **Profile**: for measurement-dependent playback tuning or a performance claim,
+  establish an equivalent scenario, measure, change one supported mechanism,
+  and measure again.
 - **Research**: prefer current Apple documentation and samples; separate
   verified behavior from inference and older deployment-target fallbacks.
+
+In Implement mode, apply a safe correction immediately when ownership, event
+ordering, cancellation, observation teardown, or API semantics prove it.
+Do not leave it as advice because a network profile, Simulator, physical
+device, or performance baseline is unavailable. Run available correctness
+checks and keep startup, stall, memory, and buffering claims pending until
+measured.
 
 Lead with `$swift-player` when the core question is media-session behavior.
 Use `$swift-concurrency` for a deeper isolation or task-graph problem,

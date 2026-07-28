@@ -1,7 +1,7 @@
 interface:
   display_name: "Swift Animation"
   short_description: "Build fluid, accessible Apple animations"
-  default_prompt: "Use $swift-animation to design, implement, or diagnose this Apple UI animation for continuity, accessibility, availability, and measured performance."
+  default_prompt: "Use $swift-animation to implement or improve this Apple UI animation: apply safe source-proven corrections now, then profile conditional smoothness and power claims."
 
 policy:
   allow_implicit_invocation: true

@@ -185,6 +185,13 @@ Choose the remedy that matches the evidence:
 - Avoid holding multiple full-size representations through a transformation.
 - Reduce Metal resource lifetime and storage modes using `graphics.md`.
 
+A direct source ownership graph can justify breaking a retain cycle, bounding
+an unbounded cache, removing an obsolete reference, avoiding simultaneous
+full-size representations, or correcting a decode-size mismatch. Apply that
+safe correction without waiting for a memory graph. Use lifecycle captures and
+device measurements before claiming that a runtime leak, footprint, pressure,
+or termination symptom is fixed.
+
 Do not clear every cache reflexively. A smaller footprint can increase CPU,
 networking, disk I/O, energy, and visible latency.
 
@@ -256,7 +263,7 @@ Store build. App Store processing and DRM can also change final size.
 
 ## App-size optimization
 
-Apply measured changes in this order:
+Apply changes in this order:
 
 1. Confirm the Release target uses the intended size optimization, commonly
    `Fastest, Smallest [-Os]`, and inspect every relevant target.
@@ -271,6 +278,10 @@ Apply measured changes in this order:
 7. Adopt on-demand resources for infrequently used assets when lifecycle and
    availability permit it.
 8. Ensure non-App-Store distribution exports the required thinned variants.
+
+Removing proven-unused bundled content requires reference, resource-loading,
+build, and functional checks, not a prior device profile. Use thinning or App
+Store measurements before claiming a download or installed-size improvement.
 
 Measure download size, installed size, update size, launch, decoding cost,
 memory, network use, and visible quality as applicable. Removing bytes is not an

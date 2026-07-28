@@ -63,6 +63,8 @@ grep -q 'zero automated-audit findings' "$skill_file" \
   || fail "automated-audit limitation is missing"
 grep -q 'manual VoiceOver verification pending' "$skill_file" \
   || fail "truthful incomplete-status wording is missing"
+grep -q 'Do not leave it as advice' "$skill_file" \
+  || fail "source-evident correction action rule is missing"
 
 grep -q 'default_prompt: "Use \$voice-over-accessibility ' "$metadata" \
   || fail "default prompt is stale"

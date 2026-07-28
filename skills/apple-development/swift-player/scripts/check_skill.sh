@@ -87,7 +87,7 @@ done
   '  short_description: "Build resilient Apple media playback"' ]] ||
   fail "short description is stale or malformed"
 [[ "$(sed -n '4p' "$metadata")" == \
-  '  default_prompt: "Use $swift-player to design or review this AVFoundation playback flow for correct ownership, state, teardown, buffering, system integration, and measurable reliability."' ]] ||
+  '  default_prompt: "Use $swift-player to implement or improve this playback flow: apply safe source-proven ownership and lifecycle corrections now, and measure conditional reliability claims."' ]] ||
   fail "default prompt is stale or malformed"
 [[ -z "$(sed -n '5p' "$metadata")" ]] ||
   fail "agents/openai.yaml mappings must be separated by one blank line"
@@ -116,7 +116,8 @@ require_in "$skill_file" \
   'one explicit session owner' \
   'iOS, iPadOS, tvOS, visionOS, macOS, or Mac Catalyst' \
   'initial delivery' \
-  'rate == 0'
+  'rate == 0' \
+  'Do not leave it as advice'
 
 require_in "$root_dir/references/architecture-and-state.md" \
   'MainActor' \
@@ -211,7 +212,7 @@ if [[ -d "$repo_root/.git" &&
   grep -Fq './install.sh swift-player' "$readme" ||
     fail "repository README installation example is missing"
   grep -Fq \
-    'Use $swift-player to design or review this AVFoundation playback flow for correct ownership, state, teardown, buffering, system integration, and measurable reliability.' \
+    'Use $swift-player to implement or improve this playback flow: apply safe source-proven ownership and lifecycle corrections now, and measure conditional reliability claims.' \
     "$readme" ||
     fail "repository README default prompt is stale"
   grep -Fq 'skills/apple-development/swift-player/SKILL.md' "$readme" ||

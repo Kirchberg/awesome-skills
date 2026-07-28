@@ -59,11 +59,18 @@ Choose one lead mode:
 - **Review or diagnose**: report root causes and prioritized findings; do not
   implement fixes unless requested.
 - **Implement**: make the smallest semantically complete change and validate it.
-- **Profile**: measure first, change one supported mechanism, then measure again.
+- **Profile**: for measurement-dependent tuning or a performance claim, measure
+  first, change one supported mechanism, then measure again.
 - **Migrate**: inventory targets and configuration, establish a baseline, then
   move through dependency-aware stages with persistent evidence.
 - **Research**: rank primary sources and distinguish current rules from
   historical context.
+
+In Implement mode, immediately apply a safe correction proved by ownership,
+isolation, task-lifetime, cancellation, load-bound, or control-flow evidence.
+Do not leave it as a proposal because a profiler, Simulator, physical device,
+or performance baseline is unavailable. Preserve semantics, run available
+correctness checks, and measure only conditional performance effects and claims.
 
 Lead with `$swiftui-optimization` for view dependencies, Observation, identity,
 layout, scrolling, or animation. Lead with `$swift-ios-performance` for a
@@ -192,13 +199,17 @@ Run repository formatting and static analysis, focused tests, and affected
 target and consumer builds. Add Thread Sanitizer or stress coverage at legacy,
 unchecked, or low-level boundaries where compile-time checking is insufficient.
 
-For performance work, compare equivalent optimized builds and scenarios.
-Measure latency, responsiveness, task count, live tasks, actor contention,
-executor starvation, retained memory, CPU, and downstream wait as relevant.
-Use the loop **profile → isolate → fix → verify**.
+For measurement-dependent performance work and performance claims, compare
+equivalent optimized builds and scenarios. Measure latency, responsiveness,
+task count, live tasks, actor contention, executor starvation, retained memory,
+CPU, and downstream wait as relevant. Use the loop
+**profile → isolate → fix → verify**. For a source-proven correction, implement
+first, validate correctness, and report performance verification pending when
+no matched capture is available.
 
 Finish with the selected mode, toolchain and scope, ownership and isolation
 model, lifecycle and cancellation contract, changes or findings, checks run,
 public API effects, measured evidence, unsafe boundaries, and remaining
 uncertainty. Never claim a race is fixed, a migration is complete, or a change
-is faster without the corresponding evidence.
+is faster without the corresponding evidence. Do not confuse a pending speed
+claim with a pending safe implementation.

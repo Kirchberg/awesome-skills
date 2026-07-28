@@ -155,8 +155,12 @@ When a numeric priority is useful, score expected practical impact:
 - **90–100**: measured dominant work or an algorithmic defect on a critical path;
 - **70–89**: repeated allocation, copy, bridge, or scheduling cost with strong
   scale evidence;
-- **40–69**: plausible local improvement that still needs a benchmark;
-- **1–39**: minor or highly conditional cost; normally document, do not change;
+- **40–69**: source-supported local correction; implement it in Improve mode
+  when low-risk and semantics-preserving, and benchmark only to quantify it or
+  resolve a material tradeoff;
+- **1–39**: minor or conditional cost; change it when the correction is direct,
+  in scope, and adds no meaningful complexity or churn. Do not reject it solely
+  because a benchmark is absent;
 - **0**: unsupported folklore, duplicate advice, or no relevant cost.
 
 This is a prioritization aid, not a speedup forecast. Never map a score directly
@@ -164,16 +168,20 @@ to a percentage improvement.
 
 ## Change sequence
 
-1. Preserve a reproducible baseline and functional tests.
-2. State one falsifiable mechanism.
-3. Make one coherent change.
-4. Rebuild with the same production optimization settings.
-5. Run focused correctness tests.
-6. Repeat the same benchmark or capture.
-7. Inspect secondary costs such as peak memory, binary size, energy, latency,
-   synchronization, and retained lifetime.
-8. Keep the change only if evidence or a clear complexity proof justifies its
-   tradeoffs.
+1. Preserve functional behavior, tests, and the pre-change source in version
+   control.
+2. State the source-proven or runtime-dependent mechanism.
+3. Capture a performance baseline when the decision or claim depends on runtime
+   behavior; do not require one for a direct private correction.
+4. Make one coherent change.
+5. Rebuild with the same production optimization settings and run focused
+   correctness tests.
+6. Repeat the benchmark or capture when quantifying impact or resolving a
+   tradeoff.
+7. Inspect relevant secondary costs such as peak memory, binary size, energy,
+   latency, synchronization, and retained lifetime.
+8. Keep the change when matched measurement or a clear complexity,
+   unnecessary-work, allocation, or lifetime proof justifies its tradeoffs.
 
 For public APIs, module boundaries, concurrency semantics, and unsafe code,
 require stronger evidence than for a private loop or capacity hint.
@@ -192,6 +200,8 @@ Report:
 8. memory, API, safety, concurrency, and maintenance tradeoffs;
 9. missing evidence and the next discriminating measurement.
 
-Use “supported by the cost model” for an unmeasured recommendation, “improved in
-this benchmark” for a focused result, and “improved in this app scenario” only
-after a matched app-level comparison. Do not collapse those claims.
+Use “implemented from source evidence; performance verification pending” for a
+direct correction without a matched measurement, “supported by the cost model”
+for an unimplemented recommendation, “improved in this benchmark” for a focused
+result, and “improved in this app scenario” only after a matched app-level
+comparison. Do not collapse those claims.

@@ -45,13 +45,18 @@ Choose one mode before acting:
   do not edit or claim that testing ran.
 - **Audit**: inspect and reproduce VoiceOver barriers; do not implement fixes
   unless the request includes them.
-- **Implement**: establish a baseline, make the smallest in-scope correction,
-  and verify it.
+- **Implement**: inspect the available baseline, make the smallest in-scope
+  correction, and verify it proportionally.
 - **Review**: inspect the supplied change for VoiceOver regressions and report
   evidence-backed findings without changing code.
 
 Do not infer permission to redesign unrelated UI, publish a build, or certify
 App Store accessibility support.
+
+In Implement mode, apply a source-evident semantic or interaction correction
+without waiting for a physical device. Do not leave it as advice because manual
+VoiceOver testing is unavailable; run available build, static, tree, and
+automated checks, then report manual verification pending.
 
 ## Establish the VoiceOver contract
 

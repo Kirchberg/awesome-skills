@@ -15,16 +15,20 @@
 
 ## Evidence layers
 
-Use the layers together:
+Use the layers proportionately:
 
 - **Field population** reveals which versions, devices, percentiles, and
   signatures affect real users.
 - **Representative device profiling** explains a reproducible mechanism.
 - **Automated performance tests** prevent a stable mechanism from returning.
 - **Functional tests** prove that the optimization preserves behavior.
+- **Source and semantic evidence**—control flow, data flow, call sites,
+  dependency scope, complexity, and ownership—can justify a low-risk correction
+  and its functional validation, but cannot quantify an end-to-end app outcome.
 
 No layer substitutes for every other layer. A lab trace cannot establish field
-prevalence, and a field metric rarely identifies the exact source line.
+prevalence, and a field metric rarely identifies the exact source line. Do not
+require every layer when one layer already answers the actual decision.
 
 ## Xcode Organizer
 
@@ -214,8 +218,10 @@ the reason, scope, owner, and removal condition for any temporary suppression.
 ## Debug-time tools
 
 Use Debug navigator gauges, memory graphs, and runtime checkers to shorten the
-feedback loop. Confirm meaningful findings with a physical-device,
-production-like measurement.
+feedback loop. Confirm device-dependent performance claims with a
+physical-device, production-like measurement. Do not make that confirmation a
+prerequisite for a semantics-preserving correction already supported by source
+evidence, a backtrace, or a runtime checker.
 
 Simulator can help reveal CPU stalls, call paths, invalidation patterns, or
 algorithmic mistakes. It does not reproduce the device rendering, input, media,
@@ -253,7 +259,8 @@ prose.
 
 Record the Xcode, Instruments, device, and OS version beside every capture.
 If a named tool is unavailable, select the nearest supported evidence source and
-state the loss of precision.
+state the loss of precision. In Improve mode, continue with safe source-proven
+corrections and leave only the unsupported performance claim pending.
 
 Do not upload or commit raw Organizer exports, MetricKit payloads, traces,
 memory graphs, network captures, dSYMs, or logs without checking repository and

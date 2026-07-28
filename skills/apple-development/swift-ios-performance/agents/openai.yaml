@@ -1,7 +1,7 @@
 interface:
   display_name: "Swift iOS Performance"
   short_description: "Optimize Swift code for CPU and memory"
-  default_prompt: "Use $swift-ios-performance to review and improve this Swift code with measurement-backed CPU and memory optimizations."
+  default_prompt: "Use $swift-ios-performance to improve this Swift code: apply safe source-proven optimizations now, and benchmark conditional trade-offs and performance claims."
 
 policy:
   allow_implicit_invocation: true

@@ -12,12 +12,17 @@
 
 ## Capture a reproducible workload
 
+Use this workflow to diagnose a runtime regression or support a performance
+claim. Do not make it a prerequisite for a proactive, source-proven SwiftUI
+correction.
+
 Record:
 
 - the visible symptom and exact interaction;
 - device model, OS, refresh rate, Xcode, and build configuration;
 - data volume, network/cache state, and animation or scrolling duration;
-- at least one baseline capture before editing.
+- at least one baseline capture before editing a measurement-dependent
+  candidate or attributing the runtime symptom.
 
 Prefer an optimized build on a physical device. Repeat the same interaction
 enough times to distinguish a stable result from warmup, caching, logging, and
@@ -48,7 +53,9 @@ installed Instruments version instead of assuming a trace is missing data.
 
 If the installed toolchain lacks this instrument or a required lane, use Time
 Profiler, Hangs, Hitches, Core Animation, signposts, and repository performance
-tests as available. State which evidence could not be collected.
+tests as available. State which evidence could not be collected. In an
+edit-authorized task, still apply a safe source-proven correction, run available
+functional checks, and leave the device-level performance claim pending.
 
 ## Add later Instruments evidence conditionally
 

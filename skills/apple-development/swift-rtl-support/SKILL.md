@@ -42,14 +42,19 @@ Choose one lead mode:
 - **Explain or design**: define semantic direction and tradeoffs; do not edit.
 - **Audit or review**: inspect code and behavior, then report prioritized,
   evidence-backed findings without implementing unless requested.
-- **Implement or fix**: establish a baseline, make the smallest complete
-  correction, and verify it proportionally.
+- **Implement or fix**: inspect the available baseline, make the smallest
+  complete correction, and verify it proportionally.
 - **Diagnose**: reproduce the RTL-only failure and identify its semantic,
   localization, text-system, asset, or interaction root cause.
 - **Test**: build a locale and device matrix, run it, and report exact evidence.
 
 Do not infer permission to translate production copy, redesign unrelated UI,
 publish a build, or certify every supported language.
+
+In Implement or fix mode, apply a source-evident, semantically classified
+correction without waiting for a build, Simulator, or physical device. Run the
+available LTR/RTL checks afterward and report runtime verification pending
+instead of leaving the correction as advice.
 
 ## Establish the RTL contract
 

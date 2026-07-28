@@ -75,6 +75,12 @@ For Thread Performance Checker findings:
 - make the waiter’s QoS no higher than the signaling work when a synchronous
   boundary is unavoidable.
 
+Do not require Thread Performance Checker when the call context and API
+semantics already prove synchronous main-thread I/O or waiting. Apply the safe
+asynchronous-boundary correction, validate ordering, cancellation, errors, and
+UI behavior, and use a trace only to quantify or attribute the responsiveness
+effect.
+
 ## Hitches
 
 A hitch is a late animation frame. Distinguish:
@@ -204,6 +210,10 @@ Apply SwiftUI design rules:
   the child value in the initializer when semantics allow it.
 - Treat action and parameterized closures separately, then measure their update
   effects rather than applying a mechanical rewrite.
+
+Apply the first five rules directly when source inspection proves the
+dependency or repeated-work mechanism. Keep closure rewrites, cache policy, and
+other framework-dependent changes measurement-gated.
 
 ## Launch and resume
 

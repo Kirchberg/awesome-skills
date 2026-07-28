@@ -174,8 +174,11 @@ For each model:
 8. Replace `@EnvironmentObject` with `@Environment(Model.self)`.
 9. Recheck computed properties, optional or nested models, collections,
    bindings, actor isolation, and persistence behavior.
-10. Profile the same interaction and verify which property accesses now
-    invalidate each view.
+10. When validating a performance claim, profile the same interaction and
+    verify which property accesses now invalidate each view. Otherwise verify
+    documented property access, state, actions, bindings, isolation, and
+    persistence with focused tests; lack of a device profile alone does not
+    block an otherwise supported migration.
 
 Apple supports incremental migration and mixed Observation systems. Do not
 rewrite all models atomically or assume behavior is identical:

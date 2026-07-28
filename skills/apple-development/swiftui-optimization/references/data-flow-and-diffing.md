@@ -55,9 +55,9 @@ create unstable instances.
 Observation tracks the observable properties read while evaluating `body`.
 This narrows invalidation, but reading a broad aggregate, collection, or
 computed property still creates a broad dependency. `ObservableObject` emits at
-object scope, so split surfaces or pass derived values when update storms are
-measured. Read `observation.md` before introducing or migrating an observable
-model.
+object scope, so split surfaces or pass derived values when broad invalidation
+is demonstrated by the dependency graph or measured at runtime. Read
+`observation.md` before introducing or migrating an observable model.
 
 ## Pass render state, not feature state
 

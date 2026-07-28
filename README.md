@@ -40,22 +40,28 @@ project-local skills directory.
 - [`swift-animation`](skills/apple-development/swift-animation/) designs,
   implements, reviews, diagnoses, profiles, and tests fluid Apple UI motion
   across SwiftUI, UIKit, AppKit, and Core Animation with explicit interruption,
-  velocity, accessibility, availability, and performance contracts.
+  velocity, accessibility, availability, immediate source-proven corrections,
+  and proportionate performance contracts.
 - [`swift-player`](skills/apple-development/swift-player/) designs, implements,
   reviews, diagnoses, profiles, and tests resilient Apple media playback across
   AVPlayer lifecycle, state reduction, transport, HLS, AVKit presentation,
-  system integration, multiview, teardown, and production evidence.
+  system integration, multiview, teardown, immediate source-proven corrections,
+  and production evidence.
 - [`swiftui-optimization`](skills/apple-development/swiftui-optimization/)
   creates, refactors, reviews, and profiles SwiftUI views with narrow
   dependencies, stable identity, efficient Observation, scalable scrolling,
-  bounded resource lifetime, and measured update performance.
+  bounded resource lifetime, immediate source-proven corrections, and measured
+  claims.
 - [`swift-ios-performance`](skills/apple-development/swift-ios-performance/)
   researches, reviews, refactors, and benchmarks performance-sensitive Swift
   source with explicit allocation, ownership, collection, dispatch, and
-  concurrency cost models.
+  concurrency cost models, applying safe source-proven optimizations without a
+  profiler prerequisite.
 - [`app-performance`](skills/apple-development/app-performance/) diagnoses,
   measures, improves, and regression-tests Apple-platform app performance
-  across responsiveness, CPU, memory, graphics, power, storage, and networking.
+  across responsiveness, CPU, memory, graphics, power, storage, and networking,
+  while reserving runtime measurement for unknown causes, trade-offs, and
+  performance claims.
 - [`voice-over-accessibility`](skills/apple-development/voice-over-accessibility/) plans,
   audits, implements, and reviews VoiceOver support for iOS and iPadOS
   interfaces across semantics, navigation, actions, focus, and device testing.
@@ -392,7 +398,7 @@ SwiftUI integration, bounded parallelism, and staged Swift 6 adoption.
 Default prompt:
 
 ```text
-Use $swift-concurrency to review this Swift code for isolation, task lifetime, cancellation, and performance issues, then propose a verified fix.
+Use $swift-concurrency to fix this Swift code: apply source-proven ownership, isolation, lifetime, and load corrections now, and measure conditional performance claims.
 ```
 
 Important files:
@@ -417,7 +423,7 @@ regression evidence.
 Default prompt:
 
 ```text
-Use $swift-animation to design, implement, or diagnose this Apple UI animation for continuity, accessibility, availability, and measured performance.
+Use $swift-animation to implement or improve this Apple UI animation: apply safe source-proven corrections now, then profile conditional smoothness and power claims.
 ```
 
 Important files:
@@ -447,7 +453,7 @@ streaming, system-integration, and measurement contracts.
 Default prompt:
 
 ```text
-Use $swift-player to design or review this AVFoundation playback flow for correct ownership, state, teardown, buffering, system integration, and measurable reliability.
+Use $swift-player to implement or improve this playback flow: apply safe source-proven ownership and lifecycle corrections now, and measure conditional reliability claims.
 ```
 
 Important files:
@@ -470,7 +476,7 @@ guardrails, including scrolling and memory-lifetime investigations.
 Default prompt:
 
 ```text
-Use $swiftui-optimization to build or refactor this SwiftUI view for correct, measurable update, scrolling, and resource-lifetime performance.
+Use $swiftui-optimization to refactor this SwiftUI view: apply safe source-proven corrections now, and profile only runtime regressions, trade-offs, and performance claims.
 ```
 
 Important files:
@@ -495,7 +501,7 @@ costs.
 Default prompt:
 
 ```text
-Use $swift-ios-performance to review and improve this Swift code with measurement-backed CPU and memory optimizations.
+Use $swift-ios-performance to improve this Swift code: apply safe source-proven optimizations now, and benchmark conditional trade-offs and performance claims.
 ```
 
 Important files:
@@ -520,7 +526,7 @@ using Xcode, Instruments, Organizer, MetricKit, and XCTest.
 Default prompt:
 
 ```text
-Use $app-performance to classify this Apple app performance request, define its measurement contract, gather only authorized evidence, and report the supported result.
+Use $app-performance to improve this Apple app: apply safe source-proven corrections now, and measure only unknown bottlenecks, trade-offs, and performance claims.
 ```
 
 Important files:
@@ -546,7 +552,7 @@ categories and assistive technologies.
 Default prompt:
 
 ```text
-Use $voice-over-accessibility to make this iOS flow fully operable with VoiceOver using correct semantics, focus, actions, and device testing.
+Use $voice-over-accessibility to fix this iOS flow: apply source-evident semantic corrections now, then report any manual VoiceOver verification still pending.
 ```
 
 Important files:
@@ -570,7 +576,7 @@ representative Arabic and Hebrew fixtures for general RTL claims.
 Default prompt:
 
 ```text
-Use $swift-rtl-support to implement or audit this SwiftUI or UIKit flow for native RTL layout, bidi text, localized assets, and regression testing.
+Use $swift-rtl-support to fix this SwiftUI or UIKit flow: apply source-evident semantic RTL corrections now, then report any runtime matrix still pending.
 ```
 
 Important files:

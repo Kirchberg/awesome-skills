@@ -16,13 +16,19 @@ regional formatting, and cultural behavior.
 
 ## Establish the test baseline
 
-Before changing code:
+For a behavior-dependent defect, capture the available baseline before changing
+code:
 
 1. build the affected target with the repository's supported command;
 2. capture representative LTR and RTL behavior;
 3. record OS, device, SDK, app language, region, content, and state;
 4. reproduce each reported defect without adding a global direction override;
 5. identify existing unit, snapshot, UI, and localization tests.
+
+For a source-evident, semantically classified correction, do not gate
+implementation on a build, Simulator, or device. Record the source and test
+baseline, apply the smallest complete change, then run the available LTR/RTL
+validation. Report unavailable runtime validation as pending.
 
 After changing code, rerun the same LTR scenario to detect regressions. Compare
 equivalent content and state rather than unrelated screenshots.

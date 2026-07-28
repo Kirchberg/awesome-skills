@@ -51,8 +51,10 @@ grep -q 'separate a busy main thread' "$skill_file" \
   || fail "busy-versus-blocked routing is missing"
 grep -q 'Do not invent a universal memory ceiling' "$skill_file" \
   || fail "contextual-threshold guardrail is missing"
-grep -q 'baseline and candidate' "$skill_file" \
+grep -q 'candidate results with units' "$skill_file" \
   || fail "before-and-after reporting gate is missing"
+grep -q 'Do not downgrade it to Diagnose' "$skill_file" \
+  || fail "source-proven correction action rule is missing"
 grep -q 'allow_implicit_invocation: true' "$metadata" \
   || fail "implicit invocation policy is missing"
 grep -q 'default_prompt: "Use \$app-performance ' "$metadata" \

@@ -34,6 +34,8 @@ grep -q 'custom macros' "$skill_file" ||
   fail "Airbnb macro caveat is missing"
 grep -q 'Do not claim completion from fewer `body` logs alone' "$skill_file" ||
   fail "measurement completion gate is missing"
+grep -q 'Do not leave such a correction as' "$skill_file" ||
+  fail "source-proven correction action rule is missing"
 grep -qi 'transient growth' "$root_dir/references/memory-and-resources.md" ||
   fail "memory symptom classification is missing"
 grep -q 'prefetch' "$root_dir/references/collections-and-scrolling.md" ||

@@ -1,7 +1,7 @@
 interface:
   display_name: "Swift Concurrency"
   short_description: "Design and migrate safe Swift concurrency"
-  default_prompt: "Use $swift-concurrency to review this Swift code for isolation, task lifetime, cancellation, and performance issues, then propose a verified fix."
+  default_prompt: "Use $swift-concurrency to fix this Swift code: apply source-proven ownership, isolation, lifetime, and load corrections now, and measure conditional performance claims."
 
 policy:
   allow_implicit_invocation: true

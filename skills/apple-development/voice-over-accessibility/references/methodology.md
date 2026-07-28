@@ -87,7 +87,13 @@ VoiceOver is unavailable in Simulator. Simulator, SwiftUI previews, and
 Accessibility Inspector can still help inspect structure but cannot replace the
 device interaction.
 
-Before editing:
+When a defect depends on spoken output, focus, traversal, or interaction and a
+physical device is available, capture the no-sight baseline before editing. Do
+not block a source-evident correction on device availability: inspect the
+existing semantic tree and code, implement the smallest complete change, run
+available non-device checks, and report manual VoiceOver verification pending.
+
+For the device baseline and later comparison:
 
 1. Install a representative, preferably release-like build.
 2. Configure the VoiceOver accessibility shortcut and confirm how to turn

@@ -7,9 +7,12 @@ description: Use when measuring, diagnosing, planning, improving, or preventing 
 
 ## Outcome
 
-Turn a performance symptom into a reproducible scenario, measurement-backed root
-cause, narrowly scoped change, and like-for-like validation. Optimize the user
-experience or resource budget, not an isolated number.
+Turn a performance symptom into a reproducible scenario, supported cause,
+narrowly scoped change, and proportionate validation. Use runtime evidence to
+locate unknown costs and support performance claims. Do not require Instruments,
+charts, Simulator, or a physical device before applying a low-risk,
+semantics-preserving correction proved directly by source, control flow,
+complexity, dependency scope, or ownership.
 
 ## Read references selectively
 
@@ -39,12 +42,17 @@ Choose one operating mode:
   edit unless asked.
 - **Diagnose**: gather evidence and identify a root cause; do not implement a fix
   unless the request includes one.
-- **Improve**: diagnose, make the smallest justified change, and validate it.
+- **Improve**: apply every safe in-scope source-proven correction, diagnose
+  measurement-dependent candidates, and validate proportionately.
 - **Prevent**: add a stable performance test, baseline, runtime check, or field
   monitoring after defining the behavior it protects.
 
 Clarify the app, feature, platform, and performance symptom. Do not turn a
 bounded request into a whole-app optimization campaign.
+
+Treat a request to optimize, improve, fix, refactor, or implement as **Improve**
+authority within its named scope. Do not downgrade it to Diagnose because a
+profiler, device, baseline, or performance test is unavailable.
 
 ## Define the performance contract
 
@@ -62,7 +70,7 @@ Record before measuring:
 For visionOS, also record Shared Space versus immersive use, session duration,
 rendering workload, and relevant environmental or thermal conditions.
 
-## Select evidence before reading hot code
+## Select evidence proportionately
 
 1. For a shipped regression, begin with Organizer Insights, metric distributions,
    diagnostic signatures, and MetricKit where available. Filter by app version,
@@ -78,6 +86,12 @@ rendering workload, and relevant environmental or thermal conditions.
 
 Treat Simulator and Debug-build observations as leads, not device performance
 proof. Retain the dSYMs for profiled distribution builds.
+
+Use source evidence directly when it proves unnecessary work, worse complexity,
+a synchronous constrained-path operation, an invalid dependency scope, or a
+broken resource lifetime and the correction preserves behavior. Collect runtime
+evidence to locate an unknown bottleneck, quantify impact, resolve a material
+tradeoff, or claim an app-level outcome—not to grant permission for that edit.
 
 ## Route by symptom
 
@@ -101,25 +115,30 @@ proof. Retain the dSYMs for profiled distribution builds.
 
 ## Run the evidence loop
 
-1. Preserve unrelated work and establish a repeatable baseline.
-2. Capture the smallest interval that reproduces the symptom. Mark it with a
-   signpost when its boundaries are otherwise ambiguous.
-3. Inspect timeline state and call paths together. Distinguish self cost from
-   descendant cost, frequency from per-call cost, and active work from blocking.
-4. State one falsifiable root-cause hypothesis and the evidence that supports it.
-5. If authorized, implement one semantically coherent change. Preserve
+1. Preserve unrelated work and establish a repeatable baseline when the
+   decision or claim depends on runtime behavior.
+2. For runtime-dependent work, capture the smallest interval that reproduces
+   the symptom. Mark it with a signpost when its boundaries are ambiguous.
+3. Inspect the relevant evidence: timeline state and call paths for a capture;
+   callers, control/data flow, dependency scope, complexity, and ownership for
+   direct source proof.
+4. State one falsifiable causal mechanism and the evidence that supports it.
+5. In Improve mode, implement one semantically coherent change. Preserve
    cancellation, ordering, actor or thread isolation, priority, data integrity,
    UI correctness, accessibility, and recovery behavior.
-6. Repeat the same scenario on the same class of device and build. Compare the
-   candidate with the baseline, including variability and relevant resource
-   tradeoffs.
+6. When measuring, repeat the same scenario on the same class of device and
+   build. Compare the candidate with the baseline, including variability and
+   relevant resource tradeoffs.
 7. Add an appropriate regression guard when the scenario is stable enough, then
    check the nearest functional tests and production configuration.
 8. Continue only if the next bottleneck remains in scope.
 
 ## Apply hard guardrails
 
-- Fix measured root causes, not symbols that merely appear high in a broad trace.
+- Fix supported causes, not symbols that merely appear high in a broad trace. A
+  supported cause may come from matched runtime evidence or direct source proof.
+- Apply a safe source-proven correction without waiting for a profiler. Never
+  describe an unmeasured edit as a verified performance gain.
 - Fix hangs before hitches when the same main-thread work can cause both.
 - Do not move tiny repeated work to another executor without accounting for
   scheduling and synchronization overhead; doing less work may be better.
@@ -154,13 +173,16 @@ Then complete the selected mode:
 - **Diagnose**: provide the supported root cause or bounded hypothesis, rejected
   alternatives, missing evidence, and next discriminating measurement; do not
   report a code change.
-- **Improve**: provide changed files and causal mechanism, baseline and candidate
-  results with units, aggregation, and variability, functional checks, and
-  regression guards when the scenario is stable enough.
+- **Improve**: provide changed files, causal mechanism, functional checks, and
+  regression guards when the scenario is stable enough. Provide baseline and
+  candidate results with units, aggregation, and variability when collected or
+  required for the claim.
 - **Prevent**: provide the protected scenario, metric and baseline semantics,
   test or monitoring result, functional check, and ownership of future baseline
   changes.
 
-If evidence is insufficient or a required physical device, symbol file, field
-sample, or supported tool is unavailable, report that limitation and the
-strongest conclusion the evidence permits. Do not label a hypothesis as a fix.
+If a required physical device, symbol file, field sample, or supported tool is
+unavailable, report the limitation and bound the performance claim. In Improve
+mode, still apply safe source-proven corrections and report their functional
+validation. Do not label a hypothesis as a fix or an unmeasured correction as a
+verified app-level improvement.

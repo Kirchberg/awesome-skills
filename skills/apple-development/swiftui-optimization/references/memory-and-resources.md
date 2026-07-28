@@ -72,6 +72,12 @@ scenario. Follow the full retaining path to an expected root. Do not optimize a
 large system allocation until the trace connects it to data or behavior the app
 controls.
 
+A source ownership graph can justify correcting a direct strong cycle,
+uncontrolled task, missing cancellation boundary, unbounded resource owner, or
+oversized decode. Apply that safe correction without waiting for memory tools.
+Use a fresh runtime capture when attributing footprint, retention, pressure, or
+leak behavior to the app.
+
 ## Prove ownership and cancellation
 
 Write down the intended owner and terminal event for each long-lived resource:
@@ -100,8 +106,10 @@ between them from the real lifetime contract. Do not add `weak self`
 mechanically to normal SwiftUI action closures.
 
 Confirm expected `deinit` events or disappearance of instances in a fresh
-memory graph. `onDisappear` is not a universal destructor: it can repeat, and
-containers may retain or later recreate identity-scoped state.
+memory graph when available. Its absence does not block a source-proven
+ownership or cancellation correction. `onDisappear` is not a universal
+destructor: it can repeat, and containers may retain or later recreate
+identity-scoped state.
 
 ## Bound image and cache memory
 
@@ -166,6 +174,10 @@ Repeat the same lifecycle and report:
 - cache entry count and cost at the bound;
 - image dimensions and decoded-resource effect when relevant;
 - CPU, I/O, scrolling, cancellation, and correctness regressions.
+
+When runtime memory tools are unavailable, validate the ownership and terminal
+event with focused lifecycle and functional tests, report the source proof, and
+label the retention or footprint claim pending.
 
 Reject a correction that only hides the symptom, drops required state, reloads
 resources excessively, or moves growth into an unmeasured cache. A lower final

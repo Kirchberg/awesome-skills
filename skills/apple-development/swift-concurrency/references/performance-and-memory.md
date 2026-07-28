@@ -133,7 +133,12 @@ work.
 
 ## Profile, fix, and verify
 
-Use this loop:
+Use this loop for causal diagnosis, mechanism-sensitive tuning, and performance
+claims. Do not let it block a source-proven, semantics-preserving correction:
+apply that correction in Implement mode, run correctness and load checks, and
+measure afterward when available.
+
+For measurement-dependent work:
 
 1. Reproduce the same scenario and record toolchain, device, build
    configuration, input, and environment.
@@ -150,5 +155,6 @@ representative older physical device for Apple-platform latency, memory, and
 energy conclusions.
 
 Report the raw before-and-after evidence, run-to-run variability, changed
-semantics, and remaining uncertainty. Label unmeasured improvements as
-hypotheses.
+semantics, and remaining uncertainty. Label an unmeasured performance effect as
+pending or hypothetical; do not relabel the already implemented safe correction
+as recommendation-only.

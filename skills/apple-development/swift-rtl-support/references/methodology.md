@@ -20,8 +20,8 @@ Keep the requested authority explicit:
   editing.
 - For an audit or review, inspect and reproduce defects without silently fixing
   them.
-- For implementation, establish current LTR and RTL behavior, change the
-  smallest complete unit, and verify both directions.
+- For implementation, inspect the available LTR and RTL baseline, change the
+  smallest complete unit, and verify both directions proportionally.
 - For diagnosis, preserve the failing content and environment until the root
   mechanism is known.
 - For testing, do not alter product behavior merely to make a test pass.
@@ -42,7 +42,8 @@ Record facts before recommendations:
 5. List supported languages and regions. Distinguish currently shipped support
    from aspirational support.
 6. Reproduce the relevant screens in LTR, an RTL pseudolanguage, and any
-   available real RTL localization.
+   available real RTL localization when runtime behavior is needed to classify
+   or verify the defect.
 7. Capture affected states: loading, empty, populated, long content, error,
    editing, selection, modal, navigation, and destructive confirmation.
 8. Record existing tests, screenshots, translator guidance, String Catalogs,
@@ -51,6 +52,11 @@ Record facts before recommendations:
 Do not infer behavior solely from API names. Linkage against newer SDKs can
 change default text-direction and alignment behavior while deployment targets
 remain older.
+
+Do not gate a source-evident, semantically classified correction on a build,
+Simulator, or device. Preserve the source and test baseline, apply the smallest
+complete change, run available validation afterward, and report any runtime
+matrix as pending.
 
 ## Classify direction before changing code
 

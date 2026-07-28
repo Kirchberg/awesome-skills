@@ -96,7 +96,9 @@ Materialize an `Array` or `String` when:
 - a tiny result escapes into long-lived state;
 - the large base should otherwise be released;
 - an API needs independent storage;
-- measurement shows retained capacity is material.
+- source scale and lifetime prove that the escaping result would retain a much
+  larger otherwise-dead base, or measurement shows retained capacity is
+  material.
 
 Do not copy every slice preemptively. Compare avoided copy cost with retained
 memory and actual lifetime.
@@ -136,6 +138,11 @@ Distinguish:
 Use `app-performance` for heap, memory-graph, footprint, or termination
 diagnosis. Use this skill to correct the source-level ownership mechanism once
 identified.
+
+Apply a safe correction immediately when the source ownership graph proves a
+strong cycle, missing lifecycle cancellation, or an escaping owner that cannot
+release. Use Memory Graph, Allocations, or repeated lifecycle evidence before
+claiming that a runtime leak or footprint symptom is fixed.
 
 ## Closure and task captures
 

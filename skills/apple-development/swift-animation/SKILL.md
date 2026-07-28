@@ -9,7 +9,7 @@ description: Use when designing, implementing, refactoring, reviewing, debugging
 
 Create motion that explains a state change, preserves direct manipulation,
 remains coherent when interrupted, adapts to accessibility settings, respects
-the selected SDK and deployment target, and meets a measured frame and power
+the selected SDK and deployment target, and meets any claimed frame and power
 budget.
 
 Treat animation as a state transition rather than delayed visual side effects.
@@ -68,10 +68,17 @@ Choose one lead mode:
   performance findings without fixing unless requested.
 - **Diagnose**: reproduce the event sequence and localize the discontinuity or
   missed frame before proposing a repair.
-- **Profile**: establish an equivalent scenario, record a baseline, change one
-  supported mechanism, and measure again.
+- **Profile**: for measurement-dependent tuning or a performance claim,
+  establish an equivalent scenario, record a baseline, change one supported
+  mechanism, and measure again.
 - **Test**: exercise final states, interruption paths, accessibility variants,
   device behavior, and performance thresholds.
+
+In Implement or refactor mode, apply a safe, lifecycle-complete correction as
+soon as state, ownership, timing, or API semantics prove it. Do not reduce it to
+a recommendation because a profiler, Simulator, or physical device is
+unavailable. Run available correctness checks and reserve profiling for
+conditional tuning, quantification, and smoothness or power claims.
 
 Lead with `$swift-animation` when motion behavior is the core problem. Use
 `$swiftui-optimization` for broader invalidation or view-update architecture,

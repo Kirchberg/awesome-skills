@@ -17,6 +17,10 @@ Use the language's semantic guarantees to establish correctness and a cost model
 to form hypotheses. Use an optimized build, a benchmark, or profiling to prove a
 specific runtime result.
 
+This boundary does not prevent applying a semantics-preserving correction whose
+removed work follows directly from source semantics, complexity, or lifetime.
+It limits the runtime claim made about that correction.
+
 Do not promise:
 
 - that a local value stays on the stack;

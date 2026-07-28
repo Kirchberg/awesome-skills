@@ -68,6 +68,8 @@ grep -q 'baseline and candidate' "$skill_file" \
   || fail "before-and-after evidence gate is missing"
 grep -q 'Label an unmeasured recommendation as a hypothesis' "$skill_file" \
   || fail "unmeasured-claim guardrail is missing"
+grep -q 'Do not require a profiler, chart, Simulator' "$skill_file" \
+  || fail "source-proven correction action rule is missing"
 grep -q 'Do not claim that `static let` is inherently faster' "$skill_file" \
   || fail "blanket-rule guardrail is missing"
 grep -q 'rank the most useful sources from 0 to 100' "$skill_file" \

@@ -9,8 +9,10 @@ description: Use when creating, refactoring, reviewing, or diagnosing SwiftUI vi
 
 Produce correct, maintainable SwiftUI views whose bodies finish quickly, update
 only for relevant changes, and keep resources within their intended lifetimes.
-Treat correctness and evidence as gates: never trade current actions, state,
-accessibility, or identity for a smaller update count or footprint.
+Treat correctness as a gate. Use evidence proportionate to the change: direct
+dependency, identity, work, control-flow, or ownership proof can justify a
+low-risk refactor; use profiling to attribute a runtime regression or claim a
+measured improvement.
 
 ## Read references selectively
 
@@ -45,14 +47,19 @@ to preserve correctness and verify performance claims.
    - behavior-preserving refactor;
    - measured performance diagnosis;
    - performance-focused code review.
-4. For an existing issue, record one reproducible interaction, representative
-   data volume, affected device and OS, build configuration, and visible
-   symptom before editing.
+4. For a runtime-dependent issue, record one reproducible interaction,
+   representative data volume, affected device and OS, build configuration, and
+   visible symptom before making a performance claim. Do not require those
+   runtime artifacts before correcting a direct source violation.
 5. Classify memory symptoms as transient growth, persistent growth, abandoned
    reachable memory, a reference-cycle leak, or an unbounded resource policy
    before changing ownership.
 6. Do not redesign unrelated architecture or add optimization machinery without
    a demonstrated need.
+
+Treat a request to create, optimize, fix, or refactor as edit authority within
+its named scope. Do not downgrade it to code review because a profiler,
+Simulator, physical device, or baseline capture is unavailable.
 
 ## Use the SwiftUI mental model
 
@@ -106,6 +113,12 @@ Prefer simpler fixes in this order:
 6. reduce high-frequency event, geometry, or animation updates;
 7. adopt custom `Equatable` behavior only when profiling still justifies it.
 
+Apply items 1–6 immediately when source inspection proves the mechanism and the
+change is low-risk and semantics-preserving. Do not leave such a correction as
+advice merely because runtime tooling is unavailable. Keep custom equality,
+container or cache-policy swaps, throttling, framework workarounds, and other
+tradeoff-dependent changes measurement-gated.
+
 When relying on custom equality:
 
 - compare every value that affects content, layout, styling, accessibility,
@@ -118,7 +131,7 @@ When relying on custom equality:
 - remember that Airbnb's `@Equatable` and `@SkipEquatable` are custom macros,
   not SwiftUI APIs.
 
-## Diagnose instead of guessing
+## Diagnose runtime regressions instead of guessing
 
 1. Reproduce the symptom with the same workload.
 2. For responsiveness, profile a representative device and optimized build.
@@ -132,8 +145,10 @@ When relying on custom equality:
    - memory or resource lifetime, and I/O, using separate evidence.
 4. Trace the most frequent or expensive cause to application code.
 5. Make one minimal correction and repeat the same capture.
-6. Reject the change if the metric does not improve reliably or correctness
-   changes.
+6. For a measurement-dependent change, reject it if the metric does not improve
+   reliably or correctness changes. For a direct source-proven correction, keep
+   it when focused checks preserve behavior and the stated mechanism is removed;
+   do not claim a measured gain.
 
 Use `Self._printChanges()` only as temporary, best-effort debug evidence. It is
 an underscored API with runtime cost; remove it before shipping.
@@ -181,3 +196,5 @@ post-interaction footprint or live-allocation counts, the proven retention
 path, and whether the cache or resource policy reaches a bound.
 
 Do not claim completion from fewer `body` logs alone.
+When runtime evidence is unavailable, use “implemented from source evidence;
+device profiling pending” and report the functional checks that passed.

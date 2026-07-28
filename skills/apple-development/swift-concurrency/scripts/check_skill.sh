@@ -61,6 +61,8 @@ grep -Fq 'display_name: "Swift Concurrency"' "$metadata" ||
   fail "display name is stale"
 grep -Fq 'default_prompt: "Use $swift-concurrency' "$metadata" ||
   fail 'default prompt does not invoke $swift-concurrency'
+grep -Fq 'Do not leave it as a proposal' "$skill_file" ||
+  fail "source-proven correction action rule is missing"
 grep -Fq 'allow_implicit_invocation: true' "$metadata" ||
   fail "implicit invocation policy is missing"
 

@@ -91,7 +91,7 @@ done
   '  short_description: "Build native RTL support for Swift iOS apps"' ]] ||
   fail "short description is stale or malformed"
 [[ "$(sed -n '4p' "$metadata")" == \
-  '  default_prompt: "Use $swift-rtl-support to implement or audit this SwiftUI or UIKit flow for native RTL layout, bidi text, localized assets, and regression testing."' ]] ||
+  '  default_prompt: "Use $swift-rtl-support to fix this SwiftUI or UIKit flow: apply source-evident semantic RTL corrections now, then report any runtime matrix still pending."' ]] ||
   fail "default prompt is stale or malformed"
 [[ -z "$(sed -n '5p' "$metadata")" ]] ||
   fail "agents/openai.yaml mappings must be separated by one blank line"
@@ -124,7 +124,8 @@ require_in "$skill_file" \
   'Then decide independently' \
   'Right-to-Left Pseudolanguage' \
   'real Arabic and real Hebrew' \
-  'implemented; RTL device verification pending'
+  'implemented; RTL device verification pending' \
+  'instead of leaving the correction as advice'
 
 require_in "$root_dir/references/methodology.md" \
   'Classify direction before changing code' \
@@ -252,7 +253,7 @@ if [[ -d "$repo_root/.git" &&
   grep -Fq './install.sh swift-rtl-support' "$readme" ||
     fail "repository README installation example is missing"
   grep -Fq \
-    'Use $swift-rtl-support to implement or audit this SwiftUI or UIKit flow for native RTL layout, bidi text, localized assets, and regression testing.' \
+    'Use $swift-rtl-support to fix this SwiftUI or UIKit flow: apply source-evident semantic RTL corrections now, then report any runtime matrix still pending.' \
     "$readme" ||
     fail "repository README default prompt is stale"
   grep -Fq 'skills/apple-development/swift-rtl-support/SKILL.md' "$readme" ||

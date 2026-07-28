@@ -96,7 +96,7 @@ done
   '  short_description: "Build fluid, accessible Apple animations"' ]] ||
   fail "short description is stale or malformed"
 [[ "$(sed -n '4p' "$metadata")" == \
-  '  default_prompt: "Use $swift-animation to design, implement, or diagnose this Apple UI animation for continuity, accessibility, availability, and measured performance."' ]] ||
+  '  default_prompt: "Use $swift-animation to implement or improve this Apple UI animation: apply safe source-proven corrections now, then profile conditional smoothness and power claims."' ]] ||
   fail "default prompt is stale or malformed"
 [[ -z "$(sed -n '5p' "$metadata")" ]] ||
   fail "agents/openai.yaml mappings must be separated by one blank line"
@@ -127,7 +127,8 @@ require_in "$skill_file" \
   'normalize UIKit velocity' \
   'Reduce Motion and no-animation outcomes' \
   'Do not imitate interaction with a chain of delayed animations.' \
-  'Do not use average FPS or simulator appearance as sole evidence.'
+  'Do not use average FPS or simulator appearance as sole evidence.' \
+  'Do not reduce it to'
 
 require_in "$root_dir/references/methodology-and-motion-design.md" \
   '**Noninteractive**' \
@@ -280,7 +281,7 @@ if [[ -d "$repo_root/.git" &&
   grep -Fq './install.sh swift-animation' "$readme" ||
     fail "repository README installation example is missing"
   grep -Fq \
-    'Use $swift-animation to design, implement, or diagnose this Apple UI animation for continuity, accessibility, availability, and measured performance.' \
+    'Use $swift-animation to implement or improve this Apple UI animation: apply safe source-proven corrections now, then profile conditional smoothness and power claims.' \
     "$readme" ||
     fail "repository README default prompt is stale"
   grep -Fq 'skills/apple-development/swift-animation/SKILL.md' "$readme" ||

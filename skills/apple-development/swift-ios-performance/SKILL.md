@@ -8,8 +8,8 @@ description: Use when researching, writing, reviewing, refactoring, or benchmark
 ## Outcome
 
 Turn a Swift cost question or known hot path into a semantics-preserving
-recommendation, focused change, or benchmark with an explicit runtime mechanism
-and evidence proportionate to the claim.
+correction, focused change, or benchmark with an explicit cost mechanism and
+evidence proportionate to the decision and claim.
 
 Prefer the largest reliable gain. Remove unnecessary work before tuning ARC,
 dispatch, bounds checks, or generated instructions.
@@ -69,6 +69,10 @@ Choose one mode and respect its authority:
 
 Do not turn a narrow question into a project-wide optimization campaign.
 
+Treat a request to optimize, improve, fix, refactor, or implement as **Improve**
+authority within its named scope. Do not downgrade it to Review because a
+profiler, device, or benchmark is unavailable.
+
 ## Establish the context
 
 1. Read repository instructions and inspect version-control status.
@@ -94,6 +98,14 @@ performance evidence.
 5. Reduce overly fine tasks, actor hops, synchronization, and executor handoffs.
 6. Examine dynamic dispatch or specialization only when it remains material.
 7. Escalate to fixed-size storage, unsafe access, SIMD, or Accelerate last.
+
+In Improve mode, implement a finding by default when source inspection proves
+the cost mechanism and the correction is private, low-risk, and
+semantics-preserving. Do not require a profiler, chart, Simulator, physical
+device, or benchmark first. Keep a finding recommendation-only when edit
+authority is absent or API, safety, concurrency, compiler behavior, or a
+material tradeoff remains unresolved; state that blocker instead of silently
+omitting the finding.
 
 For every finding, report the source location, triggering workload, cost
 mechanism, expected scale, safe correction, validation method, and tradeoffs.
@@ -144,6 +156,11 @@ Separate impact from confidence; do not manufacture precision from syntax alone.
 For changed code, run repository formatting, static analysis, focused tests, and
 a production-configuration build for affected targets.
 
+For a direct source-proven correction, treat those correctness checks as
+sufficient implementation validation. Report the supported cost, complexity, or
+lifetime mechanism and state that performance verification was not run when no
+matched benchmark or capture is available.
+
 For a performance claim, compare baseline and candidate with the same optimized
 build, workload, environment, and metric. Prefer a representative older physical
 device when the claim concerns iOS behavior. Report all valid runs or their
@@ -155,5 +172,6 @@ by topic, explain version-sensitive caveats, and prefer primary sources.
 
 Finish with the selected mode, scope, supported mechanism, changed files if any,
 checks run, before-and-after evidence if collected, tradeoffs, and remaining
-uncertainty. Label an unmeasured recommendation as a hypothesis, never as a
-verified improvement.
+uncertainty. Label an unmeasured recommendation as a hypothesis only when its
+mechanism is conditional. Label a source-proven correction as implemented with
+performance verification pending, never as a verified improvement.

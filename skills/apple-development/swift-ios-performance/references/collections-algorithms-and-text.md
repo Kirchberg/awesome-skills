@@ -41,8 +41,10 @@ framework vectorization. Benchmark the actual data sizes.
 ## Array growth and reuse
 
 `Array` grows geometrically, so repeated `append` has amortized constant-time
-behavior. Use `reserveCapacity` when a useful final count or upper estimate is
-known and intermediate reallocations are material.
+behavior. Use `reserveCapacity` directly when a useful final count or tight
+upper estimate is known and the retained-memory contract permits it. Measure
+only when the estimate or memory tradeoff is uncertain, or before claiming an
+app-level effect.
 
 Good candidates:
 
@@ -201,9 +203,10 @@ measurement.
 
 ## Reusable Foundation values
 
-Construction of a formatter, regular expression, decoder, encoder, locale-aware
-object, or parser configuration may be worth reusing when profiles show repeated
-setup. Select lifetime deliberately:
+Reuse an immutable formatter, regular expression, decoder configuration,
+encoder configuration, locale-aware object, or parser configuration when a
+profile or the source call graph proves repeated construction with invariant
+configuration. Select lifetime deliberately:
 
 - local for cheap or request-specific configuration;
 - feature-owned for shared use with bounded lifetime;
@@ -226,4 +229,5 @@ lifetime.
 - Is text processed at the correct Unicode or byte semantic level?
 - Does bridging or conversion occur inside a repeated loop?
 - Is shared reuse safe, correctly invalidated, and memory-bounded?
-- Which optimized benchmark or allocation trace will decide the tradeoff?
+- Which source proof, optimized benchmark, or allocation trace supports or
+  decides the tradeoff?

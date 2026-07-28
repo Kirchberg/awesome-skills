@@ -3,6 +3,7 @@
 ## Contents
 
 - Scope and authority
+- Evidence level
 - Performance contract
 - Scenario design
 - Measurement hygiene
@@ -24,12 +25,30 @@ Classify the task before acting:
 - A diagnosis request authorizes read-only investigation and measurement, not a
   fix unless the request also asks to resolve the issue.
 - An improvement request authorizes changes within the named feature and the
-  validation needed to prove them.
+  validation needed to support them.
 - A regression-prevention request authorizes the smallest test or monitoring
   surface that protects the agreed behavior.
 
 Do not commit, push, publish traces, upload symbols, or distribute a build unless
 the user explicitly authorizes that action.
+
+## Evidence level
+
+Separate evidence that justifies an edit from evidence that supports a
+performance claim.
+
+In improvement mode, apply a low-risk, semantics-preserving correction when
+source inspection directly proves its mechanism through control flow, data
+flow, dependency scope, complexity, call context, or ownership. Preserve the
+source baseline in version control and run the available functional checks. Do
+not withhold the correction or reduce it to a recommendation because
+Instruments, Simulator, charts, or a physical device are unavailable.
+
+Require matched runtime evidence before attributing an unknown app symptom,
+quantifying impact, accepting a material resource or product tradeoff, or
+claiming an end-to-end improvement. Also require stronger evidence for public
+API, data-representation, executor, synchronization, unsafe-memory, fidelity,
+caching, and batching changes whose benefit or cost depends on runtime behavior.
 
 ## Performance contract
 
@@ -187,6 +206,12 @@ Write the hypothesis so a new capture can falsify it. Example: “Repeated image
 decoding on the main actor consumes the commit interval; downsampling before UI
 handoff should reduce main-thread active time without increasing peak memory.”
 
+Use that runtime chain for device-, timing-, rendering-, and
+resource-dependent symptoms. For a direct source correction, instead record the
+exact source and callers, the control/data/dependency/ownership mechanism,
+relevant scale and invariants, and the semantics-preserving correction. Do not
+force a statically proved case through a profiling prerequisite.
+
 ## Change and comparison rules
 
 Prefer this order:
@@ -214,6 +239,11 @@ Compare baseline and candidate in the same view or test where possible. Explain
 whether a difference is larger than normal variability and whether it meets the
 contract, not merely whether the number moved in the desired direction.
 
+In improvement mode, apply a source-proven correction by default. Require a
+matched before-and-after measurement for a runtime performance claim, not for
+keeping a correction justified by a clear complexity, lifetime, or
+unnecessary-work proof.
+
 ## Regression prevention
 
 Add a guard only when the scenario is stable and meaningful.
@@ -237,15 +267,17 @@ Report:
 
 1. request mode and scope;
 2. contract and environment;
-3. field evidence, sample limitations, and reproduction status;
-4. baseline series and variability;
-5. trace type, interval, and root-cause chain;
+3. field evidence, sample limitations, and reproduction status when applicable;
+4. baseline series and variability when collected;
+5. trace type, interval, and runtime root-cause chain, or direct source proof;
 6. implemented mechanism, if authorized;
-7. candidate series and secondary guardrails;
+7. candidate series and secondary guardrails when measured;
 8. functional checks and regression prevention;
 9. tradeoffs, unavailable tools, platform constraints, unresolved hypotheses,
    and the next measured bottleneck.
 
 Use “improved in this scenario” when that is all the evidence proves. Reserve
 “fixed” for the original contract and affected population after the relevant
-validation succeeds.
+validation succeeds. Use “implemented from source evidence; app-level
+performance not measured” when a direct correction passed functional checks
+without a matched runtime comparison.
