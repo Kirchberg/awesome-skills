@@ -90,6 +90,8 @@ animator.addAnimations {
 animator.addCompletion { position in
     finishTransition(at: position)
 }
+
+animator.startAnimation()
 ```
 
 Retain the animator for exactly the lifetime of the motion. Keep finalization
