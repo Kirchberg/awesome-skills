@@ -1,0 +1,7 @@
+interface:
+  display_name: "Apple Product Marketing"
+  short_description: "Position and promote apps across Apple channels"
+  default_prompt: "Use $apple-product-marketing to position this app and build a compliant, measurable App Store growth plan."
+
+policy:
+  allow_implicit_invocation: true

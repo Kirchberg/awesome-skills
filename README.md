@@ -59,12 +59,21 @@ project-local skills directory.
   implements, audits, and tests native RTL support for SwiftUI and UIKit across
   semantic layout, bidi text, localized formatting, assets, interaction, and
   real-language verification.
+- [`apple-product-marketing`](skills/apple-development/apple-product-marketing/)
+  positions, launches, promotes, localizes, and measures apps and games across
+  App Store discovery, product pages, Apple Ads, lifecycle communications,
+  analytics, and web-to-app journeys.
 
 ## Repository Layout
 
 ```text
 skills/
   apple-development/
+    apple-product-marketing/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
     app-performance/
       SKILL.md
       agents/openai.yaml
@@ -155,6 +164,7 @@ path:
 ./install.sh app-performance
 ./install.sh voice-over-accessibility
 ./install.sh swift-rtl-support
+./install.sh apple-product-marketing
 ```
 
 Install into a specific project by copying the folder into that project's local
@@ -322,6 +332,35 @@ Important files:
 - [`skills/docs-feature-style/SKILL.md`](skills/docs-feature-style/SKILL.md)
 - [`skills/docs-feature-style/references/style-rules.md`](skills/docs-feature-style/references/style-rules.md)
 - [`skills/docs-feature-style/references/tooling.md`](skills/docs-feature-style/references/tooling.md)
+
+### Apple development / `apple-product-marketing`
+
+Use when an app or game for Apple platforms needs positioning, App Store
+discovery and conversion work, localized product marketing, launch or lifecycle
+communications, Apple Ads, analytics, web-to-app SEO, or metadata automation
+with explicit policy, evidence, and downstream-quality guardrails.
+
+Default prompt:
+
+```text
+Use $apple-product-marketing to position this app and build a compliant, measurable App Store growth plan.
+```
+
+Important files:
+
+- [`skills/apple-development/apple-product-marketing/SKILL.md`](skills/apple-development/apple-product-marketing/SKILL.md)
+- [`skills/apple-development/apple-product-marketing/references/methodology.md`](skills/apple-development/apple-product-marketing/references/methodology.md)
+- [`skills/apple-development/apple-product-marketing/references/positioning-and-messaging.md`](skills/apple-development/apple-product-marketing/references/positioning-and-messaging.md)
+- [`skills/apple-development/apple-product-marketing/references/app-store-discovery.md`](skills/apple-development/apple-product-marketing/references/app-store-discovery.md)
+- [`skills/apple-development/apple-product-marketing/references/conversion-and-experiments.md`](skills/apple-development/apple-product-marketing/references/conversion-and-experiments.md)
+- [`skills/apple-development/apple-product-marketing/references/localization-and-transcreation.md`](skills/apple-development/apple-product-marketing/references/localization-and-transcreation.md)
+- [`skills/apple-development/apple-product-marketing/references/launch-and-communications.md`](skills/apple-development/apple-product-marketing/references/launch-and-communications.md)
+- [`skills/apple-development/apple-product-marketing/references/apple-ads.md`](skills/apple-development/apple-product-marketing/references/apple-ads.md)
+- [`skills/apple-development/apple-product-marketing/references/analytics-and-attribution.md`](skills/apple-development/apple-product-marketing/references/analytics-and-attribution.md)
+- [`skills/apple-development/apple-product-marketing/references/web-seo-and-automation.md`](skills/apple-development/apple-product-marketing/references/web-seo-and-automation.md)
+- [`skills/apple-development/apple-product-marketing/references/deliverables.md`](skills/apple-development/apple-product-marketing/references/deliverables.md)
+- [`skills/apple-development/apple-product-marketing/references/sources.md`](skills/apple-development/apple-product-marketing/references/sources.md)
+- [`skills/apple-development/apple-product-marketing/scripts/check_skill.sh`](skills/apple-development/apple-product-marketing/scripts/check_skill.sh)
 
 ### Apple development / `swift-concurrency`
 
