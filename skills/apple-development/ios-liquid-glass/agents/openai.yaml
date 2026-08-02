@@ -1,0 +1,7 @@
+interface:
+  display_name: "iOS Liquid Glass"
+  short_description: "Adopt and review native Liquid Glass interfaces"
+  default_prompt: "Use $ios-liquid-glass to audit and implement this Apple interface with native Liquid Glass, safe fallbacks, accessibility, and measured validation."
+
+policy:
+  allow_implicit_invocation: true

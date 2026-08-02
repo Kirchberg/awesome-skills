@@ -77,6 +77,10 @@ project-local skills directory.
   designs, redesigns, reviews, and hands off native Apple-platform experiences
   from user goals and information architecture through components, visual
   language, interaction, accessibility, privacy, and implementation evidence.
+- [`ios-liquid-glass`](skills/apple-development/ios-liquid-glass/) audits,
+  migrates, implements, reviews, profiles, and tests native Liquid Glass for
+  iOS and iPadOS across SwiftUI, UIKit, and hybrid apps with system-first
+  structure, safe fallbacks, accessibility, and evidence-based validation.
 
 ## Repository Layout
 
@@ -109,6 +113,11 @@ skills/
       references/
       scripts/
     apple-platform-design/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    ios-liquid-glass/
       SKILL.md
       agents/openai.yaml
       references/
@@ -191,6 +200,7 @@ path:
 ./install.sh swift-rtl-support
 ./install.sh apple-product-marketing
 ./install.sh apple-platform-design
+./install.sh ios-liquid-glass
 ```
 
 Install into a specific project by copying the folder into that project's local
@@ -621,6 +631,35 @@ Important files:
 - [`skills/apple-development/apple-platform-design/references/10-design-review-checklist.md`](skills/apple-development/apple-platform-design/references/10-design-review-checklist.md)
 - [`skills/apple-development/apple-platform-design/references/sources.md`](skills/apple-development/apple-platform-design/references/sources.md)
 - [`skills/apple-development/apple-platform-design/scripts/check_skill.sh`](skills/apple-development/apple-platform-design/scripts/check_skill.sh)
+
+### Apple development / `ios-liquid-glass`
+
+Use when an iOS or iPadOS SwiftUI, UIKit, or hybrid interface needs Liquid Glass
+design, adoption, audit, migration, implementation, review, diagnosis, profiling,
+or testing across system components, custom effects, availability fallbacks,
+accessibility settings, adaptive layouts, and rendering evidence.
+
+Default prompt:
+
+```text
+Use $ios-liquid-glass to audit and implement this Apple interface with native Liquid Glass, safe fallbacks, accessibility, and measured validation.
+```
+
+Important files:
+
+- [`skills/apple-development/ios-liquid-glass/SKILL.md`](skills/apple-development/ios-liquid-glass/SKILL.md)
+- [`skills/apple-development/ios-liquid-glass/references/00-current-platform-state.md`](skills/apple-development/ios-liquid-glass/references/00-current-platform-state.md)
+- [`skills/apple-development/ios-liquid-glass/references/01-design-principles-and-hig.md`](skills/apple-development/ios-liquid-glass/references/01-design-principles-and-hig.md)
+- [`skills/apple-development/ios-liquid-glass/references/02-audit-and-migration.md`](skills/apple-development/ios-liquid-glass/references/02-audit-and-migration.md)
+- [`skills/apple-development/ios-liquid-glass/references/03-swiftui-system-components.md`](skills/apple-development/ios-liquid-glass/references/03-swiftui-system-components.md)
+- [`skills/apple-development/ios-liquid-glass/references/04-swiftui-custom-glass.md`](skills/apple-development/ios-liquid-glass/references/04-swiftui-custom-glass.md)
+- [`skills/apple-development/ios-liquid-glass/references/05-uikit-and-hybrid.md`](skills/apple-development/ios-liquid-glass/references/05-uikit-and-hybrid.md)
+- [`skills/apple-development/ios-liquid-glass/references/06-accessibility.md`](skills/apple-development/ios-liquid-glass/references/06-accessibility.md)
+- [`skills/apple-development/ios-liquid-glass/references/07-performance.md`](skills/apple-development/ios-liquid-glass/references/07-performance.md)
+- [`skills/apple-development/ios-liquid-glass/references/08-testing-and-evidence.md`](skills/apple-development/ios-liquid-glass/references/08-testing-and-evidence.md)
+- [`skills/apple-development/ios-liquid-glass/references/09-current-beta.md`](skills/apple-development/ios-liquid-glass/references/09-current-beta.md)
+- [`skills/apple-development/ios-liquid-glass/references/sources.md`](skills/apple-development/ios-liquid-glass/references/sources.md)
+- [`skills/apple-development/ios-liquid-glass/scripts/check_skill.sh`](skills/apple-development/ios-liquid-glass/scripts/check_skill.sh)
 
 ## Maintenance Notes
 
