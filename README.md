@@ -33,6 +33,10 @@ project-local skills directory.
 - [`docs-feature-style`](skills/docs-feature-style/) normalizes documentation
   style and structure with Vale and markdownlint when present, and applies the
   same rules manually when they are absent.
+- [`ios-app-intents`](skills/apple-development/ios-app-intents/) audits,
+  designs, implements, migrates, and verifies production-ready App Intents
+  integrations across Siri, Shortcuts, Spotlight, widgets, controls, and app
+  routing with stable entities and explicit execution modes.
 - [`swift-concurrency`](skills/apple-development/swift-concurrency/) designs,
   implements, reviews, diagnoses, profiles, tests, and migrates safe, bounded
   Swift concurrency across tasks, actors, isolation, cancellation, streams,
@@ -88,6 +92,11 @@ project-local skills directory.
 skills/
   apple-development/
     apple-product-marketing/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    ios-app-intents/
       SKILL.md
       agents/openai.yaml
       references/
@@ -191,6 +200,7 @@ Categorized skills are installed by their skill name rather than their category
 path:
 
 ```bash
+./install.sh ios-app-intents
 ./install.sh swift-concurrency
 ./install.sh swift-animation
 ./install.sh swift-player
@@ -397,6 +407,38 @@ Important files:
 - [`skills/apple-development/apple-product-marketing/references/deliverables.md`](skills/apple-development/apple-product-marketing/references/deliverables.md)
 - [`skills/apple-development/apple-product-marketing/references/sources.md`](skills/apple-development/apple-product-marketing/references/sources.md)
 - [`skills/apple-development/apple-product-marketing/scripts/check_skill.sh`](skills/apple-development/apple-product-marketing/scripts/check_skill.sh)
+
+### Apple development / `ios-app-intents`
+
+Use when an Apple-platform app needs its App Intents surface audited, designed,
+implemented, migrated, or verified across Siri, Shortcuts, Spotlight, widgets,
+controls, and app routing, including action selection, stable entities and
+queries, explicit execution modes, localization, version boundaries, and
+production evidence.
+
+Default prompt:
+
+```text
+Use $ios-app-intents to audit this Apple-platform app and implement a production-ready App Intents integration with stable entities, explicit execution modes, routing, and verification.
+```
+
+Important files:
+
+- [`skills/apple-development/ios-app-intents/SKILL.md`](skills/apple-development/ios-app-intents/SKILL.md)
+- [`skills/apple-development/ios-app-intents/references/first-pass-audit.md`](skills/apple-development/ios-app-intents/references/first-pass-audit.md)
+- [`skills/apple-development/ios-app-intents/references/intent-design.md`](skills/apple-development/ios-app-intents/references/intent-design.md)
+- [`skills/apple-development/ios-app-intents/references/entities-and-queries.md`](skills/apple-development/ios-app-intents/references/entities-and-queries.md)
+- [`skills/apple-development/ios-app-intents/references/runtime-and-routing.md`](skills/apple-development/ios-app-intents/references/runtime-and-routing.md)
+- [`skills/apple-development/ios-app-intents/references/dependencies-and-modules.md`](skills/apple-development/ios-app-intents/references/dependencies-and-modules.md)
+- [`skills/apple-development/ios-app-intents/references/app-shortcuts-and-localization.md`](skills/apple-development/ios-app-intents/references/app-shortcuts-and-localization.md)
+- [`skills/apple-development/ios-app-intents/references/spotlight-and-donations.md`](skills/apple-development/ios-app-intents/references/spotlight-and-donations.md)
+- [`skills/apple-development/ios-app-intents/references/surfaces-and-snippets.md`](skills/apple-development/ios-app-intents/references/surfaces-and-snippets.md)
+- [`skills/apple-development/ios-app-intents/references/migration-and-versioning.md`](skills/apple-development/ios-app-intents/references/migration-and-versioning.md)
+- [`skills/apple-development/ios-app-intents/references/testing-and-evidence.md`](skills/apple-development/ios-app-intents/references/testing-and-evidence.md)
+- [`skills/apple-development/ios-app-intents/references/code-patterns.md`](skills/apple-development/ios-app-intents/references/code-patterns.md)
+- [`skills/apple-development/ios-app-intents/references/beta-and-version-boundaries.md`](skills/apple-development/ios-app-intents/references/beta-and-version-boundaries.md)
+- [`skills/apple-development/ios-app-intents/references/sources.md`](skills/apple-development/ios-app-intents/references/sources.md)
+- [`skills/apple-development/ios-app-intents/scripts/check_skill.sh`](skills/apple-development/ios-app-intents/scripts/check_skill.sh)
 
 ### Apple development / `swift-concurrency`
 

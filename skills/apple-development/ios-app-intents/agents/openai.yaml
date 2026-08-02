@@ -1,0 +1,7 @@
+interface:
+  display_name: "iOS App Intents"
+  short_description: "Design and ship production-ready App Intents"
+  default_prompt: "Use $ios-app-intents to audit this Apple-platform app and implement a production-ready App Intents integration with stable entities, explicit execution modes, routing, and verification."
+
+policy:
+  allow_implicit_invocation: true
