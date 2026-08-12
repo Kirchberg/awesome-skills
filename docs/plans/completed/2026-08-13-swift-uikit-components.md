@@ -6,8 +6,8 @@
 специализированные скиллы и не выдавать непроверенные runtime-утверждения.
 
 - Mode: compact
-- Status: active
-- Saved plan: `docs/plans/active/2026-08-13-swift-uikit-components.md`
+- Status: completed
+- Saved plan: `docs/plans/completed/2026-08-13-swift-uikit-components.md`
 
 ## Task intake
 
@@ -35,7 +35,7 @@ In scope:
   interoperability, accessibility и проверки.
 - [x] Добавить `agents/openai.yaml`, тематические references,
   `scripts/check_skill.sh` и README-каталог.
-- [ ] Проверить и опубликовать изменения отдельным PR.
+- [x] Проверить и опубликовать изменения отдельным PR.
 
 Out of scope:
 
@@ -103,10 +103,12 @@ Out of scope:
 
 - Expected: чистая ветка содержит только заявленный scope и открытый не-Draft
   PR в `main`.
-- [ ] Проверить diff, закоммитить точные файлы и push с tracking.
-- [ ] Открыть PR с описанием изменений и фактических проверок.
+- [x] Проверить diff, закоммитить точные файлы и push с tracking.
+- [x] Открыть PR с описанием изменений и фактических проверок.
 - Check: `git status -sb`, `git diff --check`, `gh pr view --json isDraft,state`.
-- Evidence: pending.
+- Evidence: commit `de05724` отправлен в
+  `origin/codex/swift-uikit-components`; PR #16 открыт в `main`, `state=OPEN`,
+  `isDraft=false`.
 
 ## Validation and quality gate
 
@@ -116,7 +118,7 @@ Out of scope:
 - [x] Независимый forward-test правильно маршрутизирует UIKit-задачу и не
   подменяет доказательства заявлениями о runtime-качестве.
 - [x] В diff нет чужих изменений, placeholder-текста и битых внутренних ссылок.
-- [ ] Done when доказан без релевантной регрессии.
+- [x] Done when доказан без релевантной регрессии.
 
 Если gate не проходит, оставить затронутый пункт незавершённым, применить
 минимальное исправление и повторить проверку.
@@ -140,8 +142,8 @@ Out of scope:
 
 ## Final Definition of Done
 
-- [ ] Все in-scope действия и проверки завершены.
-- [ ] Релевантные регрессии исправлены и перепроверены.
-- [ ] Неразрешённые проверки и риски явно отражены.
-- [ ] План перенесён в `docs/plans/completed/` со статусом `completed`.
-- [ ] Ready PR открыт в `main`.
+- [x] Все in-scope действия и проверки завершены.
+- [x] Релевантные регрессии исправлены и перепроверены.
+- [x] Неразрешённые проверки и риски явно отражены; нерешённых проверок нет.
+- [x] План перенесён в `docs/plans/completed/` со статусом `completed`.
+- [x] Ready PR открыт в `main`.
