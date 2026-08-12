@@ -81,6 +81,10 @@ project-local skills directory.
   designs, redesigns, reviews, and hands off native Apple-platform experiences
   from user goals and information architecture through components, visual
   language, interaction, accessibility, privacy, and implementation evidence.
+- [`swift-uikit-components`](skills/apple-development/swift-uikit-components/)
+  designs, implements, refactors, reviews, and diagnoses robust UIKit views,
+  controls, lists, and view-controller components with system-first APIs,
+  lifecycle-safe state, adaptive layout, interoperability, and honest evidence.
 - [`ios-liquid-glass`](skills/apple-development/ios-liquid-glass/) audits,
   migrates, implements, reviews, profiles, and tests native Liquid Glass for
   iOS and iPadOS across SwiftUI, UIKit, and hybrid apps with system-first
@@ -122,6 +126,11 @@ skills/
       references/
       scripts/
     apple-platform-design/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    swift-uikit-components/
       SKILL.md
       agents/openai.yaml
       references/
@@ -210,6 +219,7 @@ path:
 ./install.sh swift-rtl-support
 ./install.sh apple-product-marketing
 ./install.sh apple-platform-design
+./install.sh swift-uikit-components
 ./install.sh ios-liquid-glass
 ```
 
@@ -673,6 +683,33 @@ Important files:
 - [`skills/apple-development/apple-platform-design/references/10-design-review-checklist.md`](skills/apple-development/apple-platform-design/references/10-design-review-checklist.md)
 - [`skills/apple-development/apple-platform-design/references/sources.md`](skills/apple-development/apple-platform-design/references/sources.md)
 - [`skills/apple-development/apple-platform-design/scripts/check_skill.sh`](skills/apple-development/apple-platform-design/scripts/check_skill.sh)
+
+### Apple development / `swift-uikit-components`
+
+Use when a Swift codebase needs a reusable UIKit view, control, list, view
+controller, container, presentation, or UIKit-owned SwiftUI integration designed,
+implemented, refactored, reviewed, or diagnosed with explicit lifecycle, state,
+layout, availability, accessibility, and validation contracts.
+
+Default prompt:
+
+```text
+Use $swift-uikit-components to design or improve this UIKit component with system-first APIs, correct lifecycle and layout, and proportionate verification.
+```
+
+Important files:
+
+- [`skills/apple-development/swift-uikit-components/SKILL.md`](skills/apple-development/swift-uikit-components/SKILL.md)
+- [`skills/apple-development/swift-uikit-components/references/methodology.md`](skills/apple-development/swift-uikit-components/references/methodology.md)
+- [`skills/apple-development/swift-uikit-components/references/views-lifecycle-and-state.md`](skills/apple-development/swift-uikit-components/references/views-lifecycle-and-state.md)
+- [`skills/apple-development/swift-uikit-components/references/layout-and-adaptivity.md`](skills/apple-development/swift-uikit-components/references/layout-and-adaptivity.md)
+- [`skills/apple-development/swift-uikit-components/references/controls-actions-and-input.md`](skills/apple-development/swift-uikit-components/references/controls-actions-and-input.md)
+- [`skills/apple-development/swift-uikit-components/references/controllers-and-presentation.md`](skills/apple-development/swift-uikit-components/references/controllers-and-presentation.md)
+- [`skills/apple-development/swift-uikit-components/references/lists-and-collections.md`](skills/apple-development/swift-uikit-components/references/lists-and-collections.md)
+- [`skills/apple-development/swift-uikit-components/references/swiftui-interoperability.md`](skills/apple-development/swift-uikit-components/references/swiftui-interoperability.md)
+- [`skills/apple-development/swift-uikit-components/references/testing-and-evidence.md`](skills/apple-development/swift-uikit-components/references/testing-and-evidence.md)
+- [`skills/apple-development/swift-uikit-components/references/sources.md`](skills/apple-development/swift-uikit-components/references/sources.md)
+- [`skills/apple-development/swift-uikit-components/scripts/check_skill.sh`](skills/apple-development/swift-uikit-components/scripts/check_skill.sh)
 
 ### Apple development / `ios-liquid-glass`
 
