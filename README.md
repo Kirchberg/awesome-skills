@@ -56,6 +56,11 @@ project-local skills directory.
   dependencies, stable identity, efficient Observation, scalable scrolling,
   bounded resource lifetime, immediate source-proven corrections, and measured
   claims.
+- [`swift-uikit-collections-performance`](skills/apple-development/swift-uikit-collections-performance/)
+  designs, implements, reviews, diagnoses, profiles, and regression-tests
+  `UITableView` and `UICollectionView` pipelines across stable identity,
+  diffable updates, reuse, self-sizing, layouts, prefetching, images, hitches,
+  and memory-aware caches.
 - [`swift-ios-performance`](skills/apple-development/swift-ios-performance/)
   researches, reviews, refactors, and benchmarks performance-sensitive Swift
   source with explicit allocation, ownership, collection, dispatch, and
@@ -102,6 +107,11 @@ skills/
       references/
       scripts/
     app-performance/
+      SKILL.md
+      agents/openai.yaml
+      references/
+      scripts/
+    swift-uikit-collections-performance/
       SKILL.md
       agents/openai.yaml
       references/
@@ -204,6 +214,7 @@ path:
 ./install.sh swift-concurrency
 ./install.sh swift-animation
 ./install.sh swift-player
+./install.sh swift-uikit-collections-performance
 ./install.sh swift-ios-performance
 ./install.sh app-performance
 ./install.sh voice-over-accessibility
@@ -542,6 +553,30 @@ Important files:
 - [`skills/apple-development/swiftui-optimization/references/profiling.md`](skills/apple-development/swiftui-optimization/references/profiling.md)
 - [`skills/apple-development/swiftui-optimization/references/source-notes.md`](skills/apple-development/swiftui-optimization/references/source-notes.md)
 - [`skills/apple-development/swiftui-optimization/scripts/check_skill.sh`](skills/apple-development/swiftui-optimization/scripts/check_skill.sh)
+
+### Apple development / `swift-uikit-collections-performance`
+
+Use when a UIKit table or collection needs to be designed, implemented,
+reviewed, diagnosed, profiled, or regression-tested across identity, diffable
+updates, cell reuse, self-sizing, layout, asynchronous media, prefetching,
+hitches, and resource lifetime.
+
+Default prompt:
+
+```text
+Use $swift-uikit-collections-performance to diagnose and improve this UITableView or UICollectionView with evidence-backed updates, reuse, layout, image, and hitch guidance.
+```
+
+Important files:
+
+- [`skills/apple-development/swift-uikit-collections-performance/SKILL.md`](skills/apple-development/swift-uikit-collections-performance/SKILL.md)
+- [`skills/apple-development/swift-uikit-collections-performance/references/methodology.md`](skills/apple-development/swift-uikit-collections-performance/references/methodology.md)
+- [`skills/apple-development/swift-uikit-collections-performance/references/data-and-updates.md`](skills/apple-development/swift-uikit-collections-performance/references/data-and-updates.md)
+- [`skills/apple-development/swift-uikit-collections-performance/references/cells-and-layout.md`](skills/apple-development/swift-uikit-collections-performance/references/cells-and-layout.md)
+- [`skills/apple-development/swift-uikit-collections-performance/references/images-and-prefetching.md`](skills/apple-development/swift-uikit-collections-performance/references/images-and-prefetching.md)
+- [`skills/apple-development/swift-uikit-collections-performance/references/profiling-and-testing.md`](skills/apple-development/swift-uikit-collections-performance/references/profiling-and-testing.md)
+- [`skills/apple-development/swift-uikit-collections-performance/references/sources.md`](skills/apple-development/swift-uikit-collections-performance/references/sources.md)
+- [`skills/apple-development/swift-uikit-collections-performance/scripts/check_skill.sh`](skills/apple-development/swift-uikit-collections-performance/scripts/check_skill.sh)
 
 ### Apple development / `swift-ios-performance`
 
