@@ -1,0 +1,7 @@
+interface:
+  display_name: "Swift UIKit Collections Performance"
+  short_description: "Build and tune smooth UIKit collections"
+  default_prompt: "Use $swift-uikit-collections-performance to diagnose and improve this UITableView or UICollectionView with evidence-backed updates, reuse, layout, image, and hitch guidance."
+
+policy:
+  allow_implicit_invocation: true
