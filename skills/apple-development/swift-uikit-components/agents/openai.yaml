@@ -1,0 +1,7 @@
+interface:
+  display_name: "Swift UIKit Components"
+  short_description: "Build robust, adaptive UIKit components"
+  default_prompt: "Use $swift-uikit-components to design or improve this UIKit component with system-first APIs, correct lifecycle and layout, and proportionate verification."
+
+policy:
+  allow_implicit_invocation: true
