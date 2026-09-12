@@ -8,6 +8,9 @@ project-local skills directory.
 
 ## Skills
 
+- [`design-state-capture`](skills/design-state-capture/) captures requested iPhone
+  and iPad UI states as original PNGs and builds a portable local HTML gallery.
+
 - [`development-plan`](skills/development-plan/) creates adaptive, executable
   plans for medium and large engineering tasks, selecting compact, full, or
   long-running depth while preserving saved-plan lifecycle, validation evidence,
@@ -99,6 +102,12 @@ project-local skills directory.
 
 ```text
 skills/
+  design-state-capture/
+    SKILL.md
+    README.md
+    agents/openai.yaml
+    references/
+    scripts/
   apple-development/
     apple-product-marketing/
       SKILL.md
@@ -219,6 +228,7 @@ Categorized skills are installed by their skill name rather than their category
 path:
 
 ```bash
+./install.sh design-state-capture
 ./install.sh ios-app-intents
 ./install.sh swift-concurrency
 ./install.sh swift-animation
@@ -270,6 +280,25 @@ any required sub-skills (installing `docs-feature-collect` also installs
 changes.
 
 ## Navigation
+
+### `design-state-capture`
+
+Use when the user explicitly requests screenshots of specified application UI
+states or a capture set for design review. The skill preserves original PNGs,
+builds an offline gallery, and restores any temporary application changes.
+
+Default prompt:
+
+```text
+Use $design-state-capture to prepare screenshots of specified UI states and a local HTML gallery.
+```
+
+Important files:
+
+- [`skills/design-state-capture/SKILL.md`](skills/design-state-capture/SKILL.md)
+- [`skills/design-state-capture/README.md`](skills/design-state-capture/README.md)
+- [`skills/design-state-capture/references/cases-format.md`](skills/design-state-capture/references/cases-format.md)
+- [`skills/design-state-capture/scripts/build_gallery.py`](skills/design-state-capture/scripts/build_gallery.py)
 
 ### `development-plan`
 

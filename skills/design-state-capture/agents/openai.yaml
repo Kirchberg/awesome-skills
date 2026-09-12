@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design State Capture"
+  short_description: "Screenshots and a gallery of application UI states"
+  default_prompt: "Use $design-state-capture to prepare screenshots of specified UI states and a local HTML gallery."
